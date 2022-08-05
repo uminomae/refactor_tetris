@@ -15,7 +15,10 @@
 char playig_field[ROW][COL] = {0};
 //char playig_field[ROW][COL] = {0};
 int final = 0;
-char GameOn = TRUE;
+//char GameOn = TRUE;
+char GameOn = GAME_PLAY;
+
+
 suseconds_t timer = 400000;
 int decrease = 1000;
 
@@ -167,7 +170,8 @@ int main() {
     destroy_shape(current);//destoy
 	current = new_shape;//create_shapeしたもの
 	if(!FunctionCP(current)){
-		GameOn = FALSE;
+		GameOn = GAME_OVER;
+		//GameOn = FALSE;
 	}
 	
     FunctionPT();
@@ -211,7 +215,8 @@ int main() {
 						destroy_shape(current);
 						current = new_shape;
 						if(!FunctionCP(current)){
-							GameOn = FALSE;
+							GameOn = GAME_OVER;
+							//GameOn = FALSE;
 						}
 					}
 					break;
@@ -273,7 +278,8 @@ int main() {
 						destroy_shape(current);
 						current = new_shape;
 						if(!FunctionCP(current)){
-							GameOn = FALSE;
+							GameOn = GAME_OVER;
+							//GameOn = FALSE;
 						}
 					}
 					break;

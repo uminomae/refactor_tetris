@@ -1,9 +1,9 @@
 
-//typedef enum s_game_status {
-//	GAME_PLAY,
-//	LOCK_DOWN,
-//	GAME_OVER,
-//} t_game_status;
+typedef enum s_game_status {
+	GAME_OVER,
+	GAME_PLAY,
+	LOCK_DOWN,
+} t_game_status;
 
 //typedef struct {
 //    char **array;
