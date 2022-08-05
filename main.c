@@ -3,15 +3,13 @@
 #include <time.h>
 #include <sys/time.h>
 #include <ncurses.h>
+#include "tetrimino_rfct_ttrs.h"
 
 #define ROW 20
-//#define R 20
 #define COL 15
-//#define C 15
 #define TRUE 1
-//#define T 1
 #define FALSE 0
-//#define F 0
+
 
 char Table[ROW][COL] = {0};
 int final = 0;
@@ -25,7 +23,7 @@ typedef struct {
 } Struct;
 Struct current;
 
-const Struct StructsArray[7]= {
+const Struct type_tetrimino[7]= {
 	{
 		(char *[]){
 			(char []){0,1,1},
@@ -43,8 +41,7 @@ const Struct StructsArray[7]= {
 	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4}
 };
 
-//create shape
-Struct FunctionCS(Struct shape){
+Struct create_shape(Struct shape){
 	Struct new_shape = shape;
 	char **copyshape = shape.array;
 	new_shape.array = (char**)malloc(new_shape.width*sizeof(char*));
@@ -59,7 +56,8 @@ Struct FunctionCS(Struct shape){
 }
 
 //destroy
-void FunctionDS(Struct shape){
+void destroy_shape(Struct shape){
+//void destroy_shape(Struct shape){
     int i;
     for(i = 0; i < shape.width; i++){
 		free(shape.array[i]);
@@ -85,7 +83,7 @@ int FunctionCP(Struct shape){
 }
 
 void FunctionRS(Struct shape){
-	Struct temp = FunctionCS(shape);
+	Struct temp = create_shape(shape);
 	int i, j, k, width;
 	width = shape.width;
 	for(i = 0; i < width ; i++){
@@ -93,7 +91,7 @@ void FunctionRS(Struct shape){
 				shape.array[i][j] = temp.array[k][i];
 		}
 	}
-	FunctionDS(temp);
+	destroy_shape(temp);
 }
 
 void FunctionPT(){
@@ -141,10 +139,10 @@ int main() {
     initscr();
 	gettimeofday(&before_now, NULL);
 	set_timeout(1);//1返す理由は？
-	Struct new_shape = FunctionCS(StructsArray[rand()%7]);//7種類の形
+	Struct new_shape = create_shape(type_tetrimino[rand()%7]);//7種類の形
     new_shape.col = rand()%(COL-new_shape.width+1);//0 + rand() % 10) // 最小値:0 取得個数:10個
     new_shape.row = 0;//最上段
-    FunctionDS(current);
+    destroy_shape(current);//destoy
 	current = new_shape;
 	if(!FunctionCP(current)){
 		GameOn = FALSE;
@@ -153,7 +151,7 @@ int main() {
     FunctionPT();
 	while(GameOn){
 		if ((c = getch()) != ERR) {
-			Struct temp = FunctionCS(current);
+			Struct temp = create_shape(current);
 			switch(c){
 				case 's':
 					temp.row++;  //move down
@@ -185,10 +183,10 @@ int main() {
 							}
 						}
 						final += 100*count;
-						Struct new_shape = FunctionCS(StructsArray[rand()%7]);
+						Struct new_shape = create_shape(type_tetrimino[rand()%7]);
 						new_shape.col = rand()%(COL-new_shape.width+1);
 						new_shape.row = 0;
-						FunctionDS(current);
+						destroy_shape(current);
 						current = new_shape;
 						if(!FunctionCP(current)){
 							GameOn = FALSE;
@@ -211,12 +209,12 @@ int main() {
 						FunctionRS(current);
 					break;
 			}
-			FunctionDS(temp);
+			destroy_shape(temp);
 			FunctionPT();
 		}
 		gettimeofday(&now, NULL);
 		if (hasToUpdate()) {
-			Struct temp = FunctionCS(current);
+			Struct temp = create_shape(current);
 			switch('s'){
 				case 's':
 					temp.row++;
@@ -240,17 +238,17 @@ int main() {
 								count++;
 								int l, k;
 								for(k = n;k >=1;k--)
-									for(l=0;l<C;l++)
+									for(l=0;l<COL;l++)
 										Table[k][l]=Table[k-1][l];
-								for(l=0;l<C;l++)
+								for(l=0;l<COL;l++)
 									Table[k][l]=0;
 								timer-=decrease--;
 							}
 						}
-						Struct new_shape = FunctionCS(StructsArray[rand()%7]);
+						Struct new_shape = create_shape(type_tetrimino[rand()%7]);
 						new_shape.col = rand()%(COL-new_shape.width+1);
 						new_shape.row = 0;
-						FunctionDS(current);
+						destroy_shape(current);
 						current = new_shape;
 						if(!FunctionCP(current)){
 							GameOn = FALSE;
@@ -273,12 +271,12 @@ int main() {
 						FunctionRS(current);
 					break;
 			}
-			FunctionDS(temp);
+			destroy_shape(temp);
 			FunctionPT();
 			gettimeofday(&before_now, NULL);
 		}
 	}
-	FunctionDS(current);
+	destroy_shape(current);
 	endwin();
 	int i, j;
 	for(i = 0; i < ROW ;i++){
