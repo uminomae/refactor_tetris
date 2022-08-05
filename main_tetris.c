@@ -11,8 +11,9 @@
 #define TRUE 1
 #define FALSE 0
 
-
-char Table[ROW][COL] = {0};
+//playing field
+char playig_field[ROW][COL] = {0};
+//char playig_field[ROW][COL] = {0};
 int final = 0;
 char GameOn = TRUE;
 suseconds_t timer = 400000;
@@ -77,7 +78,7 @@ int FunctionCP(Struct shape){
 					return FALSE;
 				
 			}
-			else if(Table[shape.row+i][shape.col+j] && array[i][j])
+			else if(playig_field[shape.row+i][shape.col+j] && array[i][j])
 				return FALSE;
 		}
 	}
@@ -111,7 +112,7 @@ void FunctionPT(){
 	printw("42 Tetris\n");
 	for(i = 0; i < ROW ;i++){
 		for(j = 0; j < COL ; j++){
-			printw("%c ", (Table[i][j] + Buffer[i][j])? '#': '.');
+			printw("%c ", (playig_field[i][j] + Buffer[i][j])? '#': '.');
 		}
 		printw("\n");
 	}
@@ -142,7 +143,7 @@ void finish_game(Struct current)
 	int i, j;
 	for(i = 0; i < ROW ;i++){
 		for(j = 0; j < COL ; j++){
-			printf("%c ", Table[i][j] ? '#': '.');
+			printf("%c ", playig_field[i][j] ? '#': '.');
 		}
 		printf("\n");
 	}
@@ -183,23 +184,23 @@ int main() {
 						for(i = 0; i < current.width ;i++){
 							for(j = 0; j < current.width ; j++){
 								if(current.array[i][j])
-									Table[current.row+i][current.col+j] = current.array[i][j];
+									playig_field[current.row+i][current.col+j] = current.array[i][j];
 							}
 						}
 						int n, m, sum, count=0;
 						for(n=0;n<ROW;n++){
 							sum = 0;
 							for(m=0;m< COL;m++) {
-								sum+=Table[n][m];
+								sum+=playig_field[n][m];
 							}
 							if(sum==COL){
 								count++;
 								int l, k;
 								for(k = n;k >=1;k--)
 									for(l=0;l<COL;l++)
-										Table[k][l]=Table[k-1][l];
+										playig_field[k][l]=playig_field[k-1][l];
 								for(l=0;l<COL;l++)
-									Table[k][l]=0;
+									playig_field[k][l]=0;
 								timer-=decrease--;
 							}
 						}
@@ -246,23 +247,23 @@ int main() {
 						for(i = 0; i < current.width ;i++){
 							for(j = 0; j < current.width ; j++){
 								if(current.array[i][j])
-									Table[current.row+i][current.col+j] = current.array[i][j];
+									playig_field[current.row+i][current.col+j] = current.array[i][j];
 							}
 						}
 						int n, m, sum, count=0;
 						for(n=0;n<ROW;n++){
 							sum = 0;
 							for(m=0;m< COL;m++) {
-								sum+=Table[n][m];
+								sum+=playig_field[n][m];
 							}
 							if(sum==COL){
 								count++;
 								int l, k;
 								for(k = n;k >=1;k--)
 									for(l=0;l<COL;l++)
-										Table[k][l]=Table[k-1][l];
+										playig_field[k][l]=playig_field[k-1][l];
 								for(l=0;l<COL;l++)
-									Table[k][l]=0;
+									playig_field[k][l]=0;
 								timer-=decrease--;
 							}
 						}
@@ -303,7 +304,7 @@ int main() {
 	//int i, j;
 	//for(i = 0; i < ROW ;i++){
 	//	for(j = 0; j < COL ; j++){
-	//		printf("%c ", Table[i][j] ? '#': '.');
+	//		printf("%c ", playig_field[i][j] ? '#': '.');
 	//	}
 	//	printf("\n");
 	//}
