@@ -114,6 +114,7 @@ void set_timeout(int time) {
 	timeout(1);
 }
 
+
 int main() {
     srand(time(0));
     final = 0;
@@ -129,6 +130,7 @@ int main() {
 	if(!FunctionCP(current)){
 		GameOn = F;
 	}
+	
     FunctionPT();
 	while(GameOn){
 		if ((c = getch()) != ERR) {
