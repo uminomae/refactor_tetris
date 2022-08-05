@@ -100,6 +100,11 @@ void FunctionRS(Struct shape){
 	destroy_shape(temp);
 }
 
+void output_to_screen(char *str,...)
+{
+	printw(str);
+}
+
 void FunctionPT(){
 	char Buffer[ROW][COL] = {0};
 	int i, j;
@@ -111,15 +116,20 @@ void FunctionPT(){
 	}
 	clear();
 	for(i=0; i<COL-9; i++)
-		printw(" ");
-	printw("42 Tetris\n");
+		output_to_screen(" ");
+		//printw(" ");
+	output_to_screen("42 Tetris\n");
+	//printw("42 Tetris\n");
 	for(i = 0; i < ROW ;i++){
 		for(j = 0; j < COL ; j++){
-			printw("%c ", (playig_field[i][j] + Buffer[i][j])? '#': '.');
+			output_to_screen("%c ", (playig_field[i][j] + Buffer[i][j])? '#': '.');
+			//printw("%c ", (playig_field[i][j] + Buffer[i][j])? '#': '.');
 		}
-		printw("\n");
+		output_to_screen("\n");
+		//printw("\n");
 	}
-	printw("\nScore: %d\n", final);
+	output_to_screen("\nScore: %d\n", final);
+	//printw("\nScore: %d\n", final);
 }
 
 struct timeval before_now, now;
@@ -135,8 +145,6 @@ void set_timeout(int time) {
 	time = 1;
 	timeout(1);
 }
-
-
 
 
 void finish_game(Struct current)
