@@ -14,6 +14,8 @@
 
 //char playing_field[FIELD_ROW][FIELD_COL] = {0};
 
+struct timeval before_now, now;
+
 typedef enum s_game_status {
 	GAME_OVER = 0,
 	GAME_PLAY,
@@ -31,5 +33,6 @@ typedef struct {
 	//char playing_field[FIELD_ROW][FIELD_COL] = {0};
 } t_tetris;
 
+void end_ncurses();
 
 #endif 

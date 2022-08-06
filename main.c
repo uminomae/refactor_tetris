@@ -100,7 +100,7 @@ void FunctionPT(t_tetris *tetris){
 	//output_to_screen("\nScore: %d\n", final);
 }
 
-struct timeval before_now, now;
+//struct timeval before_now, now;
 //struct timeval {
 //    time_t      tv_sec;     /* 秒 */
 //    suseconds_t tv_usec;    /* マイクロ秒 */
@@ -110,13 +110,7 @@ int hasToUpdate(){
 }
 
 void set_timeout(int time) {
-	//time = 1;
 	timeout(time);
-}
-
-static void end_ncurses()
-{
-	endwin();
 }
 
 void end_of_game(t_tetris *tetris,t_tetrimino current)
@@ -161,6 +155,9 @@ void case_w(t_tetrimino temp,t_tetrimino current)
 //initscr()： スクリーンを初期化する． （curses を利用する場合，最初に呼び出さなければならない．）
 void init_game(t_tetris *tetris)
 {
+
+	//struct timeval before_now, now;
+
 	tetris->score = 0;
 	tetris->game_status = GAME_PLAY;
 	initscr();

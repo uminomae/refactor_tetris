@@ -1,6 +1,5 @@
 #include "tetris.h"
 
-void end_ncurses()
-{
+void end_ncurses(){
 	endwin();
 }
