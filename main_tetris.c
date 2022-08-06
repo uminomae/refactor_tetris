@@ -12,10 +12,17 @@ int decrease = 1000;
 typedef struct {
     char **array;
     int width, row, col;
-} Struct;
-Struct current;
+} t_tetrimino;
+//typedef struct {
+//    char **array;
+//    int width, row, col;
+//} t_tetrimino;
 
-const Struct type_tetrimino[7]= {
+t_tetrimino current;
+//t_tetrimino current;
+
+
+const t_tetrimino type_tetrimino[7]= {
 	{
 		(char *[]){
 			(char []){0,1,1},
@@ -33,8 +40,8 @@ const Struct type_tetrimino[7]= {
 	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4}
 };
 
-Struct create_shape(Struct shape){
-	Struct new_shape = shape;
+t_tetrimino create_shape(t_tetrimino shape){
+	t_tetrimino new_shape = shape;
 	char **copyshape = shape.array;
 	new_shape.array = (char**)malloc(new_shape.width*sizeof(char*));
     int i, j;
@@ -48,8 +55,8 @@ Struct create_shape(Struct shape){
 }
 
 //destroy
-void destroy_shape(Struct shape){
-//void destroy_shape(Struct shape){
+void destroy_shape(t_tetrimino shape){
+//void destroy_shape(t_tetrimino shape){
     int i;
     for(i = 0; i < shape.width; i++){
 		free(shape.array[i]);
@@ -58,7 +65,7 @@ void destroy_shape(Struct shape){
 }
 
 //current_position?
-int FunctionCP(Struct shape){
+int FunctionCP(t_tetrimino shape){
 	char **array = shape.array;
 	int i, j;
 	for(i = 0; i < shape.width;i++) {
@@ -75,8 +82,8 @@ int FunctionCP(Struct shape){
 	return TRUE;
 }
 
-void FunctionRS(Struct shape){
-	Struct temp = create_shape(shape);
+void FunctionRS(t_tetrimino shape){
+	t_tetrimino temp = create_shape(shape);
 	int i, j, k, width;
 	width = shape.width;
 	for(i = 0; i < width ; i++){
@@ -134,9 +141,7 @@ static void end_ncurses()
 	endwin();
 }
 
-	
-
-void end_of_game(Struct current)
+void end_of_game(t_tetrimino current)
 {
 	destroy_shape(current);
 	end_ncurses();
@@ -152,21 +157,21 @@ void end_of_game(Struct current)
 	printf("\nScore: %d\n", final);
 }
 
-void case_d(Struct temp)
+void case_d(t_tetrimino temp)
 {
 	temp.col++;
 	if(FunctionCP(temp))
 		current.col++;
 }
 
-void case_a(Struct temp)
+void case_a(t_tetrimino temp)
 {
 	temp.col--;
 	if(FunctionCP(temp))
 		current.col--;
 }
 
-void case_w(Struct temp,Struct current)
+void case_w(t_tetrimino temp,t_tetrimino current)
 {
 	FunctionRS(temp);
 	if(FunctionCP(temp))
@@ -184,7 +189,7 @@ int main() {
     initscr();
 	gettimeofday(&before_now, NULL);
 	set_timeout(1);//1返す理由は？
-	Struct new_shape = create_shape(type_tetrimino[rand()%7]);//7種類の形
+	t_tetrimino new_shape = create_shape(type_tetrimino[rand()%7]);//7種類の形
     new_shape.col = rand()%(FIELD_COL-new_shape.width+1);//0 + rand() % 10) // 最小値:0 取得個数:10個
     new_shape.row = 0;//最上段
     destroy_shape(current);//destoy
@@ -196,12 +201,9 @@ int main() {
 	
     FunctionPT();
 	while(game_status == GAME_PLAY){
-		//getch 
 		if ((input_from_the_keyboard = getch()) != ERR) {
-		//if ((c = getch()) != ERR) {
-			Struct temp = create_shape(current);
+			t_tetrimino temp = create_shape(current);
 			switch(input_from_the_keyboard){
-			//switch(c){
 				case 's':
 					temp.row++;  //move down
 					if(FunctionCP(temp))
@@ -232,34 +234,24 @@ int main() {
 							}
 						}
 						final += 100*count;
-						Struct new_shape = create_shape(type_tetrimino[rand()%7]);
+						t_tetrimino new_shape = create_shape(type_tetrimino[rand()%7]);
 						new_shape.col = rand()%(FIELD_COL-new_shape.width+1);
 						new_shape.row = 0;
 						destroy_shape(current);
 						current = new_shape;
 						if(!FunctionCP(current)){
 							game_status = GAME_OVER;
-							//game_status = FALSE;
 						}
 					}
 					break;
 				case 'd':
 					case_d(temp);
-					//temp.col++;
-					//if(FunctionCP(temp))
-					//	current.col++;
 					break;
 				case 'a':
 					case_a(temp);
-					//temp.col--;
-					//if(FunctionCP(temp))
-					//	current.col--;
 					break;
 				case 'w':
 					case_w(temp,current);
-					//FunctionRS(temp);
-					//if(FunctionCP(temp))
-					//	FunctionRS(current);
 					break;
 			}
 			destroy_shape(temp);
@@ -267,7 +259,7 @@ int main() {
 		}
 		gettimeofday(&now, NULL);
 		if (hasToUpdate()) {
-			Struct temp = create_shape(current);
+			t_tetrimino temp = create_shape(current);
 			switch('s'){
 				case 's':
 					temp.row++;
@@ -298,7 +290,7 @@ int main() {
 								timer-=decrease--;
 							}
 						}
-						Struct new_shape = create_shape(type_tetrimino[rand()%7]);
+						t_tetrimino new_shape = create_shape(type_tetrimino[rand()%7]);
 						new_shape.col = rand()%(FIELD_COL-new_shape.width+1);
 						new_shape.row = 0;
 						destroy_shape(current);
