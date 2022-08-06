@@ -12,6 +12,7 @@
 # define TRUE		1
 # define FALSE		0
 
+
 typedef enum s_game_status {
 	GAME_OVER = 0,
 	GAME_PLAY,
@@ -22,5 +23,7 @@ typedef struct {
     char **array;
     int width, row, col;
 } t_tetrimino;
+
+
 
 #endif 

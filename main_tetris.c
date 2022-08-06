@@ -1,5 +1,5 @@
 #include "main_tetris.h"
-#include "tetrimino_tetris.h"
+#include "tetrimino.h"
 
 char playig_field[FIELD_ROW][FIELD_COL] = {0};
 int final = 0;
@@ -11,20 +11,38 @@ t_tetrimino current;
 
 const t_tetrimino type_tetrimino[7]= {
 	{
-		(char *[]){
-			(char []){0,1,1},
-			(char []){1,1,0}, 
-			(char []){0,0,0}
-			}
-			,3
+		S_FIGURE
+		//(char *[]){
+		//	(char []){0,1,1},
+		//	(char []){1,1,0}, 
+		//	(char []){0,0,0}
+		//	}
+		//	,3
 	},
 	{
-		(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){1,1},(char []){1,1}}, 2},
-	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4}
+		Z_FIGURE
+		//(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3
+	},
+	{
+		T_FIGURE
+		//(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3
+	},
+	{
+		L_FIGURE
+		//(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3
+	},
+	{
+		J_FIGURE
+		//(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3
+	},
+	{
+		O_FIGURE
+		//(char *[]){(char []){1,1},(char []){1,1}}, 2
+	},
+	{
+		I_FIGURE
+		//(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4
+	}
 };
 
 t_tetrimino create_shape(t_tetrimino shape){
