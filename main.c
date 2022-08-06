@@ -9,6 +9,7 @@ suseconds_t timer = 400000;
 int decrease = 1000;
 t_tetrimino current;
 
+//mallocするだけの関数つくる
 t_tetrimino create_shape(t_tetrimino shape){
 	t_tetrimino new_shape = shape;
 	char **copyshape = shape.array;
@@ -149,6 +150,10 @@ void case_w(t_tetrimino temp,t_tetrimino current)
 		FunctionRS(current);
 }
 
+void init_game(t_tetris tetris)
+{
+	tetris.score = 0;
+}
 
 //srand関数はrand関数の擬似乱数の発生系列を変更する関数
 //initscr()： スクリーンを初期化する． （curses を利用する場合，最初に呼び出さなければならない．）
@@ -156,17 +161,16 @@ int main() {
 	t_tetris tetris;
 
     srand(time(0));//srand((unsigned int)time(NULL));
-    tetris.score = 0;
-    //final = 0;
+	init_game(tetris);
     int input_from_the_keyboard;
-    //int c;
-    initscr();
-	gettimeofday(&before_now, NULL);
+    //tetris.score = 0;
+    initscr(); //スクリーンを初期化する
+	gettimeofday(&before_now, NULL);//時刻を取得する
 	set_timeout(1);//1返す理由は？
 	t_tetrimino new_shape = create_shape(type_tetrimino[rand()%7]);//7種類の形
     new_shape.col = rand()%(FIELD_COL-new_shape.width+1);//0 + rand() % 10) // 最小値:0 取得個数:10個
     new_shape.row = 0;//最上段
-    destroy_shape(current);//destoy
+    //destroy_shape(current);//destoy
 	current = new_shape;//create_shapeしたもの
 	if(!FunctionCP(current)){
 		game_status = GAME_OVER;
@@ -277,21 +281,12 @@ int main() {
 					break;
 				case 'd':
 					case_d(temp);
-					//temp.col++;
-					//if(FunctionCP(temp))
-					//	current.col++;
 					break;
 				case 'a':
 					case_a(temp);
-					//temp.col--;
-					//if(FunctionCP(temp))
-					//	current.col--;
 					break;
 				case 'w':
 					case_w(temp,current);
-					//FunctionRS(temp);
-					//if(FunctionCP(temp))
-					//	FunctionRS(current);
 					break;
 			}
 			destroy_shape(temp);
