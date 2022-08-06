@@ -9,7 +9,6 @@ suseconds_t timer = 400000;
 int decrease = 1000;
 t_tetrimino current;
 
-//mallocするだけの関数つくる
 t_tetrimino create_shape(t_tetrimino shape){
 	t_tetrimino new_shape = shape;
 	char **copyshape = shape.array;
@@ -150,28 +149,40 @@ void case_w(t_tetrimino temp,t_tetrimino current)
 		FunctionRS(current);
 }
 
+//initscr()： スクリーンを初期化する． （curses を利用する場合，最初に呼び出さなければならない．）
 void init_game(t_tetris tetris)
 {
 	tetris.score = 0;
+	initscr();
+	gettimeofday(&before_now, NULL);
+	set_timeout(1);//1返す理由は？
 }
 
-//srand関数はrand関数の擬似乱数の発生系列を変更する関数
-//initscr()： スクリーンを初期化する． （curses を利用する場合，最初に呼び出さなければならない．）
+//7種類の形
+//0 + rand() % 10) // 最小値:0 取得個数:10個
+t_tetrimino make_new_tetrimino(const t_tetrimino *type_tetrimino)
+{
+	t_tetrimino new_figure = create_shape(type_tetrimino[rand()%7]);
+    new_figure .col = rand()%(FIELD_COL-new_figure .width+1);
+    new_figure .row = 0;//最上段
+    //destroy_shape(current);//destoyは必要か？
+	return (new_figure);
+}
+
+//srand関数はrand関数の擬似乱数の発生系列を変更する関数 //srand((unsigned int)time(NULL));
+//getch()標準入力(キーボード)から1文字読み込み、その文字を返します。
 int main() {
 	t_tetris tetris;
 
-    srand(time(0));//srand((unsigned int)time(NULL));
+    srand(time(0));
 	init_game(tetris);
-    int input_from_the_keyboard;
-    //tetris.score = 0;
-    initscr(); //スクリーンを初期化する
-	gettimeofday(&before_now, NULL);//時刻を取得する
-	set_timeout(1);//1返す理由は？
-	t_tetrimino new_shape = create_shape(type_tetrimino[rand()%7]);//7種類の形
-    new_shape.col = rand()%(FIELD_COL-new_shape.width+1);//0 + rand() % 10) // 最小値:0 取得個数:10個
-    new_shape.row = 0;//最上段
-    //destroy_shape(current);//destoy
-	current = new_shape;//create_shapeしたもの
+
+	//t_tetrimino new_shape = create_shape(type_tetrimino[rand()%7]);//7種類の形
+    //new_shape.col = rand()%(FIELD_COL-new_shape.width+1);//0 + rand() % 10) // 最小値:0 取得個数:10個
+    //new_shape.row = 0;//最上段
+    ////destroy_shape(current);//destoy
+	//current = new_shape;//create_shapeしたもの
+	current = make_new_tetrimino(type_tetrimino);
 	if(!FunctionCP(current)){
 		game_status = GAME_OVER;
 		//game_status = FALSE;
@@ -179,9 +190,10 @@ int main() {
 	
     FunctionPT(&tetris);
 	while(game_status == GAME_PLAY){
-		if ((input_from_the_keyboard = getch()) != ERR) {
+    	int input_from_keyboard;
+		if ((input_from_keyboard = getch()) != ERR) {
 			t_tetrimino temp = create_shape(current);
-			switch(input_from_the_keyboard){
+			switch(input_from_keyboard){
 				case 's':
 					temp.row++;  //move down
 					if(FunctionCP(temp))
