@@ -5,22 +5,9 @@ char playig_field[FIELD_ROW][FIELD_COL] = {0};
 int final = 0;
 char game_status = GAME_PLAY;
 
-
 suseconds_t timer = 400000;
 int decrease = 1000;
-
-//typedef struct {
-//    char **array;
-//    int width, row, col;
-//} t_tetrimino;
-//typedef struct {
-//    char **array;
-//    int width, row, col;
-//} t_tetrimino;
-
 t_tetrimino current;
-//t_tetrimino current;
-
 
 const t_tetrimino type_tetrimino[7]= {
 	{
