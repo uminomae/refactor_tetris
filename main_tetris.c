@@ -43,7 +43,6 @@ t_tetrimino create_shape(t_tetrimino shape){
 
 //destroy
 void destroy_shape(t_tetrimino shape){
-//void destroy_shape(t_tetrimino shape){
     int i;
     for(i = 0; i < shape.width; i++){
 		free(shape.array[i]);
@@ -284,7 +283,6 @@ int main() {
 						current = new_shape;
 						if(!FunctionCP(current)){
 							game_status = GAME_OVER;
-							//game_status = FALSE;
 						}
 					}
 					break;
@@ -310,17 +308,6 @@ int main() {
 		}
 	}
 	end_of_game(current);
-	//destroy_shape(current);
-	//endwin();
-	//int i, j;
-	//for(i = 0; i < FIELD_ROW ;i++){
-	//	for(j = 0; j < FIELD_COL ; j++){
-	//		printf("%c ", playig_field[i][j] ? '#': '.');
-	//	}
-	//	printf("\n");
-	//}
-	//printf("\nGame over!\n");
-	//printf("\nScore: %d\n", final);
     return 0;
 }
 
