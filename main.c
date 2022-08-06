@@ -276,19 +276,22 @@ int main() {
 					}
 					break;
 				case 'd':
-					temp.col++;
-					if(FunctionCP(temp))
-						current.col++;
+					case_d(temp);
+					//temp.col++;
+					//if(FunctionCP(temp))
+					//	current.col++;
 					break;
 				case 'a':
-					temp.col--;
-					if(FunctionCP(temp))
-						current.col--;
+					case_a(temp);
+					//temp.col--;
+					//if(FunctionCP(temp))
+					//	current.col--;
 					break;
 				case 'w':
-					FunctionRS(temp);
-					if(FunctionCP(temp))
-						FunctionRS(current);
+					case_w(temp,current);
+					//FunctionRS(temp);
+					//if(FunctionCP(temp))
+					//	FunctionRS(current);
 					break;
 			}
 			destroy_shape(temp);
