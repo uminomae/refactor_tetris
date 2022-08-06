@@ -109,10 +109,6 @@ int hasToUpdate(){
 	return ((suseconds_t)(now.tv_sec*1000000 + now.tv_usec) -((suseconds_t)before_now.tv_sec*1000000 + before_now.tv_usec)) > timer;
 }
 
-void set_timeout(int time) {
-	timeout(time);
-}
-
 void end_of_game(t_tetris *tetris,t_tetrimino current)
 //void end_of_game(t_tetrimino current)
 {
@@ -155,14 +151,11 @@ void case_w(t_tetrimino temp,t_tetrimino current)
 //initscr()： スクリーンを初期化する． （curses を利用する場合，最初に呼び出さなければならない．）
 void init_game(t_tetris *tetris)
 {
-
-	//struct timeval before_now, now;
-
 	tetris->score = 0;
 	tetris->game_status = GAME_PLAY;
 	initscr();
 	gettimeofday(&before_now, NULL);
-	set_timeout(1);
+	set_timeout_millisecond(1);
 }
 
 
@@ -178,14 +171,7 @@ int main() {
     srand(time(0));
 	init_game(&tetris);
 
-	//t_tetrimino new_shape = create_shape(type_tetrimino[rand()%7]);//7種類の形
-    //new_shape.col = rand()%(FIELD_COL-new_shape.width+1);//0 + rand() % 10) // 最小値:0 取得個数:10個
-    //new_shape.row = 0;//最上段
-    ////destroy_shape(current);//destoy
-	//current = new_shape;//create_shapeしたもの
-	//make_new_tetrimino(&tetrimino, type_tetrimino);
 	current = make_new_tetrimino(type_tetrimino);
-	//current = tetrimino;
 	if(!FunctionCP(current)){
 		tetris.game_status = GAME_OVER;
 	}

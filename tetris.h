@@ -34,5 +34,6 @@ typedef struct {
 } t_tetris;
 
 void end_ncurses();
+void set_timeout_millisecond(int time);
 
 #endif 
