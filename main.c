@@ -1,37 +1,13 @@
-#include "main_tetris.h"
+#include "tetris.h"
 #include "tetrimino.h"
 
 char playig_field[FIELD_ROW][FIELD_COL] = {0};
-int final = 0;
+//int final = 0;
 char game_status = GAME_PLAY;
 
 suseconds_t timer = 400000;
 int decrease = 1000;
 t_tetrimino current;
-
-//const t_tetrimino type_tetrimino[7]= {
-//	{
-//		S_FIGURE
-//	},
-//	{
-//		Z_FIGURE
-//	},
-//	{
-//		T_FIGURE
-//	},
-//	{
-//		L_FIGURE
-//	},
-//	{
-//		J_FIGURE
-//	},
-//	{
-//		O_FIGURE
-//	},
-//	{
-//		I_FIGURE
-//	}
-//};
 
 t_tetrimino create_shape(t_tetrimino shape){
 	t_tetrimino new_shape = shape;
@@ -92,7 +68,7 @@ void output_to_screen(char *str,...)
 }
 
 //printw
-void FunctionPT(){
+void FunctionPT(t_tetris *tetris){
 	char Buffer[FIELD_ROW][FIELD_COL] = {0};
 	int i, j;
 	for(i = 0; i < current.width ;i++){
@@ -111,7 +87,8 @@ void FunctionPT(){
 		}
 		output_to_screen("\n");
 	}
-	output_to_screen("\nScore: %d\n", final);
+	output_to_screen("\nScore: %d\n", tetris->score);
+	//output_to_screen("\nScore: %d\n", final);
 }
 
 struct timeval before_now, now;
@@ -133,7 +110,8 @@ static void end_ncurses()
 	endwin();
 }
 
-void end_of_game(t_tetrimino current)
+void end_of_game(t_tetris *tetris,t_tetrimino current)
+//void end_of_game(t_tetrimino current)
 {
 	destroy_shape(current);
 	end_ncurses();
@@ -146,7 +124,8 @@ void end_of_game(t_tetrimino current)
 		printf("\n");
 	}
 	printf("\nGame over!\n");
-	printf("\nScore: %d\n", final);
+	printf("\nScore: %d\n", tetris->score);
+	//printf("\nScore: %d\n", final);
 }
 
 void case_d(t_tetrimino temp)
@@ -174,8 +153,11 @@ void case_w(t_tetrimino temp,t_tetrimino current)
 //srand関数はrand関数の擬似乱数の発生系列を変更する関数
 //initscr()： スクリーンを初期化する． （curses を利用する場合，最初に呼び出さなければならない．）
 int main() {
+	t_tetris tetris;
+
     srand(time(0));//srand((unsigned int)time(NULL));
-    final = 0;
+    tetris.score = 0;
+    //final = 0;
     int input_from_the_keyboard;
     //int c;
     initscr();
@@ -191,7 +173,7 @@ int main() {
 		//game_status = FALSE;
 	}
 	
-    FunctionPT();
+    FunctionPT(&tetris);
 	while(game_status == GAME_PLAY){
 		if ((input_from_the_keyboard = getch()) != ERR) {
 			t_tetrimino temp = create_shape(current);
@@ -225,7 +207,8 @@ int main() {
 								timer-=decrease--;
 							}
 						}
-						final += 100*count;
+						tetris.score += 100*count;
+						//final += 100*count;
 						t_tetrimino new_shape = create_shape(type_tetrimino[rand()%7]);
 						new_shape.col = rand()%(FIELD_COL-new_shape.width+1);
 						new_shape.row = 0;
@@ -247,7 +230,7 @@ int main() {
 					break;
 			}
 			destroy_shape(temp);
-			FunctionPT();
+			FunctionPT(&tetris);
 		}
 		gettimeofday(&now, NULL);
 		if (hasToUpdate()) {
@@ -309,11 +292,11 @@ int main() {
 					break;
 			}
 			destroy_shape(temp);
-			FunctionPT();
+			FunctionPT(&tetris);
 			gettimeofday(&before_now, NULL);
 		}
 	}
-	end_of_game(current);
+	end_of_game(&tetris,current);
     return 0;
 }
 

@@ -24,6 +24,9 @@ typedef struct {
     int width, row, col;
 } t_tetrimino;
 
+typedef struct {
+	int score;
+} t_tetris;
 
 
 #endif 
