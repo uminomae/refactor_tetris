@@ -9,10 +9,10 @@ char game_status = GAME_PLAY;
 suseconds_t timer = 400000;
 int decrease = 1000;
 
-typedef struct {
-    char **array;
-    int width, row, col;
-} t_tetrimino;
+//typedef struct {
+//    char **array;
+//    int width, row, col;
+//} t_tetrimino;
 //typedef struct {
 //    char **array;
 //    int width, row, col;

@@ -18,6 +18,10 @@ typedef enum s_game_status {
 	LOCK_DOWN,
 } t_game_status;
 
+typedef struct {
+    char **array;
+    int width, row, col;
+} t_tetrimino;
 
 //typedef struct {
 //    char **array;
