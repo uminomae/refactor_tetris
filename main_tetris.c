@@ -1,22 +1,18 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <sys/time.h>
-#include <ncurses.h>
+
 #include "main_tetris.h"
 #include "tetrimino_tetris.h"
 
-#define ROW 20
-#define COL 15
-#define TRUE 1
-#define FALSE 0
+//#define FIELD_ROW 20
+//#define FIELD_COL 15
+//#define TRUE 1
+//#define FALSE 0
 
 //playing field
-char playig_field[ROW][COL] = {0};
-//char playig_field[ROW][COL] = {0};
+char playig_field[FIELD_ROW][FIELD_COL] = {0};
+//char playig_field[FIELD_ROW][FIELD_COL] = {0};
 int final = 0;
-//char GameOn = TRUE;
-char GameOn = GAME_PLAY;
+//char game_status = TRUE;
+char game_status = GAME_PLAY;
 
 
 suseconds_t timer = 400000;
@@ -76,7 +72,7 @@ int FunctionCP(Struct shape){
 	int i, j;
 	for(i = 0; i < shape.width;i++) {
 		for(j = 0; j < shape.width ;j++){
-			if((shape.col+j < 0 || shape.col+j >= COL || shape.row+i >= ROW)){
+			if((shape.col+j < 0 || shape.col+j >= FIELD_COL || shape.row+i >= FIELD_ROW)){
 				if(array[i][j])
 					return FALSE;
 				
@@ -105,8 +101,9 @@ void output_to_screen(char *str,...)
 	printw(str);
 }
 
+//printw
 void FunctionPT(){
-	char Buffer[ROW][COL] = {0};
+	char Buffer[FIELD_ROW][FIELD_COL] = {0};
 	int i, j;
 	for(i = 0; i < current.width ;i++){
 		for(j = 0; j < current.width ; j++){
@@ -115,13 +112,14 @@ void FunctionPT(){
 		}
 	}
 	clear();
-	for(i=0; i<COL-9; i++)
+	for(i=0; i<FIELD_COL-9; i++)
 		output_to_screen(" ");
 		//printw(" ");
 	output_to_screen("42 Tetris\n");
+	//output_to_screen("      42 Tetris\n");
 	//printw("42 Tetris\n");
-	for(i = 0; i < ROW ;i++){
-		for(j = 0; j < COL ; j++){
+	for(i = 0; i < FIELD_ROW ;i++){
+		for(j = 0; j < FIELD_COL ; j++){
 			output_to_screen("%c ", (playig_field[i][j] + Buffer[i][j])? '#': '.');
 			//printw("%c ", (playig_field[i][j] + Buffer[i][j])? '#': '.');
 		}
@@ -146,14 +144,21 @@ void set_timeout(int time) {
 	timeout(1);
 }
 
+static void end_ncurses()
+{
+	endwin();
+}
 
-void finish_game(Struct current)
+	
+
+void end_of_game(Struct current)
 {
 	destroy_shape(current);
-	endwin();
+	end_ncurses();
+	//endwin();
 	int i, j;
-	for(i = 0; i < ROW ;i++){
-		for(j = 0; j < COL ; j++){
+	for(i = 0; i < FIELD_ROW ;i++){
+		for(j = 0; j < FIELD_COL ; j++){
 			printf("%c ", playig_field[i][j] ? '#': '.');
 		}
 		printf("\n");
@@ -173,17 +178,17 @@ int main() {
 	gettimeofday(&before_now, NULL);
 	set_timeout(1);//1返す理由は？
 	Struct new_shape = create_shape(type_tetrimino[rand()%7]);//7種類の形
-    new_shape.col = rand()%(COL-new_shape.width+1);//0 + rand() % 10) // 最小値:0 取得個数:10個
+    new_shape.col = rand()%(FIELD_COL-new_shape.width+1);//0 + rand() % 10) // 最小値:0 取得個数:10個
     new_shape.row = 0;//最上段
     destroy_shape(current);//destoy
 	current = new_shape;//create_shapeしたもの
 	if(!FunctionCP(current)){
-		GameOn = GAME_OVER;
-		//GameOn = FALSE;
+		game_status = GAME_OVER;
+		//game_status = FALSE;
 	}
 	
     FunctionPT();
-	while(GameOn){
+	while(game_status == GAME_PLAY){
 		if ((c = getch()) != ERR) {
 			Struct temp = create_shape(current);
 			switch(c){
@@ -200,31 +205,31 @@ int main() {
 							}
 						}
 						int n, m, sum, count=0;
-						for(n=0;n<ROW;n++){
+						for(n=0;n<FIELD_ROW;n++){
 							sum = 0;
-							for(m=0;m< COL;m++) {
+							for(m=0;m< FIELD_COL;m++) {
 								sum+=playig_field[n][m];
 							}
-							if(sum==COL){
+							if(sum==FIELD_COL){
 								count++;
 								int l, k;
 								for(k = n;k >=1;k--)
-									for(l=0;l<COL;l++)
+									for(l=0;l<FIELD_COL;l++)
 										playig_field[k][l]=playig_field[k-1][l];
-								for(l=0;l<COL;l++)
+								for(l=0;l<FIELD_COL;l++)
 									playig_field[k][l]=0;
 								timer-=decrease--;
 							}
 						}
 						final += 100*count;
 						Struct new_shape = create_shape(type_tetrimino[rand()%7]);
-						new_shape.col = rand()%(COL-new_shape.width+1);
+						new_shape.col = rand()%(FIELD_COL-new_shape.width+1);
 						new_shape.row = 0;
 						destroy_shape(current);
 						current = new_shape;
 						if(!FunctionCP(current)){
-							GameOn = GAME_OVER;
-							//GameOn = FALSE;
+							game_status = GAME_OVER;
+							//game_status = FALSE;
 						}
 					}
 					break;
@@ -264,30 +269,30 @@ int main() {
 							}
 						}
 						int n, m, sum, count=0;
-						for(n=0;n<ROW;n++){
+						for(n=0;n<FIELD_ROW;n++){
 							sum = 0;
-							for(m=0;m< COL;m++) {
+							for(m=0;m< FIELD_COL;m++) {
 								sum+=playig_field[n][m];
 							}
-							if(sum==COL){
+							if(sum==FIELD_COL){
 								count++;
 								int l, k;
 								for(k = n;k >=1;k--)
-									for(l=0;l<COL;l++)
+									for(l=0;l<FIELD_COL;l++)
 										playig_field[k][l]=playig_field[k-1][l];
-								for(l=0;l<COL;l++)
+								for(l=0;l<FIELD_COL;l++)
 									playig_field[k][l]=0;
 								timer-=decrease--;
 							}
 						}
 						Struct new_shape = create_shape(type_tetrimino[rand()%7]);
-						new_shape.col = rand()%(COL-new_shape.width+1);
+						new_shape.col = rand()%(FIELD_COL-new_shape.width+1);
 						new_shape.row = 0;
 						destroy_shape(current);
 						current = new_shape;
 						if(!FunctionCP(current)){
-							GameOn = GAME_OVER;
-							//GameOn = FALSE;
+							game_status = GAME_OVER;
+							//game_status = FALSE;
 						}
 					}
 					break;
@@ -312,12 +317,12 @@ int main() {
 			gettimeofday(&before_now, NULL);
 		}
 	}
-	finish_game(current);
+	end_of_game(current);
 	//destroy_shape(current);
 	//endwin();
 	//int i, j;
-	//for(i = 0; i < ROW ;i++){
-	//	for(j = 0; j < COL ; j++){
+	//for(i = 0; i < FIELD_ROW ;i++){
+	//	for(j = 0; j < FIELD_COL ; j++){
 	//		printf("%c ", playig_field[i][j] ? '#': '.');
 	//	}
 	//	printf("\n");
