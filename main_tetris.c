@@ -1,17 +1,8 @@
-
 #include "main_tetris.h"
 #include "tetrimino_tetris.h"
 
-//#define FIELD_ROW 20
-//#define FIELD_COL 15
-//#define TRUE 1
-//#define FALSE 0
-
-//playing field
 char playig_field[FIELD_ROW][FIELD_COL] = {0};
-//char playig_field[FIELD_ROW][FIELD_COL] = {0};
 int final = 0;
-//char game_status = TRUE;
 char game_status = GAME_PLAY;
 
 
@@ -114,20 +105,14 @@ void FunctionPT(){
 	clear();
 	for(i=0; i<FIELD_COL-9; i++)
 		output_to_screen(" ");
-		//printw(" ");
 	output_to_screen("42 Tetris\n");
-	//output_to_screen("      42 Tetris\n");
-	//printw("42 Tetris\n");
 	for(i = 0; i < FIELD_ROW ;i++){
 		for(j = 0; j < FIELD_COL ; j++){
 			output_to_screen("%c ", (playig_field[i][j] + Buffer[i][j])? '#': '.');
-			//printw("%c ", (playig_field[i][j] + Buffer[i][j])? '#': '.');
 		}
 		output_to_screen("\n");
-		//printw("\n");
 	}
 	output_to_screen("\nScore: %d\n", final);
-	//printw("\nScore: %d\n", final);
 }
 
 struct timeval before_now, now;
@@ -167,13 +152,35 @@ void end_of_game(Struct current)
 	printf("\nScore: %d\n", final);
 }
 
+void case_d(Struct temp)
+{
+	temp.col++;
+	if(FunctionCP(temp))
+		current.col++;
+}
+
+void case_a(Struct temp)
+{
+	temp.col--;
+	if(FunctionCP(temp))
+		current.col--;
+}
+
+void case_w(Struct temp,Struct current)
+{
+	FunctionRS(temp);
+	if(FunctionCP(temp))
+		FunctionRS(current);
+}
+
 
 //srand関数はrand関数の擬似乱数の発生系列を変更する関数
 //initscr()： スクリーンを初期化する． （curses を利用する場合，最初に呼び出さなければならない．）
 int main() {
     srand(time(0));//srand((unsigned int)time(NULL));
     final = 0;
-    int c;
+    int input_from_the_keyboard;
+    //int c;
     initscr();
 	gettimeofday(&before_now, NULL);
 	set_timeout(1);//1返す理由は？
@@ -189,9 +196,12 @@ int main() {
 	
     FunctionPT();
 	while(game_status == GAME_PLAY){
-		if ((c = getch()) != ERR) {
+		//getch 
+		if ((input_from_the_keyboard = getch()) != ERR) {
+		//if ((c = getch()) != ERR) {
 			Struct temp = create_shape(current);
-			switch(c){
+			switch(input_from_the_keyboard){
+			//switch(c){
 				case 's':
 					temp.row++;  //move down
 					if(FunctionCP(temp))
@@ -234,19 +244,22 @@ int main() {
 					}
 					break;
 				case 'd':
-					temp.col++;
-					if(FunctionCP(temp))
-						current.col++;
+					case_d(temp);
+					//temp.col++;
+					//if(FunctionCP(temp))
+					//	current.col++;
 					break;
 				case 'a':
-					temp.col--;
-					if(FunctionCP(temp))
-						current.col--;
+					case_a(temp);
+					//temp.col--;
+					//if(FunctionCP(temp))
+					//	current.col--;
 					break;
 				case 'w':
-					FunctionRS(temp);
-					if(FunctionCP(temp))
-						FunctionRS(current);
+					case_w(temp,current);
+					//FunctionRS(temp);
+					//if(FunctionCP(temp))
+					//	FunctionRS(current);
 					break;
 			}
 			destroy_shape(temp);
@@ -331,3 +344,4 @@ int main() {
 	//printf("\nScore: %d\n", final);
     return 0;
 }
+
