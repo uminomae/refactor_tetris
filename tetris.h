@@ -35,5 +35,6 @@ typedef struct {
 
 void end_ncurses();
 void set_timeout_millisecond(int time);
+void output_to_screen(char *str,...);
 
 #endif 

@@ -71,10 +71,9 @@ void FunctionRS(t_tetrimino shape){
 	destroy_shape(temp);
 }
 
-void output_to_screen(char *str,...)
-{
-	printw(str);
-}
+//void output_to_screen(char *str,...){
+//	printw(str);
+//}
 
 //printw
 void FunctionPT(t_tetris *tetris){

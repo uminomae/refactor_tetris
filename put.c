@@ -1,7 +1,6 @@
-//#include "tetris.h"
-////#include <ncurses.h>
+#include "tetris.h"
+//#include <ncurses.h>
 
-//void output_to_screen(char *str,...)
-//{
-//	printw(str);
-//}
+void output_to_screen(char *str,...){
+	printw(str);
+}
