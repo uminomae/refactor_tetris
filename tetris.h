@@ -12,6 +12,7 @@
 # define TRUE		1
 # define FALSE		0
 
+//char playing_field[FIELD_ROW][FIELD_COL] = {0};
 
 typedef enum s_game_status {
 	GAME_OVER = 0,
@@ -27,6 +28,7 @@ typedef struct {
 typedef struct {
 	int score;
 	char game_status;
+	//char playing_field[FIELD_ROW][FIELD_COL] = {0};
 } t_tetris;
 
 

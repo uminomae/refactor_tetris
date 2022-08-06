@@ -1,27 +1,36 @@
 #include "tetris.h"
 #include "tetrimino.h"
 
-char playig_field[FIELD_ROW][FIELD_COL] = {0};
-//int final = 0;
-//char game_status = GAME_PLAY;
-
+char playing_field[FIELD_ROW][FIELD_COL] = {0};
 suseconds_t timer = 400000;
 int decrease = 1000;
 t_tetrimino current;
 
-t_tetrimino create_shape(t_tetrimino shape){
-	t_tetrimino new_shape = shape;
-	char **copyshape = shape.array;
-	new_shape.array = (char**)malloc(new_shape.width*sizeof(char*));
+t_tetrimino create_shape(t_tetrimino type_tetrimino){
+	t_tetrimino new_type_tetrimino = type_tetrimino;
+	char **copytype_tetrimino = type_tetrimino.array;
+	new_type_tetrimino.array = (char**)malloc(new_type_tetrimino.width*sizeof(char*));
     int i, j;
-    for(i = 0; i < new_shape.width; i++){
-		new_shape.array[i] = (char*)malloc(new_shape.width*sizeof(char));
-		for(j=0; j < new_shape.width; j++) {
-			new_shape.array[i][j] = copyshape[i][j];
+    for(i = 0; i < new_type_tetrimino.width; i++){
+		new_type_tetrimino.array[i] = (char*)malloc(new_type_tetrimino.width*sizeof(char));
+		for(j=0; j < new_type_tetrimino.width; j++) {
+			new_type_tetrimino.array[i][j] = copytype_tetrimino[i][j];
 		}
     }
-    return new_shape;
+    return new_type_tetrimino;
 }
+
+//7種類の形
+//0 + rand() % 10) // 最小値:0 取得個数:10個
+t_tetrimino make_new_tetrimino(const t_tetrimino *type_tetrimino)
+{
+	t_tetrimino new_figure = create_shape(type_tetrimino[rand()%7]);
+    new_figure.col = rand()%(FIELD_COL-new_figure.width+1);
+    new_figure.row = 0;//最上段
+    //destroy_shape(current);//destoyは必要か？
+	return (new_figure);
+}
+
 
 //destroy
 void destroy_shape(t_tetrimino shape){
@@ -43,7 +52,7 @@ int FunctionCP(t_tetrimino shape){
 					return FALSE;
 				
 			}
-			else if(playig_field[shape.row+i][shape.col+j] && array[i][j])
+			else if(playing_field[shape.row+i][shape.col+j] && array[i][j])
 				return FALSE;
 		}
 	}
@@ -83,7 +92,7 @@ void FunctionPT(t_tetris *tetris){
 	output_to_screen("42 Tetris\n");
 	for(i = 0; i < FIELD_ROW ;i++){
 		for(j = 0; j < FIELD_COL ; j++){
-			output_to_screen("%c ", (playig_field[i][j] + Buffer[i][j])? '#': '.');
+			output_to_screen("%c ", (playing_field[i][j] + Buffer[i][j])? '#': '.');
 		}
 		output_to_screen("\n");
 	}
@@ -101,8 +110,8 @@ int hasToUpdate(){
 }
 
 void set_timeout(int time) {
-	time = 1;
-	timeout(1);
+	//time = 1;
+	timeout(time);
 }
 
 static void end_ncurses()
@@ -119,7 +128,7 @@ void end_of_game(t_tetris *tetris,t_tetrimino current)
 	int i, j;
 	for(i = 0; i < FIELD_ROW ;i++){
 		for(j = 0; j < FIELD_COL ; j++){
-			printf("%c ", playig_field[i][j] ? '#': '.');
+			printf("%c ", playing_field[i][j] ? '#': '.');
 		}
 		printf("\n");
 	}
@@ -156,24 +165,18 @@ void init_game(t_tetris *tetris)
 	tetris->game_status = GAME_PLAY;
 	initscr();
 	gettimeofday(&before_now, NULL);
-	set_timeout(1);//1返す理由は？
+	set_timeout(1);
 }
 
-//7種類の形
-//0 + rand() % 10) // 最小値:0 取得個数:10個
-t_tetrimino make_new_tetrimino(const t_tetrimino *type_tetrimino)
-{
-	t_tetrimino new_figure = create_shape(type_tetrimino[rand()%7]);
-    new_figure .col = rand()%(FIELD_COL-new_figure .width+1);
-    new_figure .row = 0;//最上段
-    //destroy_shape(current);//destoyは必要か？
-	return (new_figure);
-}
+
+
+
 
 //srand関数はrand関数の擬似乱数の発生系列を変更する関数 //srand((unsigned int)time(NULL));
 //getch()標準入力(キーボード)から1文字読み込み、その文字を返します。
 int main() {
 	t_tetris tetris;
+	t_tetrimino tetrimino;
 
     srand(time(0));
 	init_game(&tetris);
@@ -183,10 +186,11 @@ int main() {
     //new_shape.row = 0;//最上段
     ////destroy_shape(current);//destoy
 	//current = new_shape;//create_shapeしたもの
+	//make_new_tetrimino(&tetrimino, type_tetrimino);
 	current = make_new_tetrimino(type_tetrimino);
+	//current = tetrimino;
 	if(!FunctionCP(current)){
 		tetris.game_status = GAME_OVER;
-
 	}
 	
     FunctionPT(&tetris);
@@ -204,23 +208,23 @@ int main() {
 						for(i = 0; i < current.width ;i++){
 							for(j = 0; j < current.width ; j++){
 								if(current.array[i][j])
-									playig_field[current.row+i][current.col+j] = current.array[i][j];
+									playing_field[current.row+i][current.col+j] = current.array[i][j];
 							}
 						}
 						int n, m, sum, count=0;
 						for(n=0;n<FIELD_ROW;n++){
 							sum = 0;
 							for(m=0;m< FIELD_COL;m++) {
-								sum+=playig_field[n][m];
+								sum+=playing_field[n][m];
 							}
 							if(sum==FIELD_COL){
 								count++;
 								int l, k;
 								for(k = n;k >=1;k--)
 									for(l=0;l<FIELD_COL;l++)
-										playig_field[k][l]=playig_field[k-1][l];
+										playing_field[k][l]=playing_field[k-1][l];
 								for(l=0;l<FIELD_COL;l++)
-									playig_field[k][l]=0;
+									playing_field[k][l]=0;
 								timer-=decrease--;
 							}
 						}
@@ -262,23 +266,23 @@ int main() {
 						for(i = 0; i < current.width ;i++){
 							for(j = 0; j < current.width ; j++){
 								if(current.array[i][j])
-									playig_field[current.row+i][current.col+j] = current.array[i][j];
+									playing_field[current.row+i][current.col+j] = current.array[i][j];
 							}
 						}
 						int n, m, sum, count=0;
 						for(n=0;n<FIELD_ROW;n++){
 							sum = 0;
 							for(m=0;m< FIELD_COL;m++) {
-								sum+=playig_field[n][m];
+								sum+=playing_field[n][m];
 							}
 							if(sum==FIELD_COL){
 								count++;
 								int l, k;
 								for(k = n;k >=1;k--)
 									for(l=0;l<FIELD_COL;l++)
-										playig_field[k][l]=playig_field[k-1][l];
+										playing_field[k][l]=playing_field[k-1][l];
 								for(l=0;l<FIELD_COL;l++)
-									playig_field[k][l]=0;
+									playing_field[k][l]=0;
 								timer-=decrease--;
 							}
 						}
