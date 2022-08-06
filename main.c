@@ -31,7 +31,6 @@ t_tetrimino make_new_tetrimino(const t_tetrimino *type_tetrimino)
 	return (new_figure);
 }
 
-
 //destroy
 void destroy_shape(t_tetrimino shape){
     int i;
@@ -71,10 +70,6 @@ void FunctionRS(t_tetrimino shape){
 	destroy_shape(temp);
 }
 
-//void output_to_screen(char *str,...){
-//	printw(str);
-//}
-
 //printw
 void FunctionPT(t_tetris *tetris){
 	char Buffer[FIELD_ROW][FIELD_COL] = {0};
@@ -96,7 +91,6 @@ void FunctionPT(t_tetris *tetris){
 		output_to_screen("\n");
 	}
 	output_to_screen("\nScore: %d\n", tetris->score);
-	//output_to_screen("\nScore: %d\n", final);
 }
 
 //struct timeval before_now, now;
@@ -150,8 +144,10 @@ void case_w(t_tetrimino temp,t_tetrimino current)
 //initscr()： スクリーンを初期化する． （curses を利用する場合，最初に呼び出さなければならない．）
 void init_game(t_tetris *tetris)
 {
+	//char init_field[FIELD_ROW][FIELD_COL] = {0};
 	tetris->score = 0;
 	tetris->game_status = GAME_PLAY;
+	//tetris->playing_field = init_field;
 	initscr();
 	gettimeofday(&before_now, NULL);
 	set_timeout_millisecond(1);
@@ -166,6 +162,7 @@ void init_game(t_tetris *tetris)
 int main() {
 	t_tetris tetris;
 	t_tetrimino tetrimino;
+	//char init_field[FIELD_ROW][FIELD_COL] = {0};
 
     srand(time(0));
 	init_game(&tetris);

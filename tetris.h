@@ -30,7 +30,7 @@ typedef struct {
 typedef struct {
 	int score;
 	char game_status;
-	//char playing_field[FIELD_ROW][FIELD_COL] = {0};
+	//char **playing_field;
 } t_tetris;
 
 void end_ncurses();
