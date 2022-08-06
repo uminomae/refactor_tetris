@@ -3,7 +3,7 @@
 
 char playig_field[FIELD_ROW][FIELD_COL] = {0};
 //int final = 0;
-char game_status = GAME_PLAY;
+//char game_status = GAME_PLAY;
 
 suseconds_t timer = 400000;
 int decrease = 1000;
@@ -150,9 +150,10 @@ void case_w(t_tetrimino temp,t_tetrimino current)
 }
 
 //initscr()： スクリーンを初期化する． （curses を利用する場合，最初に呼び出さなければならない．）
-void init_game(t_tetris tetris)
+void init_game(t_tetris *tetris)
 {
-	tetris.score = 0;
+	tetris->score = 0;
+	tetris->game_status = GAME_PLAY;
 	initscr();
 	gettimeofday(&before_now, NULL);
 	set_timeout(1);//1返す理由は？
@@ -175,7 +176,7 @@ int main() {
 	t_tetris tetris;
 
     srand(time(0));
-	init_game(tetris);
+	init_game(&tetris);
 
 	//t_tetrimino new_shape = create_shape(type_tetrimino[rand()%7]);//7種類の形
     //new_shape.col = rand()%(FIELD_COL-new_shape.width+1);//0 + rand() % 10) // 最小値:0 取得個数:10個
@@ -184,12 +185,12 @@ int main() {
 	//current = new_shape;//create_shapeしたもの
 	current = make_new_tetrimino(type_tetrimino);
 	if(!FunctionCP(current)){
-		game_status = GAME_OVER;
-		//game_status = FALSE;
+		tetris.game_status = GAME_OVER;
+
 	}
 	
     FunctionPT(&tetris);
-	while(game_status == GAME_PLAY){
+	while(tetris.game_status == GAME_PLAY){
     	int input_from_keyboard;
 		if ((input_from_keyboard = getch()) != ERR) {
 			t_tetrimino temp = create_shape(current);
@@ -231,7 +232,7 @@ int main() {
 						destroy_shape(current);
 						current = new_shape;
 						if(!FunctionCP(current)){
-							game_status = GAME_OVER;
+							tetris.game_status = GAME_OVER;
 						}
 					}
 					break;
@@ -287,7 +288,7 @@ int main() {
 						destroy_shape(current);
 						current = new_shape;
 						if(!FunctionCP(current)){
-							game_status = GAME_OVER;
+							tetris.game_status = GAME_OVER;
 						}
 					}
 					break;

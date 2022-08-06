@@ -26,6 +26,7 @@ typedef struct {
 
 typedef struct {
 	int score;
+	char game_status;
 } t_tetris;
 
 
