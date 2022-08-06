@@ -24,7 +24,7 @@ typedef enum s_game_status {
 
 typedef struct {
     char **array;
-    int width, row, col;
+    int width_and_height, row, col;
 } t_tetrimino;
 
 typedef struct {

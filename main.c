@@ -9,11 +9,11 @@ t_tetrimino current;
 t_tetrimino create_shape(t_tetrimino type_tetrimino){
 	t_tetrimino new_type_tetrimino = type_tetrimino;
 	char **copytype_tetrimino = type_tetrimino.array;
-	new_type_tetrimino.array = (char**)malloc(new_type_tetrimino.width*sizeof(char*));
+	new_type_tetrimino.array = (char**)malloc(new_type_tetrimino.width_and_height*sizeof(char*));
     int i, j;
-    for(i = 0; i < new_type_tetrimino.width; i++){
-		new_type_tetrimino.array[i] = (char*)malloc(new_type_tetrimino.width*sizeof(char));
-		for(j=0; j < new_type_tetrimino.width; j++) {
+    for(i = 0; i < new_type_tetrimino.width_and_height; i++){
+		new_type_tetrimino.array[i] = (char*)malloc(new_type_tetrimino.width_and_height*sizeof(char));
+		for(j=0; j < new_type_tetrimino.width_and_height; j++) {
 			new_type_tetrimino.array[i][j] = copytype_tetrimino[i][j];
 		}
     }
@@ -25,16 +25,15 @@ t_tetrimino create_shape(t_tetrimino type_tetrimino){
 t_tetrimino make_new_tetrimino(const t_tetrimino *type_tetrimino)
 {
 	t_tetrimino new_figure = create_shape(type_tetrimino[rand()%7]);
-    new_figure.col = rand()%(FIELD_COL-new_figure.width+1);
-    new_figure.row = 0;//最上段
-    //destroy_shape(current);//destoyは必要か？
+    new_figure.col = rand()%(FIELD_COL-new_figure.width_and_height+1);
+    new_figure.row = 0;
 	return (new_figure);
 }
 
 //destroy
 void destroy_shape(t_tetrimino shape){
     int i;
-    for(i = 0; i < shape.width; i++){
+    for(i = 0; i < shape.width_and_height; i++){
 		free(shape.array[i]);
     }
     free(shape.array);
@@ -44,8 +43,8 @@ void destroy_shape(t_tetrimino shape){
 int FunctionCP(t_tetrimino shape){
 	char **array = shape.array;
 	int i, j;
-	for(i = 0; i < shape.width;i++) {
-		for(j = 0; j < shape.width ;j++){
+	for(i = 0; i < shape.width_and_height;i++) {
+		for(j = 0; j < shape.width_and_height ;j++){
 			if((shape.col+j < 0 || shape.col+j >= FIELD_COL || shape.row+i >= FIELD_ROW)){
 				if(array[i][j])
 					return FALSE;
@@ -60,10 +59,10 @@ int FunctionCP(t_tetrimino shape){
 
 void FunctionRS(t_tetrimino shape){
 	t_tetrimino temp = create_shape(shape);
-	int i, j, k, width;
-	width = shape.width;
-	for(i = 0; i < width ; i++){
-		for(j = 0, k = width-1; j < width ; j++, k--){
+	int i, j, k, width_and_height;
+	width_and_height = shape.width_and_height;
+	for(i = 0; i < width_and_height ; i++){
+		for(j = 0, k = width_and_height-1; j < width_and_height ; j++, k--){
 				shape.array[i][j] = temp.array[k][i];
 		}
 	}
@@ -74,8 +73,8 @@ void FunctionRS(t_tetrimino shape){
 void FunctionPT(t_tetris *tetris){
 	char Buffer[FIELD_ROW][FIELD_COL] = {0};
 	int i, j;
-	for(i = 0; i < current.width ;i++){
-		for(j = 0; j < current.width ; j++){
+	for(i = 0; i < current.width_and_height ;i++){
+		for(j = 0; j < current.width_and_height ; j++){
 			if(current.array[i][j])
 				Buffer[current.row+i][current.col+j] = current.array[i][j];
 		}
@@ -103,11 +102,9 @@ int hasToUpdate(){
 }
 
 void end_of_game(t_tetris *tetris,t_tetrimino current)
-//void end_of_game(t_tetrimino current)
 {
 	destroy_shape(current);
 	end_ncurses();
-	//endwin();
 	int i, j;
 	for(i = 0; i < FIELD_ROW ;i++){
 		for(j = 0; j < FIELD_COL ; j++){
@@ -117,7 +114,6 @@ void end_of_game(t_tetris *tetris,t_tetrimino current)
 	}
 	printf("\nGame over!\n");
 	printf("\nScore: %d\n", tetris->score);
-	//printf("\nScore: %d\n", final);
 }
 
 void case_d(t_tetrimino temp)
@@ -144,17 +140,12 @@ void case_w(t_tetrimino temp,t_tetrimino current)
 //initscr()： スクリーンを初期化する． （curses を利用する場合，最初に呼び出さなければならない．）
 void init_game(t_tetris *tetris)
 {
-	//char init_field[FIELD_ROW][FIELD_COL] = {0};
 	tetris->score = 0;
 	tetris->game_status = GAME_PLAY;
-	//tetris->playing_field = init_field;
 	initscr();
 	gettimeofday(&before_now, NULL);
 	set_timeout_millisecond(1);
 }
-
-
-
 
 
 //srand関数はrand関数の擬似乱数の発生系列を変更する関数 //srand((unsigned int)time(NULL));
@@ -162,7 +153,6 @@ void init_game(t_tetris *tetris)
 int main() {
 	t_tetris tetris;
 	t_tetrimino tetrimino;
-	//char init_field[FIELD_ROW][FIELD_COL] = {0};
 
     srand(time(0));
 	init_game(&tetris);
@@ -184,8 +174,8 @@ int main() {
 						current.row++;
 					else {
 						int i, j;
-						for(i = 0; i < current.width ;i++){
-							for(j = 0; j < current.width ; j++){
+						for(i = 0; i < current.width_and_height ;i++){
+							for(j = 0; j < current.width_and_height ; j++){
 								if(current.array[i][j])
 									playing_field[current.row+i][current.col+j] = current.array[i][j];
 							}
@@ -210,7 +200,7 @@ int main() {
 						tetris.score += 100*count;
 						//final += 100*count;
 						t_tetrimino new_shape = create_shape(type_tetrimino[rand()%7]);
-						new_shape.col = rand()%(FIELD_COL-new_shape.width+1);
+						new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
 						new_shape.row = 0;
 						destroy_shape(current);
 						current = new_shape;
@@ -242,8 +232,8 @@ int main() {
 						current.row++;
 					else {
 						int i, j;
-						for(i = 0; i < current.width ;i++){
-							for(j = 0; j < current.width ; j++){
+						for(i = 0; i < current.width_and_height ;i++){
+							for(j = 0; j < current.width_and_height ; j++){
 								if(current.array[i][j])
 									playing_field[current.row+i][current.col+j] = current.array[i][j];
 							}
@@ -266,7 +256,7 @@ int main() {
 							}
 						}
 						t_tetrimino new_shape = create_shape(type_tetrimino[rand()%7]);
-						new_shape.col = rand()%(FIELD_COL-new_shape.width+1);
+						new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
 						new_shape.row = 0;
 						destroy_shape(current);
 						current = new_shape;
