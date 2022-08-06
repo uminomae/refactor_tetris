@@ -40,3 +40,26 @@
 	(char []){0,0,0,0}, \
 	(char []){0,0,0,0}\
 	}, 4
+const t_tetrimino type_tetrimino[7]= {
+	{
+		S_FIGURE
+	},
+	{
+		Z_FIGURE
+	},
+	{
+		T_FIGURE
+	},
+	{
+		L_FIGURE
+	},
+	{
+		J_FIGURE
+	},
+	{
+		O_FIGURE
+	},
+	{
+		I_FIGURE
+	}
+};

@@ -9,41 +9,29 @@ suseconds_t timer = 400000;
 int decrease = 1000;
 t_tetrimino current;
 
-const t_tetrimino type_tetrimino[7]= {
-	{
-		S_FIGURE
-		//(char *[]){
-		//	(char []){0,1,1},
-		//	(char []){1,1,0}, 
-		//	(char []){0,0,0}
-		//	}
-		//	,3
-	},
-	{
-		Z_FIGURE
-		//(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3
-	},
-	{
-		T_FIGURE
-		//(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3
-	},
-	{
-		L_FIGURE
-		//(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3
-	},
-	{
-		J_FIGURE
-		//(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3
-	},
-	{
-		O_FIGURE
-		//(char *[]){(char []){1,1},(char []){1,1}}, 2
-	},
-	{
-		I_FIGURE
-		//(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4
-	}
-};
+//const t_tetrimino type_tetrimino[7]= {
+//	{
+//		S_FIGURE
+//	},
+//	{
+//		Z_FIGURE
+//	},
+//	{
+//		T_FIGURE
+//	},
+//	{
+//		L_FIGURE
+//	},
+//	{
+//		J_FIGURE
+//	},
+//	{
+//		O_FIGURE
+//	},
+//	{
+//		I_FIGURE
+//	}
+//};
 
 t_tetrimino create_shape(t_tetrimino shape){
 	t_tetrimino new_shape = shape;
