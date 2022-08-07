@@ -73,15 +73,15 @@ void FunctionPT(t_tetris *tetris){
 	for(i = 0; i < FIELD_ROW ;i++){
 		for(j = 0; j < FIELD_COL ; j++){
 			if (playing_field[i][j] + Buffer[i][j]){
-				print_string_to_screen("%c ", '#');
+				print_string_to_window("%c ", '#');
 			} else{
-				print_string_to_screen("%c ", '.');
+				print_string_to_window("%c ", '.');
 			}
-			//print_string_to_screen("%c ", (playing_field[i][j] + Buffer[i][j])? '#': '.');
+			//print_string_to_window("%c ", (playing_field[i][j] + Buffer[i][j])? '#': '.');
 		}
-		print_string_to_screen("\n");
+		print_string_to_window("\n");
 	}
-	print_string_to_screen("\nScore: %d\n", tetris->score);
+	print_string_to_window("\nScore: %d\n", tetris->score);
 }
 
 //struct timeval before_now, now;
