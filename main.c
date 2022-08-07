@@ -41,6 +41,17 @@ void case_w(t_tetrimino temp,t_tetrimino current)
 }
 
 
+void aaaa4(){
+	const int n = current.width_and_height;
+	//int i, j;
+	for(int i = 0; i < n ;i++){
+		for(int j = 0; j < n ; j++){
+			if(current.figure[i][j])
+				playing_field[current.row+i][current.col+j] = current.figure[i][j];
+		}
+	}
+}
+
 //srand関数はrand関数の擬似乱数の発生系列を変更する関数 //srand((unsigned int)time(NULL));
 //getch()標準入力(キーボード)から1文字読み込み、その文字を返します。
 int main() {
@@ -49,7 +60,6 @@ int main() {
 
     srand(time(0));
 	init_game(&tetris);
-
 	current = make_new_tetrimino(type_tetrimino);
 	if(!can_move_field(&current)){
 		tetris.game_status = GAME_OVER;
@@ -68,13 +78,7 @@ int main() {
 					if(can_move_field(&temp))
 						current.row++;
 					else {
-						int i, j;
-						for(i = 0; i < current.width_and_height ;i++){
-							for(j = 0; j < current.width_and_height ; j++){
-								if(current.figure[i][j])
-									playing_field[current.row+i][current.col+j] = current.figure[i][j];
-							}
-						}
+						aaaa4();
 						int n, m, sum, count=0;
 						for(n=0;n<FIELD_ROW;n++){
 							sum = 0;
@@ -126,13 +130,7 @@ int main() {
 					if(can_move_field(&temp))
 						current.row++;
 					else {
-						int i, j;
-						for(i = 0; i < current.width_and_height ;i++){
-							for(j = 0; j < current.width_and_height ; j++){
-								if(current.figure[i][j])
-									playing_field[current.row+i][current.col+j] = current.figure[i][j];
-							}
-						}
+						aaaa4();
 						int n, m, sum, count=0;
 						for(n=0;n<FIELD_ROW;n++){
 							sum = 0;

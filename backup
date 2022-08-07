@@ -12,3 +12,13 @@ int hasToUpdate(t_tetris *tetris){
 	const suseconds_t before_now = get_millisecond(tetris->timevalue->before_now);
 	return (now - before_now > timer_millisecond);
 }
+
+
+aaaa4();
+						//int i, j;
+						//for(i = 0; i < current.width_and_height ;i++){
+						//	for(j = 0; j < current.width_and_height ; j++){
+						//		if(current.figure[i][j])
+						//			playing_field[current.row+i][current.col+j] = current.figure[i][j];
+						//	}
+						//}
