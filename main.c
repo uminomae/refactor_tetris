@@ -52,23 +52,33 @@ void move_tetrimino_with_key(t_tetris *tetris, bool update){
 	int key = tetris->input_from_keyboard;
 	t_tetrimino temp = create_tetrimino(current);
 
-	if (key == 's')
-		temp.row++; 
-		if(can_move_field(&temp))
-			current.row++;
-		else {
-			aaaa4();
-			int completed_lines = count_completed_lines_and_erase();
-			if (update == false)
-				tetris->score += 100 * completed_lines;
-			ccc3(tetris);
+	//switch(key){
+	//	case 's':
+		if (key == 's'){
+			temp.row++;  //move down
+			if(can_move_field(&temp))
+				current.row++;
+			else {
+				aaaa4();
+				int completed_lines = count_completed_lines_and_erase();
+				if (update == false)
+					tetris->score += 100 * completed_lines;
+				ccc3(tetris);
+			}
+			//break;
+		}else if (key == 'd'){
+		//case 'd':
+			case_d(temp);
+			//break;
+		}else if (key == 'a'){
+		//case 'a':
+			case_a(temp);
+			//break;
+		}else if (key == 'w'){
+		//case 'w':
+			case_w(temp,current);
+			//break;
 		}
-	if (key == 'd')
-		case_d(temp);
-	if (key == 'a')
-		case_a(temp);
-	if (key == 'w')
-		case_w(temp,current);
 	destroy_tetrimino(&temp);
 	refresh_game_screen(tetris);
 }
