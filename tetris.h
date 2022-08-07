@@ -18,6 +18,10 @@
 //# define FALL_VELOCITY_INTERVAL	400000
 # define INTERVAL_DECREASE	1000
 # define TOP_ROW	0
+# define DROP_KEY 's'
+# define LEFT_KEY 'a'
+# define RIGHT_KEY 'd'
+# define SPIN_KEY 'w'
 
 //char playing_field[FIELD_ROW][FIELD_COL] = {0};
 
@@ -39,6 +43,7 @@ typedef struct {
 	char game_status;
 	t_tetrimino *tetrimino;
 	char playing_field[FIELD_ROW][FIELD_COL];
+	int input_from_keyboard;
 } t_tetris;
 
 void end_ncurses();

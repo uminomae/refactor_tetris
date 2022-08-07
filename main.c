@@ -9,7 +9,7 @@ int can_move_field(t_tetrimino *tetrimino);
 bool can_move_not_overlapping(t_tetrimino *tetrimino, int i, int j);
 int can_move_field(t_tetrimino *tetrimino);
 suseconds_t get_millisecond(struct timeval timevalue);
-int hasToUpdate();
+bool hasToUpdate();
 void roteta_tetrimino(t_tetrimino shape);
 void init_game(t_tetris *tetris);
 int count_blocks_of_line(int y);
@@ -48,32 +48,27 @@ void ccc3(t_tetris *tetris){
 	}
 }
 
-void case_getch(t_tetris *tetris, int input_from_keyboard){
-	//int input_from_keyboard;
+void move_tetrimino_with_key(t_tetris *tetris, bool update){
+	int key = tetris->input_from_keyboard;
 	t_tetrimino temp = create_tetrimino(current);
-	switch(input_from_keyboard){
-		case 's':
-			temp.row++;  //move down
-			if(can_move_field(&temp))
-				current.row++;
-			else {
-				aaaa4();
-				int completed_lines = count_completed_lines_and_erase();
-				if (!hasToUpdate())
-					tetris->score += 100 * completed_lines;
-				ccc3(tetris);
-			}
-			break;
-		case 'd':
-			case_d(temp);
-			break;
-		case 'a':
-			case_a(temp);
-			break;
-		case 'w':
-			case_w(temp,current);
-			break;
-	}
+
+	if (key == 's')
+		temp.row++; 
+		if(can_move_field(&temp))
+			current.row++;
+		else {
+			aaaa4();
+			int completed_lines = count_completed_lines_and_erase();
+			if (update == false)
+				tetris->score += 100 * completed_lines;
+			ccc3(tetris);
+		}
+	if (key == 'd')
+		case_d(temp);
+	if (key == 'a')
+		case_a(temp);
+	if (key == 'w')
+		case_w(temp,current);
 	destroy_tetrimino(&temp);
 	refresh_game_screen(tetris);
 }
@@ -91,15 +86,15 @@ int main() {
 		tetris.game_status = GAME_OVER;
 	}
     refresh_game_screen(&tetris);
-
 	while(tetris.game_status == GAME_PLAY){
-    	int input_from_keyboard;
-		if ((input_from_keyboard = getch()) != ERR) {
-			case_getch(&tetris, input_from_keyboard);
+    	tetris.input_from_keyboard = getch();
+		if (tetris.input_from_keyboard != ERR) {
+			move_tetrimino_with_key(&tetris, false);
 		}
 		gettimeofday(&now, NULL);
 		if (hasToUpdate()) {
-			case_getch(&tetris, 's');
+			tetris.input_from_keyboard = 's';
+			move_tetrimino_with_key(&tetris, true);
 			gettimeofday(&before_now, NULL);
 		}
 	}
@@ -187,7 +182,7 @@ suseconds_t get_millisecond(struct timeval timevalue){
 	return (timevalue.tv_sec * MILLION + timevalue.tv_usec);
 }
 
-int hasToUpdate(){
+bool hasToUpdate(){
 	const suseconds_t now_ms = get_millisecond(now);
 	const suseconds_t before_now_ms = get_millisecond(before_now);
 	return (now_ms - before_now_ms > timer);
