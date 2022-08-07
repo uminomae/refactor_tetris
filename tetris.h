@@ -44,6 +44,7 @@ typedef struct {
 	t_tetrimino *tetrimino;
 	char playing_field[FIELD_ROW][FIELD_COL];
 	int input_from_keyboard;
+	suseconds_t time_to_update;
 } t_tetris;
 
 void end_ncurses();

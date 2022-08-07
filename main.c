@@ -10,27 +10,39 @@ int can_move_field(t_tetrimino *tetrimino);
 bool can_move_not_overlapping(t_tetrimino *tetrimino, int i, int j);
 int can_move_field(t_tetrimino *tetrimino);
 suseconds_t get_millisecond(struct timeval timevalue);
-bool need_update();
+//bool need_update();
+bool need_update(t_tetris *tetris);
 void roteta_tetrimino(t_tetrimino *shape);
 void init_game(t_tetris *tetris);
 int count_blocks_of_line(int y);
 void lower_the_upper_block(int y);
 void clear_line(int y);
 void drop_placed_block_one_rank(int y);
-int count_completed_lines_and_erase();
+int count_completed_lines_and_erase(t_tetris *tetris);
+//int count_completed_lines_and_erase();
 void case_d(t_tetrimino *temp);
 void case_a(t_tetrimino *temp);
 void case_w(t_tetrimino *temp,t_tetrimino current);
 void fix_tetrimino_on_the_field(t_tetrimino *tetrimino);
 
 char playing_field[FIELD_ROW][FIELD_COL] = {0};
-suseconds_t timer = FALL_VELOCITY_INTERVAL;
+//suseconds_t time_to_update = FALL_VELOCITY_INTERVAL;
 int decrease = INTERVAL_DECREASE;
 t_tetrimino current;
 
 
 
 
+//initscr()： スクリーンを初期化する． （curses を利用する場合，最初に呼び出さなければならない．）
+void init_game(t_tetris *tetris)
+{
+	tetris->score = 0;
+	tetris->game_status = GAME_PLAY;
+	tetris->time_to_update = FALL_VELOCITY_INTERVAL;
+	initscr();
+	gettimeofday(&before_now, NULL);
+	set_timeout_millisecond(1);
+}
 void make_the_next_tetrimino(t_tetris *tetris){
 	t_tetrimino new_shape = *create_tetrimino(&type_tetrimino[rand()%7]);
 	new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
@@ -48,7 +60,7 @@ void case_s(t_tetris *tetris, t_tetrimino *temp, bool update){
 		current.row++;
 	else {
 		fix_tetrimino_on_the_field(tetris->tetrimino);
-		int completed_lines = count_completed_lines_and_erase();
+		int completed_lines = count_completed_lines_and_erase(tetris);
 		if (update == false)
 			tetris->score += 100 * completed_lines;
 		make_the_next_tetrimino(tetris);
@@ -91,7 +103,7 @@ int main() {
 			move_tetrimino_with_key(&tetris, false);
 		}
 		gettimeofday(&now, NULL);
-		if (need_update()) {
+		if (need_update(&tetris)) {
 			tetris.input_from_keyboard = 's';
 			move_tetrimino_with_key(&tetris, true);
 			gettimeofday(&before_now, NULL);
@@ -193,10 +205,10 @@ suseconds_t get_millisecond(struct timeval timevalue){
 	return (timevalue.tv_sec * MILLION + timevalue.tv_usec);
 }
 
-bool need_update(){
+bool need_update(t_tetris *tetris){
 	const suseconds_t now_ms = get_millisecond(now);
 	const suseconds_t before_now_ms = get_millisecond(before_now);
-	return (now_ms - before_now_ms > timer);
+	return (now_ms - before_now_ms > tetris->time_to_update);
 }
 
 
@@ -215,19 +227,10 @@ void roteta_tetrimino(t_tetrimino *tetrimino){
 
 ////struct timeval before_now, now;
 //int need_update(){
-//	return ((suseconds_t)(now.tv_sec*1000000 + now.tv_usec) -((suseconds_t)before_now.tv_sec*1000000 + before_now.tv_usec)) > timer;
+//	return ((suseconds_t)(now.tv_sec*1000000 + now.tv_usec) -((suseconds_t)before_now.tv_sec*1000000 + before_now.tv_usec)) > time_to_update;
 //}
 
 
-//initscr()： スクリーンを初期化する． （curses を利用する場合，最初に呼び出さなければならない．）
-void init_game(t_tetris *tetris)
-{
-	tetris->score = 0;
-	tetris->game_status = GAME_PLAY;
-	initscr();
-	gettimeofday(&before_now, NULL);
-	set_timeout_millisecond(1);
-}
 
 
 int count_blocks_of_line(int y){
@@ -255,12 +258,12 @@ void drop_placed_block_one_rank(int y){
 	clear_line(TOP_ROW);
 }
 
-int count_completed_lines_and_erase(){
+int count_completed_lines_and_erase(t_tetris *tetris){
 	int number_of_completed_lines = 0;
 	for(int y = 0; y < FIELD_ROW; y++){
 		if(count_blocks_of_line(y) == FIELD_COL){
 			drop_placed_block_one_rank(y);
-			timer -= decrease--;
+			tetris->time_to_update -= decrease--;
 			number_of_completed_lines++;
 		}
 	}
