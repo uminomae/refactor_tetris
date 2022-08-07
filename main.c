@@ -21,6 +21,7 @@ int count_completed_lines_and_erase();
 void case_d(t_tetrimino temp);
 void case_a(t_tetrimino temp);
 void case_w(t_tetrimino temp,t_tetrimino current);
+void fix_tetrimino_on_the_field(t_tetrimino *tetrimino);
 
 char playing_field[FIELD_ROW][FIELD_COL] = {0};
 suseconds_t timer = FALL_VELOCITY_INTERVAL;
@@ -28,15 +29,7 @@ int decrease = INTERVAL_DECREASE;
 t_tetrimino current;
 
 
-void fix_tetrimino_on_the_field(){
-	const int n = current.width_and_height;
-	for(int i = 0; i < n ;i++){
-		for(int j = 0; j < n ; j++){
-			if(current.figure[i][j])
-				playing_field[current.row+i][current.col+j] = current.figure[i][j];
-		}
-	}
-}
+
 
 void make_the_next_tetrimino(t_tetris *tetris){
 	t_tetrimino new_shape = *create_tetrimino(&type_tetrimino[rand()%7]);
@@ -49,12 +42,12 @@ void make_the_next_tetrimino(t_tetris *tetris){
 	}
 }
 
-void case_s(t_tetris *tetris,t_tetrimino temp, bool update){
+void case_s(t_tetris *tetris, t_tetrimino temp, bool update){
 	temp.row++;
 	if(can_move_field(&temp))
 		current.row++;
 	else {
-		fix_tetrimino_on_the_field();
+		fix_tetrimino_on_the_field(tetris->tetrimino);
 		int completed_lines = count_completed_lines_and_erase();
 		if (update == false)
 			tetris->score += 100 * completed_lines;
@@ -293,4 +286,14 @@ void case_w(t_tetrimino temp,t_tetrimino current)
 	roteta_tetrimino(temp);
 	if(can_move_field(&temp))
 		roteta_tetrimino(current);
+}
+
+void fix_tetrimino_on_the_field(t_tetrimino *tetrimino){
+	const int n = tetrimino->width_and_height;
+	for(int i = 0; i < n ;i++){
+		for(int j = 0; j < n ; j++){
+			if(tetrimino->figure[i][j])
+				playing_field[tetrimino->row+i][tetrimino->col+j] = tetrimino->figure[i][j];
+		}
+	}
 }
