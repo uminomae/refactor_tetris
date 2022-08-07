@@ -11,7 +11,7 @@ bool can_move_not_overlapping(t_tetrimino *tetrimino, int i, int j);
 int can_move_field(t_tetrimino *tetrimino);
 suseconds_t get_millisecond(struct timeval timevalue);
 bool hasToUpdate();
-void roteta_tetrimino(t_tetrimino shape);
+void roteta_tetrimino(t_tetrimino *shape);
 void init_game(t_tetris *tetris);
 int count_blocks_of_line(int y);
 void lower_the_upper_block(int y);
@@ -200,14 +200,14 @@ bool hasToUpdate(){
 }
 
 
-void roteta_tetrimino(t_tetrimino shape){
-	const int n = shape.width_and_height;
-	t_tetrimino temp = *create_tetrimino(&shape);
+void roteta_tetrimino(t_tetrimino *shape){
+	const int n = shape->width_and_height;
+	t_tetrimino *temp = create_tetrimino(&shape);
 	int i, j, k;
 
 	for(i = 0; i < n ; i++){
 		for(j = 0, k = n - 1; j < n ; j++, k--){
-				shape.figure[i][j] = temp.figure[k][i];
+				shape->figure[i][j] = temp->figure[k][i];
 		}
 	}
 	destroy_tetrimino(&temp);
@@ -283,9 +283,9 @@ void case_a(t_tetrimino temp)
 
 void case_w(t_tetrimino temp,t_tetrimino current)
 {
-	roteta_tetrimino(temp);
+	roteta_tetrimino(&temp);
 	if(can_move_field(&temp))
-		roteta_tetrimino(current);
+		roteta_tetrimino(&current);
 }
 
 void fix_tetrimino_on_the_field(t_tetrimino *tetrimino){
