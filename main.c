@@ -27,7 +27,7 @@ int decrease = INTERVAL_DECREASE;
 t_tetrimino current;
 
 
-void aaaa4(){
+void set_block_to_feild(){
 	const int n = current.width_and_height;
 	for(int i = 0; i < n ;i++){
 		for(int j = 0; j < n ; j++){
@@ -59,7 +59,7 @@ void move_tetrimino_with_key(t_tetris *tetris, bool update){
 			if(can_move_field(&temp))
 				current.row++;
 			else {
-				aaaa4();
+				set_block_to_feild();
 				int completed_lines = count_completed_lines_and_erase();
 				if (update == false)
 					tetris->score += 100 * completed_lines;
