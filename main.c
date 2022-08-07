@@ -12,33 +12,20 @@ suseconds_t get_millisecond(struct timeval timevalue);
 int hasToUpdate();
 void roteta_tetrimino(t_tetrimino shape);
 void init_game(t_tetris *tetris);
+int count_blocks_of_line(int y);
+void lower_the_upper_block(int y);
+void clear_line(int y);
+void drop_placed_block_one_rank(int y);
+int count_completed_lines_and_erase();
+void case_d(t_tetrimino temp);
+void case_a(t_tetrimino temp);
+void case_w(t_tetrimino temp,t_tetrimino current);
 
 char playing_field[FIELD_ROW][FIELD_COL] = {0};
 suseconds_t timer = FALL_VELOCITY_INTERVAL;
 int decrease = INTERVAL_DECREASE;
 t_tetrimino current;
 
-
-void case_d(t_tetrimino temp)
-{
-	temp.col++;
-	if(can_move_field(&temp))
-		current.col++;
-}
-
-void case_a(t_tetrimino temp)
-{
-	temp.col--;
-	if(can_move_field(&temp))
-		current.col--;
-}
-
-void case_w(t_tetrimino temp,t_tetrimino current)
-{
-	roteta_tetrimino(temp);
-	if(can_move_field(&temp))
-		roteta_tetrimino(current);
-}
 
 void aaaa4(){
 	const int n = current.width_and_height;
@@ -48,43 +35,6 @@ void aaaa4(){
 				playing_field[current.row+i][current.col+j] = current.figure[i][j];
 		}
 	}
-}
-
-int count_blocks_of_line(int y){
-	int blocks = 0;
-
-	for(int x = 0; x < FIELD_COL; x++) {
-		blocks += playing_field[y][x];
-	}
-	return (blocks);
-}
-
-void lower_the_upper_block(int y){
-	for( ; y >= 1; y--)
-		for(int x = 0; x < FIELD_COL; x++)
-			playing_field[y][x]=playing_field[y-1][x];
-}
-
-void clear_line(int y){
-	for(int x = 0; x < FIELD_COL; x++)
-		playing_field[y][x] = 0;
-}
-
-void drop_placed_block_one_rank(int y){
-	lower_the_upper_block(y);
-	clear_line(TOP_ROW);
-}
-
-int count_completed_lines(){
-	int number_of_completed_lines = 0;
-	for(int y = 0; y < FIELD_ROW; y++){
-		if(count_blocks_of_line(y) == FIELD_COL){
-			drop_placed_block_one_rank(y);
-			timer -= decrease--;
-			number_of_completed_lines++;
-		}
-	}
-	return (number_of_completed_lines);
 }
 
 void ccc3(t_tetris *tetris){
@@ -122,10 +72,8 @@ int main() {
 						current.row++;
 					else {
 						aaaa4();
-						//int count = 0;
-						int line = count_completed_lines();
-						//count = count_completed_lines();
-						tetris.score += 100 * line;
+						int completed_lines = count_completed_lines_and_erase();
+						tetris.score += 100 * completed_lines;
 						ccc3(&tetris);
 					}
 					break;
@@ -153,7 +101,7 @@ int main() {
 					else {
 						aaaa4();
 						int count = 0;
-						count = count_completed_lines();
+						count = count_completed_lines_and_erase();
 						ccc3(&tetris);
 					}
 					break;
@@ -290,4 +238,63 @@ void init_game(t_tetris *tetris)
 	initscr();
 	gettimeofday(&before_now, NULL);
 	set_timeout_millisecond(1);
+}
+
+
+int count_blocks_of_line(int y){
+	int blocks = 0;
+
+	for(int x = 0; x < FIELD_COL; x++) {
+		blocks += playing_field[y][x];
+	}
+	return (blocks);
+}
+
+void lower_the_upper_block(int y){
+	for( ; y >= 1; y--)
+		for(int x = 0; x < FIELD_COL; x++)
+			playing_field[y][x]=playing_field[y-1][x];
+}
+
+void clear_line(int y){
+	for(int x = 0; x < FIELD_COL; x++)
+		playing_field[y][x] = 0;
+}
+
+void drop_placed_block_one_rank(int y){
+	lower_the_upper_block(y);
+	clear_line(TOP_ROW);
+}
+
+int count_completed_lines_and_erase(){
+	int number_of_completed_lines = 0;
+	for(int y = 0; y < FIELD_ROW; y++){
+		if(count_blocks_of_line(y) == FIELD_COL){
+			drop_placed_block_one_rank(y);
+			timer -= decrease--;
+			number_of_completed_lines++;
+		}
+	}
+	return (number_of_completed_lines);
+}
+
+void case_d(t_tetrimino temp)
+{
+	temp.col++;
+	if(can_move_field(&temp))
+		current.col++;
+}
+
+void case_a(t_tetrimino temp)
+{
+	temp.col--;
+	if(can_move_field(&temp))
+		current.col--;
+}
+
+void case_w(t_tetrimino temp,t_tetrimino current)
+{
+	roteta_tetrimino(temp);
+	if(can_move_field(&temp))
+		roteta_tetrimino(current);
 }
