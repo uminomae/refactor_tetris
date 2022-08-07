@@ -71,6 +71,18 @@ int bbbbb5(){
 	}
 	return (count);
 }
+
+
+void ccc3(t_tetris *tetris){
+	t_tetrimino new_shape = create_tetrimino(type_tetrimino[rand()%7]);
+	new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
+	new_shape.row = 0;
+	destroy_tetrimino(&current);
+	current = new_shape;
+	if(!can_move_field(&current)){
+		tetris->game_status = GAME_OVER;
+	}
+}
 //srand関数はrand関数の擬似乱数の発生系列を変更する関数 //srand((unsigned int)time(NULL));
 //getch()標準入力(キーボード)から1文字読み込み、その文字を返します。
 int main() {
@@ -98,32 +110,17 @@ int main() {
 						aaaa4();
 						int count = 0;
 						count = bbbbb5();
-						//int n, m, sum, count=0;
-						//for(n=0;n<FIELD_ROW;n++){
-						//	sum = 0;
-						//	for(m=0;m< FIELD_COL;m++) {
-						//		sum+=playing_field[n][m];
-						//	}
-						//	if(sum==FIELD_COL){
-						//		count++;
-						//		int l, k;
-						//		for(k = n;k >=1;k--)
-						//			for(l=0;l<FIELD_COL;l++)
-						//				playing_field[k][l]=playing_field[k-1][l];
-						//		for(l=0;l<FIELD_COL;l++)
-						//			playing_field[k][l]=0;
-						//		timer-=decrease--;
-						//	}
-						//}
 						tetris.score += 100 * count;
-						t_tetrimino new_shape = create_tetrimino(type_tetrimino[rand()%7]);
-						new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
-						new_shape.row = 0;
-						destroy_tetrimino(&current);
-						current = new_shape;
-						if(!can_move_field(&current)){
-							tetris.game_status = GAME_OVER;
-						}
+
+						ccc3(&tetris);
+						//t_tetrimino new_shape = create_tetrimino(type_tetrimino[rand()%7]);
+						//new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
+						//new_shape.row = 0;
+						//destroy_tetrimino(&current);
+						//current = new_shape;
+						//if(!can_move_field(&current)){
+						//	tetris.game_status = GAME_OVER;
+						//}
 					}
 					break;
 				case 'd':
@@ -149,23 +146,9 @@ int main() {
 						current.row++;
 					else {
 						aaaa4();
-						int n, m, sum, count=0;
-						for(n=0;n<FIELD_ROW;n++){
-							sum = 0;
-							for(m=0;m< FIELD_COL;m++) {
-								sum+=playing_field[n][m];
-							}
-							if(sum==FIELD_COL){
-								count++;
-								int l, k;
-								for(k = n;k >=1;k--)
-									for(l=0;l<FIELD_COL;l++)
-										playing_field[k][l]=playing_field[k-1][l];
-								for(l=0;l<FIELD_COL;l++)
-									playing_field[k][l]=0;
-								timer-=decrease--;
-							}
-						}
+						int count = 0;
+						count = bbbbb5();
+						
 						t_tetrimino new_shape = create_tetrimino(type_tetrimino[rand()%7]);
 						new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
 						new_shape.row = 0;
