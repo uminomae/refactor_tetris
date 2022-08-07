@@ -22,3 +22,21 @@ aaaa4();
 						//			playing_field[current.row+i][current.col+j] = current.figure[i][j];
 						//	}
 						//}
+bbb5()
+						int n, m, sum, count=0;
+						for(n=0;n<FIELD_ROW;n++){
+							sum = 0;
+							for(m=0;m< FIELD_COL;m++) {
+								sum+=playing_field[n][m];
+							}
+							if(sum==FIELD_COL){
+								count++;
+								int l, k;
+								for(k = n;k >=1;k--)
+									for(l=0;l<FIELD_COL;l++)
+										playing_field[k][l]=playing_field[k-1][l];
+								for(l=0;l<FIELD_COL;l++)
+									playing_field[k][l]=0;
+								timer-=decrease--;
+							}
+						}

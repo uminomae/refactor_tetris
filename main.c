@@ -43,7 +43,6 @@ void case_w(t_tetrimino temp,t_tetrimino current)
 
 void aaaa4(){
 	const int n = current.width_and_height;
-	//int i, j;
 	for(int i = 0; i < n ;i++){
 		for(int j = 0; j < n ; j++){
 			if(current.figure[i][j])
@@ -52,6 +51,26 @@ void aaaa4(){
 	}
 }
 
+int bbbbb5(){
+	int sum, count=0;
+	for(int y = 0; y < FIELD_ROW; y++){
+		sum = 0;
+		for(int x = 0; x < FIELD_COL; x++) {
+			sum += playing_field[y][x];
+		}
+		if(sum == FIELD_COL){
+			count++;
+			int l, k;
+			for(k = y ;k >= 1; k--)
+				for(l = 0; l < FIELD_COL; l++)
+					playing_field[k][l]=playing_field[k-1][l];
+			for(l = 0; l < FIELD_COL; l++)
+				playing_field[k][l] = 0;
+			timer -= decrease--;
+		}
+	}
+	return (count);
+}
 //srand関数はrand関数の擬似乱数の発生系列を変更する関数 //srand((unsigned int)time(NULL));
 //getch()標準入力(キーボード)から1文字読み込み、その文字を返します。
 int main() {
@@ -64,9 +83,7 @@ int main() {
 	if(!can_move_field(&current)){
 		tetris.game_status = GAME_OVER;
 	}
-	
     refresh_game_screen(&tetris);
-
 
 	while(tetris.game_status == GAME_PLAY){
     	int input_from_keyboard;
@@ -79,25 +96,26 @@ int main() {
 						current.row++;
 					else {
 						aaaa4();
-						int n, m, sum, count=0;
-						for(n=0;n<FIELD_ROW;n++){
-							sum = 0;
-							for(m=0;m< FIELD_COL;m++) {
-								sum+=playing_field[n][m];
-							}
-							if(sum==FIELD_COL){
-								count++;
-								int l, k;
-								for(k = n;k >=1;k--)
-									for(l=0;l<FIELD_COL;l++)
-										playing_field[k][l]=playing_field[k-1][l];
-								for(l=0;l<FIELD_COL;l++)
-									playing_field[k][l]=0;
-								timer-=decrease--;
-							}
-						}
-						tetris.score += 100*count;
-						//final += 100*count;
+						int count = 0;
+						count = bbbbb5();
+						//int n, m, sum, count=0;
+						//for(n=0;n<FIELD_ROW;n++){
+						//	sum = 0;
+						//	for(m=0;m< FIELD_COL;m++) {
+						//		sum+=playing_field[n][m];
+						//	}
+						//	if(sum==FIELD_COL){
+						//		count++;
+						//		int l, k;
+						//		for(k = n;k >=1;k--)
+						//			for(l=0;l<FIELD_COL;l++)
+						//				playing_field[k][l]=playing_field[k-1][l];
+						//		for(l=0;l<FIELD_COL;l++)
+						//			playing_field[k][l]=0;
+						//		timer-=decrease--;
+						//	}
+						//}
+						tetris.score += 100 * count;
 						t_tetrimino new_shape = create_tetrimino(type_tetrimino[rand()%7]);
 						new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
 						new_shape.row = 0;
