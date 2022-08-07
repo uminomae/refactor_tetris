@@ -47,6 +47,37 @@ void ccc3(t_tetris *tetris){
 		tetris->game_status = GAME_OVER;
 	}
 }
+
+void case_getch(t_tetris *tetris, int input_from_keyboard){
+	//int input_from_keyboard;
+	t_tetrimino temp = create_tetrimino(current);
+	switch(input_from_keyboard){
+		case 's':
+			temp.row++;  //move down
+			if(can_move_field(&temp))
+				current.row++;
+			else {
+				aaaa4();
+				int completed_lines = count_completed_lines_and_erase();
+				if (!hasToUpdate())
+					tetris->score += 100 * completed_lines;
+				ccc3(tetris);
+			}
+			break;
+		case 'd':
+			case_d(temp);
+			break;
+		case 'a':
+			case_a(temp);
+			break;
+		case 'w':
+			case_w(temp,current);
+			break;
+	}
+	destroy_tetrimino(&temp);
+	refresh_game_screen(tetris);
+}
+
 //srand関数はrand関数の擬似乱数の発生系列を変更する関数 //srand((unsigned int)time(NULL));
 //getch()標準入力(キーボード)から1文字読み込み、その文字を返します。
 int main() {
@@ -64,59 +95,11 @@ int main() {
 	while(tetris.game_status == GAME_PLAY){
     	int input_from_keyboard;
 		if ((input_from_keyboard = getch()) != ERR) {
-			t_tetrimino temp = create_tetrimino(current);
-			switch(input_from_keyboard){
-				case 's':
-					temp.row++;  //move down
-					if(can_move_field(&temp))
-						current.row++;
-					else {
-						aaaa4();
-						int completed_lines = count_completed_lines_and_erase();
-						tetris.score += 100 * completed_lines;
-						ccc3(&tetris);
-					}
-					break;
-				case 'd':
-					case_d(temp);
-					break;
-				case 'a':
-					case_a(temp);
-					break;
-				case 'w':
-					case_w(temp,current);
-					break;
-			}
-			destroy_tetrimino(&temp);
-			refresh_game_screen(&tetris);
+			case_getch(&tetris, input_from_keyboard);
 		}
 		gettimeofday(&now, NULL);
 		if (hasToUpdate()) {
-			t_tetrimino temp = create_tetrimino(current);
-			switch('s'){
-				case 's':
-					temp.row++;
-					if(can_move_field(&temp))
-						current.row++;
-					else {
-						aaaa4();
-						int count = 0;
-						count = count_completed_lines_and_erase();
-						ccc3(&tetris);
-					}
-					break;
-				case 'd':
-					case_d(temp);
-					break;
-				case 'a':
-					case_a(temp);
-					break;
-				case 'w':
-					case_w(temp,current);
-					break;
-			}
-			destroy_tetrimino(&temp);
-			refresh_game_screen(&tetris);
+			case_getch(&tetris, 's');
 			gettimeofday(&before_now, NULL);
 		}
 	}

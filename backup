@@ -40,3 +40,33 @@ bbb5()
 								timer-=decrease--;
 							}
 						}
+
+  	int input_from_keyboard;
+		if ((input_from_keyboard = getch()) != ERR) {
+			case_getch(&tetris, input_from_keyboard);
+		//	t_tetrimino temp = create_tetrimino(current);
+		//	switch(input_from_keyboard){
+		//		case 's':
+		//			temp.row++;  //move down
+		//			if(can_move_field(&temp))
+		//				current.row++;
+		//			else {
+		//				aaaa4();
+		//				int completed_lines = count_completed_lines_and_erase();
+		//				tetris.score += 100 * completed_lines;
+		//				ccc3(&tetris);
+		//			}
+		//			break;
+		//		case 'd':
+		//			case_d(temp);
+		//			break;
+		//		case 'a':
+		//			case_a(temp);
+		//			break;
+		//		case 'w':
+		//			case_w(temp,current);
+		//			break;
+		//	}
+		//	destroy_tetrimino(&temp);
+		//	refresh_game_screen(&tetris);
+		}
