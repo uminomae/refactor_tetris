@@ -80,8 +80,6 @@ int count_completed_lines(){
 	for(int y = 0; y < FIELD_ROW; y++){
 		if(count_blocks_of_line(y) == FIELD_COL){
 			drop_placed_block_one_rank(y);
-			//lower_the_upper_block(y);
-			//clear_line(TOP_ROW);
 			timer -= decrease--;
 			number_of_completed_lines++;
 		}
@@ -124,9 +122,10 @@ int main() {
 						current.row++;
 					else {
 						aaaa4();
-						int count = 0;
-						count = count_completed_lines();
-						tetris.score += 100 * count;
+						//int count = 0;
+						int line = count_completed_lines();
+						//count = count_completed_lines();
+						tetris.score += 100 * line;
 						ccc3(&tetris);
 					}
 					break;
