@@ -13,6 +13,7 @@
 # define FIELD_COL	15
 # define TRUE		1
 # define FALSE		0
+# define MILLION	1000000
 
 //char playing_field[FIELD_ROW][FIELD_COL] = {0};
 
