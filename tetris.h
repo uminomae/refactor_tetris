@@ -44,4 +44,16 @@ void print_string_to_window(char *str,...);
 void copy_figure(t_tetrimino *new_tetrimino, char **type_tetrimino_figure);
 t_tetrimino create_figure(const t_tetrimino type_tetrimino);
 
+
+//void refresh_game_screen(t_tetris *tetris);
+void get_current_position(t_tetris *tetris, \
+							char Buffer[FIELD_ROW][FIELD_COL]);
+void print_game_screen(t_tetris *tetris, \
+						char Buffer[FIELD_ROW][FIELD_COL]);
+void print_footer(t_tetris *tetris);
+void print_game_field(t_tetris *tetris, \
+						char Buffer[FIELD_ROW][FIELD_COL]);
+void print_header();
+
+
 #endif 
