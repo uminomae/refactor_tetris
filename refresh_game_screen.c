@@ -45,16 +45,3 @@ void get_current_position(t_tetris *tetris, \
 		}
 	}
 }
-
-//printw
-//clear() スクリーンをリフレッシュする
-//void refresh_game_screen(t_tetris *tetris){
-	
-//	char Buffer[FIELD_ROW][FIELD_COL] = {0};
-//	tetris->tetrimino = &current;
-//	memcpy(tetris->playing_field, playing_field, sizeof(char) * FIELD_ROW * FIELD_COL);
-
-//	get_current_position(tetris, Buffer);
-//	clear();
-//	print_game_screen(tetris, Buffer);
-//}

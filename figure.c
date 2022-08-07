@@ -14,7 +14,7 @@ void copy_figure(t_tetrimino *new_tetrimino, char **type_tetrimino_figure)
 }
 
 //構造体型はmalloc失敗時にNULL返す方法を質問する
-t_tetrimino create_figure(const t_tetrimino type_tetrimino){
+t_tetrimino create_tetrimino(const t_tetrimino type_tetrimino){
 	const int n = type_tetrimino.width_and_height;
 	t_tetrimino new_type_tetrimino = type_tetrimino;
 

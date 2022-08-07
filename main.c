@@ -1,6 +1,9 @@
 #include "tetris.h"
 #include "tetrimino.h"
 
+void refresh_game_screen(t_tetris *tetris);
+
+
 char playing_field[FIELD_ROW][FIELD_COL] = {0};
 suseconds_t timer = 400000;
 int decrease = 1000;
@@ -10,7 +13,7 @@ t_tetrimino current;
 //0 + rand() % 10) // 最小値:0 取得個数:10個
 t_tetrimino make_new_tetrimino(const t_tetrimino *type_tetrimino)
 {
-	t_tetrimino new_figure = create_figure(type_tetrimino[rand()%7]);
+	t_tetrimino new_figure = create_tetrimino(type_tetrimino[rand()%7]);
 
     new_figure.col = rand()%(FIELD_COL-new_figure.width_and_height+1);
     new_figure.row = 0;
@@ -45,7 +48,7 @@ int FunctionCP(t_tetrimino shape){
 }
 
 void FunctionRS(t_tetrimino shape){
-	t_tetrimino temp = create_figure(shape);
+	t_tetrimino temp = create_tetrimino(shape);
 	int i, j, k, width_and_height;
 	width_and_height = shape.width_and_height;
 	for(i = 0; i < width_and_height ; i++){
@@ -56,18 +59,6 @@ void FunctionRS(t_tetrimino shape){
 	destroy_shape(temp);
 }
 
-////printw
-////clear() スクリーンをリフレッシュする
-void refresh_game_screen(t_tetris *tetris){
-	
-	char Buffer[FIELD_ROW][FIELD_COL] = {0};
-	tetris->tetrimino = &current;
-	memcpy(tetris->playing_field, playing_field, sizeof(char) * FIELD_ROW * FIELD_COL);
-
-	get_current_position(tetris, Buffer);
-	clear();
-	print_game_screen(tetris, Buffer);
-}
 
 //struct timeval before_now, now;
 //struct timeval {
@@ -145,7 +136,7 @@ int main() {
 	while(tetris.game_status == GAME_PLAY){
     	int input_from_keyboard;
 		if ((input_from_keyboard = getch()) != ERR) {
-			t_tetrimino temp = create_figure(current);
+			t_tetrimino temp = create_tetrimino(current);
 			switch(input_from_keyboard){
 				case 's':
 					temp.row++;  //move down
@@ -178,7 +169,7 @@ int main() {
 						}
 						tetris.score += 100*count;
 						//final += 100*count;
-						t_tetrimino new_shape = create_figure(type_tetrimino[rand()%7]);
+						t_tetrimino new_shape = create_tetrimino(type_tetrimino[rand()%7]);
 						new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
 						new_shape.row = 0;
 						destroy_shape(current);
@@ -203,7 +194,7 @@ int main() {
 		}
 		gettimeofday(&now, NULL);
 		if (hasToUpdate()) {
-			t_tetrimino temp = create_figure(current);
+			t_tetrimino temp = create_tetrimino(current);
 			switch('s'){
 				case 's':
 					temp.row++;
@@ -234,7 +225,7 @@ int main() {
 								timer-=decrease--;
 							}
 						}
-						t_tetrimino new_shape = create_figure(type_tetrimino[rand()%7]);
+						t_tetrimino new_shape = create_tetrimino(type_tetrimino[rand()%7]);
 						new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
 						new_shape.row = 0;
 						destroy_shape(current);
@@ -263,3 +254,20 @@ int main() {
     return 0;
 }
 
+
+
+//--------------------------------------------------------
+//
+//
+////printw
+////clear() スクリーンをリフレッシュする
+void refresh_game_screen(t_tetris *tetris){
+	
+	char Buffer[FIELD_ROW][FIELD_COL] = {0};
+	tetris->tetrimino = &current;
+	memcpy(tetris->playing_field, playing_field, sizeof(char) * FIELD_ROW * FIELD_COL);
+
+	get_current_position(tetris, Buffer);
+	clear();
+	print_game_screen(tetris, Buffer);
+}
