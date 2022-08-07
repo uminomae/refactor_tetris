@@ -27,7 +27,7 @@ void fix_tetrimino_on_the_field(t_tetrimino *tetrimino);
 
 char playing_field[FIELD_ROW][FIELD_COL] = {0};
 //suseconds_t time_to_update = FALL_VELOCITY_INTERVAL;
-int decrease = INTERVAL_DECREASE;
+//int decrease = INTERVAL_DECREASE;
 t_tetrimino current;
 
 
@@ -39,6 +39,7 @@ void init_game(t_tetris *tetris)
 	tetris->score = 0;
 	tetris->game_status = GAME_PLAY;
 	tetris->time_to_update = FALL_VELOCITY_INTERVAL;
+	tetris->decrease = INTERVAL_DECREASE;
 	initscr();
 	gettimeofday(&before_now, NULL);
 	set_timeout_millisecond(1);
@@ -263,7 +264,7 @@ int count_completed_lines_and_erase(t_tetris *tetris){
 	for(int y = 0; y < FIELD_ROW; y++){
 		if(count_blocks_of_line(y) == FIELD_COL){
 			drop_placed_block_one_rank(y);
-			tetris->time_to_update -= decrease--;
+			tetris->time_to_update -= tetris->decrease--;
 			number_of_completed_lines++;
 		}
 	}
