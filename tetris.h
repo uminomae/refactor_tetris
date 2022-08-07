@@ -19,9 +19,9 @@
 # define INTERVAL_DECREASE	1000
 # define TOP_ROW	0
 # define DROP_KEY 's'
-# define LEFT_KEY 'a'
 # define RIGHT_KEY 'd'
-# define SPIN_KEY 'w'
+# define LEFT_KEY 'a'
+# define ROTATE_KEY 'w'
 
 //char playing_field[FIELD_ROW][FIELD_COL] = {0};
 

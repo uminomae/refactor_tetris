@@ -27,7 +27,7 @@ int decrease = INTERVAL_DECREASE;
 t_tetrimino current;
 
 
-void set_block_to_feild(){
+void fix_tetrimino_on_the_field(){
 	const int n = current.width_and_height;
 	for(int i = 0; i < n ;i++){
 		for(int j = 0; j < n ; j++){
@@ -37,7 +37,7 @@ void set_block_to_feild(){
 	}
 }
 
-void ccc3(t_tetris *tetris){
+void make_the_next_tetrimino(t_tetris *tetris){
 	t_tetrimino new_shape = create_tetrimino(type_tetrimino[rand()%7]);
 	new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
 	new_shape.row = 0;
@@ -48,37 +48,32 @@ void ccc3(t_tetris *tetris){
 	}
 }
 
+void case_s(t_tetris *tetris,t_tetrimino temp, bool update){
+	temp.row++;
+	if(can_move_field(&temp))
+		current.row++;
+	else {
+		fix_tetrimino_on_the_field();
+		int completed_lines = count_completed_lines_and_erase();
+		if (update == false)
+			tetris->score += 100 * completed_lines;
+		make_the_next_tetrimino(tetris);
+	}
+}
+
 void move_tetrimino_with_key(t_tetris *tetris, bool update){
 	int key = tetris->input_from_keyboard;
 	t_tetrimino temp = create_tetrimino(current);
 
-	//switch(key){
-	//	case 's':
-		if (key == 's'){
-			temp.row++;  //move down
-			if(can_move_field(&temp))
-				current.row++;
-			else {
-				set_block_to_feild();
-				int completed_lines = count_completed_lines_and_erase();
-				if (update == false)
-					tetris->score += 100 * completed_lines;
-				ccc3(tetris);
-			}
-			//break;
-		}else if (key == 'd'){
-		//case 'd':
-			case_d(temp);
-			//break;
-		}else if (key == 'a'){
-		//case 'a':
-			case_a(temp);
-			//break;
-		}else if (key == 'w'){
-		//case 'w':
-			case_w(temp,current);
-			//break;
-		}
+	if (key == DROP_KEY){
+		case_s(tetris, temp, update);
+	}else if (key == RIGHT_KEY){
+		case_d(temp);
+	}else if (key == LEFT_KEY){
+		case_a(temp);
+	}else if (key == ROTATE_KEY){
+		case_w(temp,current);
+	}
 	destroy_tetrimino(&temp);
 	refresh_game_screen(tetris);
 }
