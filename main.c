@@ -200,17 +200,17 @@ bool need_update(){
 }
 
 
-void roteta_tetrimino(t_tetrimino *shape){
-	const int n = shape->width_and_height;
-	t_tetrimino *temp = create_tetrimino(&shape);
+void roteta_tetrimino(t_tetrimino *tetrimino){
+	const int n = tetrimino->width_and_height;
+	t_tetrimino *temp = create_tetrimino(tetrimino);
 	int i, j, k;
 
 	for(i = 0; i < n ; i++){
 		for(j = 0, k = n - 1; j < n ; j++, k--){
-				shape->figure[i][j] = temp->figure[k][i];
+				tetrimino->figure[i][j] = temp->figure[k][i];
 		}
 	}
-	destroy_tetrimino(&temp);
+	destroy_tetrimino(temp);
 }
 
 ////struct timeval before_now, now;
@@ -270,21 +270,21 @@ int count_completed_lines_and_erase(){
 void case_d(t_tetrimino *temp)
 {
 	temp->col++;
-	if(can_move_field(&temp))
+	if(can_move_field(temp))
 		current.col++;
 }
 
 void case_a(t_tetrimino *temp)
 {
 	temp->col--;
-	if(can_move_field(&temp))
+	if(can_move_field(temp))
 		current.col--;
 }
 
 void case_w(t_tetrimino *temp,t_tetrimino current)
 {
-	roteta_tetrimino(&temp);
-	if(can_move_field(&temp))
+	roteta_tetrimino(temp);
+	if(can_move_field(temp))
 		roteta_tetrimino(&current);
 }
 
