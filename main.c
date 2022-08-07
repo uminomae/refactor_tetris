@@ -10,25 +10,22 @@ void write_array(t_tetrimino *figure, char **copy_array)
 {
 	int x, y;
 	for(x = 0; x < figure->width_and_height; x++){
-		figure->array[x] = (char*)malloc(figure->width_and_height*sizeof(char));
+		figure->figure[x] = (char*)malloc(figure->width_and_height*sizeof(char));
 		for(y = 0; y < figure->width_and_height; y++) {
-			figure->array[x][y] = copy_array[x][y];
+			figure->figure[x][y] = copy_array[x][y];
 		}
 	}
 }
 
 t_tetrimino create_shape(t_tetrimino type_tetrimino){
+	//t_tetrimino new_type_tetrimino;
 	t_tetrimino new_type_tetrimino = type_tetrimino;
-	char **copytype_tetrimino = type_tetrimino.array;
-	new_type_tetrimino.array = (char**)malloc(new_type_tetrimino.width_and_height*sizeof(char*));
+	//char **copytype_tetrimino;
+	char **copytype_tetrimino = type_tetrimino.figure;
+	//new_type_tetrimino.width_and_height = type_tetrimino.width_and_height;
+	new_type_tetrimino.figure = (char**)malloc(new_type_tetrimino.width_and_height*sizeof(char*));
+	//write_array(&new_type_tetrimino, type_tetrimino.figure);
 	write_array(&new_type_tetrimino, copytype_tetrimino);
-    //int i, j;
-    //for(i = 0; i < new_type_tetrimino.width_and_height; i++){
-	//	new_type_tetrimino.array[i] = (char*)malloc(new_type_tetrimino.width_and_height*sizeof(char));
-	//	for(j=0; j < new_type_tetrimino.width_and_height; j++) {
-	//		new_type_tetrimino.array[i][j] = copytype_tetrimino[i][j];
-	//	}
-    //}
     return (new_type_tetrimino);
 }
 
@@ -46,14 +43,14 @@ t_tetrimino make_new_tetrimino(const t_tetrimino *type_tetrimino)
 void destroy_shape(t_tetrimino shape){
     int i;
     for(i = 0; i < shape.width_and_height; i++){
-		free(shape.array[i]);
+		free(shape.figure[i]);
     }
-    free(shape.array);
+    free(shape.figure);
 }
 
 //current_position?
 int FunctionCP(t_tetrimino shape){
-	char **array = shape.array;
+	char **array = shape.figure;
 	int i, j;
 	for(i = 0; i < shape.width_and_height;i++) {
 		for(j = 0; j < shape.width_and_height ;j++){
@@ -75,7 +72,7 @@ void FunctionRS(t_tetrimino shape){
 	width_and_height = shape.width_and_height;
 	for(i = 0; i < width_and_height ; i++){
 		for(j = 0, k = width_and_height-1; j < width_and_height ; j++, k--){
-				shape.array[i][j] = temp.array[k][i];
+				shape.figure[i][j] = temp.figure[k][i];
 		}
 	}
 	destroy_shape(temp);
@@ -87,8 +84,8 @@ void FunctionPT(t_tetris *tetris){
 	int i, j;
 	for(i = 0; i < current.width_and_height ;i++){
 		for(j = 0; j < current.width_and_height ; j++){
-			if(current.array[i][j])
-				Buffer[current.row+i][current.col+j] = current.array[i][j];
+			if(current.figure[i][j])
+				Buffer[current.row+i][current.col+j] = current.figure[i][j];
 		}
 	}
 	clear();
@@ -188,8 +185,8 @@ int main() {
 						int i, j;
 						for(i = 0; i < current.width_and_height ;i++){
 							for(j = 0; j < current.width_and_height ; j++){
-								if(current.array[i][j])
-									playing_field[current.row+i][current.col+j] = current.array[i][j];
+								if(current.figure[i][j])
+									playing_field[current.row+i][current.col+j] = current.figure[i][j];
 							}
 						}
 						int n, m, sum, count=0;
@@ -246,8 +243,8 @@ int main() {
 						int i, j;
 						for(i = 0; i < current.width_and_height ;i++){
 							for(j = 0; j < current.width_and_height ; j++){
-								if(current.array[i][j])
-									playing_field[current.row+i][current.col+j] = current.array[i][j];
+								if(current.figure[i][j])
+									playing_field[current.row+i][current.col+j] = current.figure[i][j];
 							}
 						}
 						int n, m, sum, count=0;

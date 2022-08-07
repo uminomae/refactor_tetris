@@ -23,7 +23,7 @@ typedef enum s_game_status {
 } t_game_status;
 
 typedef struct {
-    char **array;
+    char **figure;
     int width_and_height, row, col;
 } t_tetrimino;
 
