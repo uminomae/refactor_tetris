@@ -1,32 +1,24 @@
-//#include "tetris.h"
-//#include "tetrimino.h"
+#include "tetris.h"
 
+// constの設定がうまくいかないので質問する
+void copy_figure(t_tetrimino *new_tetrimino, char **type_tetrimino_figure)
+{
+	const int n = new_tetrimino->width_and_height;
 
-//t_tetrimino create_shape(t_tetrimino shape){
-//	t_tetrimino new_shape = shape;
-//	char **copyshape = shape.array;
-//	new_shape.array = (char**)malloc(new_shape.width*sizeof(char*));
-//    int i, j;
-//    for(i = 0; i < new_shape.width; i++){
-//		new_shape.array[i] = (char*)malloc(new_shape.width*sizeof(char));
-//		for(j=0; j < new_shape.width; j++) {
-//			new_shape.array[i][j] = copyshape[i][j];
-//		}
-//    }
-//    return new_shape;
-//}
+	for(int x = 0; x < n; x++){
+		new_tetrimino->figure[x] = (char*)malloc(sizeof(char) * n);
+		for(int y = 0; y < n; y++) {
+			new_tetrimino->figure[x][y] = type_tetrimino_figure[x][y];
+		}
+	}
+}
 
+//構造体型はmalloc失敗時にNULL返す方法を質問する
+t_tetrimino create_figure(const t_tetrimino type_tetrimino){
+	const int n = type_tetrimino.width_and_height;
+	t_tetrimino new_type_tetrimino = type_tetrimino;
 
-
-
-////destroy
-//void destroy_shape(t_tetrimino shape){
-//    int i;
-//    for(i = 0; i < shape.width; i++){
-//		free(shape.array[i]);
-//    }
-//    free(shape.array);
-//}
-
-//7種類の形
-//0 + rand() % 10) // 最小値:0 取得個数:10個
+	new_type_tetrimino.figure = (char**)malloc(sizeof(char *) * n);
+	copy_figure(&new_type_tetrimino, type_tetrimino.figure);
+    return (new_type_tetrimino);
+}

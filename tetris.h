@@ -37,4 +37,7 @@ void end_ncurses();
 void set_timeout_millisecond(int time);
 void output_to_screen(char *str,...);
 
+void copy_figure(t_tetrimino *new_tetrimino, char **type_tetrimino_figure);
+t_tetrimino create_figure(const t_tetrimino type_tetrimino);
+
 #endif 
