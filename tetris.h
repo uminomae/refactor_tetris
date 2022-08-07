@@ -35,7 +35,7 @@ typedef struct {
 
 void end_ncurses();
 void set_timeout_millisecond(int time);
-void print_string_to_screen(char *str,...);
+void print_string_to_window(char *str,...);
 void print_game_title();
 
 void copy_figure(t_tetrimino *new_tetrimino, char **type_tetrimino_figure);
