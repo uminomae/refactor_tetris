@@ -30,7 +30,7 @@ struct timeval before_now, now;
 typedef enum s_game_status {
 	GAME_OVER = 0,
 	GAME_PLAY,
-	LOCK_DOWN,
+	//LOCK_DOWN,
 } t_game_status;
 
 typedef struct {
@@ -42,10 +42,10 @@ typedef struct {
 	int score;
 	char game_status;
 	t_tetrimino *tetrimino;
-	char playing_field[FIELD_ROW][FIELD_COL];
-	int input_from_keyboard;
 	suseconds_t time_to_update;
 	int decrease;
+	char playing_field[FIELD_ROW][FIELD_COL];
+	int input_from_keyboard;
 } t_tetris;
 
 void end_ncurses();

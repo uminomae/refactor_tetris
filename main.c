@@ -21,8 +21,11 @@ void case_d(t_tetris *tetris, t_tetrimino *temp);
 void case_a(t_tetris *tetris, t_tetrimino *temp);
 void case_w(t_tetris *tetris, t_tetrimino *temp,t_tetrimino current);
 void fix_tetrimino_on_the_field(t_tetris *tetris);
-t_tetrimino current;
+void make_the_next_tetrimino(t_tetris *tetris);
+void case_s(t_tetris *tetris, t_tetrimino *temp, bool update);
+void init_game(t_tetris *tetris);
 
+t_tetrimino current;
 
 //initscr()： スクリーンを初期化する． （curses を利用する場合，最初に呼び出さなければならない．）
 void init_game(t_tetris *tetris)
@@ -35,30 +38,6 @@ void init_game(t_tetris *tetris)
 	initscr();
 	gettimeofday(&before_now, NULL);
 	set_timeout_millisecond(1);
-}
-
-void make_the_next_tetrimino(t_tetris *tetris){
-	t_tetrimino new_shape = *create_tetrimino(&type_tetrimino[rand()%7]);
-	new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
-	new_shape.row = 0;
-	destroy_tetrimino(&current);
-	current = new_shape;
-	if(!can_move_field(tetris, &current)){
-		tetris->game_status = GAME_OVER;
-	}
-}
-
-void case_s(t_tetris *tetris, t_tetrimino *temp, bool update){
-	temp->row++;
-	if(can_move_field(tetris, temp))
-		current.row++;
-	else {
-		fix_tetrimino_on_the_field(tetris);
-		int completed_lines = count_completed_lines_and_erase(tetris);
-		if (update == false)
-			tetris->score += 100 * completed_lines;
-		make_the_next_tetrimino(tetris);
-	}
 }
 
 void move_tetrimino_with_key(t_tetris *tetris, bool update){
@@ -78,32 +57,34 @@ void move_tetrimino_with_key(t_tetris *tetris, bool update){
 	refresh_game_screen(tetris);
 }
 
+void run_game(t_tetris *tetris){
+	current = make_new_tetrimino(type_tetrimino);
+	if(!can_move_field(tetris, &current)){
+		tetris->game_status = GAME_OVER;
+	}
+    refresh_game_screen(tetris);
+	while(tetris->game_status == GAME_PLAY){
+    	tetris->input_from_keyboard = getch();
+		if (tetris->input_from_keyboard != ERR) {
+			move_tetrimino_with_key(tetris, false);
+		}
+		gettimeofday(&now, NULL);
+		if (need_update(tetris)) {
+			tetris->input_from_keyboard = 's';
+			move_tetrimino_with_key(tetris, true);
+			gettimeofday(&before_now, NULL);
+		}
+	}
+}
 //srand関数はrand関数の擬似乱数の発生系列を変更する関数 //srand((unsigned int)time(NULL));
 //getch()標準入力(キーボード)から1文字読み込み、その文字を返します。
 int main() {
 	t_tetris tetris;
-	t_tetrimino tetrimino;
 
     srand(time(0));
 	init_game(&tetris);
-	current = make_new_tetrimino(type_tetrimino);
-	if(!can_move_field(&tetris, &current)){
-		tetris.game_status = GAME_OVER;
-	}
-    refresh_game_screen(&tetris);
-	while(tetris.game_status == GAME_PLAY){
-    	tetris.input_from_keyboard = getch();
-		if (tetris.input_from_keyboard != ERR) {
-			move_tetrimino_with_key(&tetris, false);
-		}
-		gettimeofday(&now, NULL);
-		if (need_update(&tetris)) {
-			tetris.input_from_keyboard = 's';
-			move_tetrimino_with_key(&tetris, true);
-			gettimeofday(&before_now, NULL);
-		}
-	}
-	end_of_game(&tetris,current);
+	run_game(&tetris);
+	end_of_game(&tetris, current);
     return 0;
 }
 
@@ -143,8 +124,6 @@ void refresh_game_screen(t_tetris *tetris){
 	
 	char Buffer[FIELD_ROW][FIELD_COL] = {0};
 	tetris->tetrimino = &current;
-	//memcpy(tetris->playing_field, playing_field, sizeof(char) * FIELD_ROW * FIELD_COL);
-
 	get_current_position(tetris, Buffer);
 	clear();
 	print_game_screen(tetris, Buffer);
@@ -167,7 +146,6 @@ void end_of_game(t_tetris *tetris,t_tetrimino current)
 }
 
 bool can_move_not_overlapping(t_tetris *tetris, int i, int j){
-//bool can_move_not_overlapping(t_tetris *tetris, t_tetrimino *tetrimino, int i, int j){
 	const t_tetrimino *tetrimino = tetris->tetrimino;
 	if (tetris->playing_field[tetrimino->row + i][tetrimino->col + j] && tetrimino->figure[i][j])
 		return FALSE;
@@ -289,5 +267,30 @@ void fix_tetrimino_on_the_field(t_tetris *tetris){
 			if(tetris->tetrimino->figure[i][j])
 				tetris->playing_field[row+i][col+j] = tetris->tetrimino->figure[i][j];
 		}
+	}
+}
+
+
+void make_the_next_tetrimino(t_tetris *tetris){
+	t_tetrimino new_shape = *create_tetrimino(&type_tetrimino[rand()%7]);
+	new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
+	new_shape.row = 0;
+	destroy_tetrimino(&current);
+	current = new_shape;
+	if(!can_move_field(tetris, &current)){
+		tetris->game_status = GAME_OVER;
+	}
+}
+
+void case_s(t_tetris *tetris, t_tetrimino *temp, bool update){
+	temp->row++;
+	if(can_move_field(tetris, temp))
+		current.row++;
+	else {
+		fix_tetrimino_on_the_field(tetris);
+		int completed_lines = count_completed_lines_and_erase(tetris);
+		if (update == false)
+			tetris->score += 100 * completed_lines;
+		make_the_next_tetrimino(tetris);
 	}
 }
