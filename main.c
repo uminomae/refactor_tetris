@@ -10,7 +10,7 @@ int can_move_field(t_tetrimino *tetrimino);
 bool can_move_not_overlapping(t_tetrimino *tetrimino, int i, int j);
 int can_move_field(t_tetrimino *tetrimino);
 suseconds_t get_millisecond(struct timeval timevalue);
-bool hasToUpdate();
+bool need_update();
 void roteta_tetrimino(t_tetrimino *shape);
 void init_game(t_tetris *tetris);
 int count_blocks_of_line(int y);
@@ -18,9 +18,9 @@ void lower_the_upper_block(int y);
 void clear_line(int y);
 void drop_placed_block_one_rank(int y);
 int count_completed_lines_and_erase();
-void case_d(t_tetrimino temp);
-void case_a(t_tetrimino temp);
-void case_w(t_tetrimino temp,t_tetrimino current);
+void case_d(t_tetrimino *temp);
+void case_a(t_tetrimino *temp);
+void case_w(t_tetrimino *temp,t_tetrimino current);
 void fix_tetrimino_on_the_field(t_tetrimino *tetrimino);
 
 char playing_field[FIELD_ROW][FIELD_COL] = {0};
@@ -42,9 +42,9 @@ void make_the_next_tetrimino(t_tetris *tetris){
 	}
 }
 
-void case_s(t_tetris *tetris, t_tetrimino temp, bool update){
-	temp.row++;
-	if(can_move_field(&temp))
+void case_s(t_tetris *tetris, t_tetrimino *temp, bool update){
+	temp->row++;
+	if(can_move_field(temp))
 		current.row++;
 	else {
 		fix_tetrimino_on_the_field(tetris->tetrimino);
@@ -60,13 +60,13 @@ void move_tetrimino_with_key(t_tetris *tetris, bool update){
 	t_tetrimino temp = *create_tetrimino(&current);
 
 	if (key == DROP_KEY){
-		case_s(tetris, temp, update);
+		case_s(tetris, &temp, update);
 	}else if (key == RIGHT_KEY){
-		case_d(temp);
+		case_d(&temp);
 	}else if (key == LEFT_KEY){
-		case_a(temp);
+		case_a(&temp);
 	}else if (key == ROTATE_KEY){
-		case_w(temp,current);
+		case_w(&temp,current);
 	}
 	destroy_tetrimino(&temp);
 	refresh_game_screen(tetris);
@@ -91,7 +91,7 @@ int main() {
 			move_tetrimino_with_key(&tetris, false);
 		}
 		gettimeofday(&now, NULL);
-		if (hasToUpdate()) {
+		if (need_update()) {
 			tetris.input_from_keyboard = 's';
 			move_tetrimino_with_key(&tetris, true);
 			gettimeofday(&before_now, NULL);
@@ -193,7 +193,7 @@ suseconds_t get_millisecond(struct timeval timevalue){
 	return (timevalue.tv_sec * MILLION + timevalue.tv_usec);
 }
 
-bool hasToUpdate(){
+bool need_update(){
 	const suseconds_t now_ms = get_millisecond(now);
 	const suseconds_t before_now_ms = get_millisecond(before_now);
 	return (now_ms - before_now_ms > timer);
@@ -214,7 +214,7 @@ void roteta_tetrimino(t_tetrimino *shape){
 }
 
 ////struct timeval before_now, now;
-//int hasToUpdate(){
+//int need_update(){
 //	return ((suseconds_t)(now.tv_sec*1000000 + now.tv_usec) -((suseconds_t)before_now.tv_sec*1000000 + before_now.tv_usec)) > timer;
 //}
 
@@ -267,21 +267,21 @@ int count_completed_lines_and_erase(){
 	return (number_of_completed_lines);
 }
 
-void case_d(t_tetrimino temp)
+void case_d(t_tetrimino *temp)
 {
-	temp.col++;
+	temp->col++;
 	if(can_move_field(&temp))
 		current.col++;
 }
 
-void case_a(t_tetrimino temp)
+void case_a(t_tetrimino *temp)
 {
-	temp.col--;
+	temp->col--;
 	if(can_move_field(&temp))
 		current.col--;
 }
 
-void case_w(t_tetrimino temp,t_tetrimino current)
+void case_w(t_tetrimino *temp,t_tetrimino current)
 {
 	roteta_tetrimino(&temp);
 	if(can_move_field(&temp))
