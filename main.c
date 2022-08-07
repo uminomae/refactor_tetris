@@ -6,13 +6,9 @@ t_tetrimino make_new_tetrimino(t_tetrimino *type_tetrimino);
 void refresh_game_screen(t_tetris *tetris);
 void end_of_game(t_tetris *tetris,t_tetrimino current);
 bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j);
-//int can_move_field(t_tetrimino *tetrimino);
 bool can_move_not_overlapping(t_tetris *tetris, int i, int j);
-//bool can_move_not_overlapping(t_tetrimino *tetrimino, int i, int j);
 int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino);
-//int can_move_field(t_tetrimino *tetrimino);
 suseconds_t get_millisecond(struct timeval timevalue);
-//bool need_update();
 bool need_update(t_tetris *tetris);
 void roteta_tetrimino(t_tetrimino *shape);
 void init_game(t_tetris *tetris);
@@ -21,19 +17,11 @@ void lower_the_upper_block(t_tetris *tetris, int y);
 void clear_line(t_tetris *tetris, int y);
 void drop_placed_block_one_rank(t_tetris *tetris, int y);
 int count_completed_lines_and_erase(t_tetris *tetris);
-//int count_completed_lines_and_erase();
 void case_d(t_tetris *tetris, t_tetrimino *temp);
 void case_a(t_tetris *tetris, t_tetrimino *temp);
 void case_w(t_tetris *tetris, t_tetrimino *temp,t_tetrimino current);
 void fix_tetrimino_on_the_field(t_tetris *tetris);
-//void fix_tetrimino_on_the_field(t_tetris *tetris, t_tetrimino *tetrimino);
-
-//char playing_field[FIELD_ROW][FIELD_COL] = {0};
-//suseconds_t time_to_update = FALL_VELOCITY_INTERVAL;
-//int decrease = INTERVAL_DECREASE;
 t_tetrimino current;
-
-
 
 
 //initscr()： スクリーンを初期化する． （curses を利用する場合，最初に呼び出さなければならない．）
@@ -48,6 +36,7 @@ void init_game(t_tetris *tetris)
 	gettimeofday(&before_now, NULL);
 	set_timeout_millisecond(1);
 }
+
 void make_the_next_tetrimino(t_tetris *tetris){
 	t_tetrimino new_shape = *create_tetrimino(&type_tetrimino[rand()%7]);
 	new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
@@ -232,14 +221,6 @@ void roteta_tetrimino(t_tetrimino *tetrimino){
 	destroy_tetrimino(temp);
 }
 
-////struct timeval before_now, now;
-//int need_update(){
-//	return ((suseconds_t)(now.tv_sec*1000000 + now.tv_usec) -((suseconds_t)before_now.tv_sec*1000000 + before_now.tv_usec)) > time_to_update;
-//}
-
-
-
-
 int count_blocks_of_line(t_tetris *tetris, int y){
 	int blocks = 0;
 
@@ -299,7 +280,6 @@ void case_w(t_tetris *tetris, t_tetrimino *temp,t_tetrimino current)
 }
 
 void fix_tetrimino_on_the_field(t_tetris *tetris){
-//void fix_tetrimino_on_the_field(t_tetris *tetris, t_tetrimino *tetrimino){
 	const int n = tetris->tetrimino->width_and_height;
 	const int row = tetris->tetrimino->row;
 	const int col = tetris->tetrimino->col;
@@ -308,7 +288,6 @@ void fix_tetrimino_on_the_field(t_tetris *tetris){
 		for(int j = 0; j < n ; j++){
 			if(tetris->tetrimino->figure[i][j])
 				tetris->playing_field[row+i][col+j] = tetris->tetrimino->figure[i][j];
-				//tetris->playing_field[tetrimino->row+i][tetrimino->col+j] = tetrimino->figure[i][j];
 		}
 	}
 }
