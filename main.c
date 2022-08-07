@@ -8,10 +8,13 @@ bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j);
 int can_move_field(t_tetrimino *tetrimino);
 bool can_move_not_overlapping(t_tetrimino *tetrimino, int i, int j);
 int can_move_field(t_tetrimino *tetrimino);
+suseconds_t get_millisecond(struct timeval timevalue);
+int hasToUpdate();
+
 
 char playing_field[FIELD_ROW][FIELD_COL] = {0};
-suseconds_t timer = 400000;
-int decrease = 1000;
+suseconds_t timer = FALL_VELOCITY_INTERVAL;
+int decrease = INTERVAL_DECREASE;
 t_tetrimino current;
 
 
@@ -26,28 +29,6 @@ void FunctionRS(t_tetrimino shape){
 	}
 	destroy_tetrimino(&temp);
 }
-
-
-suseconds_t get_millisecond(struct timeval timevalue){
-	return (timevalue.tv_sec * MILLION + timevalue.tv_usec);
-}
-
-int hasToUpdate(){
-	const suseconds_t now_ms = get_millisecond(now);
-	const suseconds_t before_now_ms = get_millisecond(before_now);
-	return (now_ms - before_now_ms > timer);
-}
-
-
-////struct timeval before_now, now;
-////struct timeval {
-////    time_t      tv_sec;     /* 秒 */
-////    suseconds_t tv_usec;    /* マイクロ秒 */
-////};
-//int hasToUpdate(){
-//	return ((suseconds_t)(now.tv_sec*1000000 + now.tv_usec) -((suseconds_t)before_now.tv_sec*1000000 + before_now.tv_usec)) > timer;
-//}
-
 
 void case_d(t_tetrimino temp)
 {
@@ -290,3 +271,23 @@ int can_move_field(t_tetrimino *tetrimino){
 	}
 	return TRUE;
 }
+
+suseconds_t get_millisecond(struct timeval timevalue){
+	return (timevalue.tv_sec * MILLION + timevalue.tv_usec);
+}
+
+int hasToUpdate(){
+	const suseconds_t now_ms = get_millisecond(now);
+	const suseconds_t before_now_ms = get_millisecond(before_now);
+	return (now_ms - before_now_ms > timer);
+}
+
+
+////struct timeval before_now, now;
+////struct timeval {
+////    time_t      tv_sec;     /* 秒 */
+////    suseconds_t tv_usec;    /* マイクロ秒 */
+////};
+//int hasToUpdate(){
+//	return ((suseconds_t)(now.tv_sec*1000000 + now.tv_usec) -((suseconds_t)before_now.tv_sec*1000000 + before_now.tv_usec)) > timer;
+//}
