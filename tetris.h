@@ -14,9 +14,10 @@
 # define TRUE		1
 # define FALSE		0
 # define MILLION	1000000
-# define FALL_VELOCITY_INTERVAL	10000
-//# define FALL_VELOCITY_INTERVAL	400000
+//# define FALL_VELOCITY_INTERVAL	10000
+# define FALL_VELOCITY_INTERVAL	400000
 # define INTERVAL_DECREASE	1000
+# define TOP_ROW	0
 
 //char playing_field[FIELD_ROW][FIELD_COL] = {0};
 
@@ -37,7 +38,6 @@ typedef struct {
 	int score;
 	char game_status;
 	t_tetrimino *tetrimino;
-	//char **playing_field;
 	char playing_field[FIELD_ROW][FIELD_COL];
 } t_tetris;
 

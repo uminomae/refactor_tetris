@@ -50,6 +50,12 @@ void aaaa4(){
 	}
 }
 
+void lower_the_upper_block(int y){
+	for( ; y >= 1; y--)
+		for(int x = 0; x < FIELD_COL; x++)
+			playing_field[y][x]=playing_field[y-1][x];
+}
+
 void clear_line(int y){
 	for(int x = 0; x < FIELD_COL; x++)
 		playing_field[y][x] = 0;
@@ -64,11 +70,12 @@ int bbbbb5(){
 		}
 		if(sum == FIELD_COL){
 			count++;
-			int l, k;
-			for(k = y ;k >= 1; k--)
-				for(l = 0; l < FIELD_COL; l++)
-					playing_field[k][l]=playing_field[k-1][l];
-			clear_line(y);
+			lower_the_upper_block(y);
+			//int l, k;
+			//for(k = y ;k >= 1; k--)
+			//	for(l = 0; l < FIELD_COL; l++)
+			//		playing_field[k][l]=playing_field[k-1][l];
+			clear_line(TOP_ROW);
 			//for(l = 0; l < FIELD_COL; l++)
 			//	playing_field[k][l] = 0;
 			timer -= decrease--;
