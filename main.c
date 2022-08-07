@@ -36,20 +36,20 @@ bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j){
 }
 
 //exists_in_fieldでtrueにしたい
-int can_move_field(t_tetrimino tetrimino){
+int can_move_field(t_tetrimino *tetrimino){
 //int can_move_field(t_tetris *tetris, t_tetrimino tetrimino){
-	const int n = tetrimino.width_and_height;
+	const int n = tetrimino->width_and_height;
 	//tetris->playing_field = playing_field;
 
 	for(int i = 0; i < n; i++) {
 		for(int j = 0; j < n; j++){
-			if (!check_left(&tetrimino, i, j))
+			if (!check_left(tetrimino, i, j))
 				return FALSE;
-			if (!check_right(&tetrimino, i, j))
+			if (!check_right(tetrimino, i, j))
 				return FALSE;
-			if (!check_bottom(&tetrimino, i, j))
+			if (!check_bottom(tetrimino, i, j))
 				return FALSE;
-			if (!check_overlap_other_pieces(&tetrimino, i, j))
+			if (!check_overlap_other_pieces(tetrimino, i, j))
 				return FALSE;
 		}
 	}
@@ -99,21 +99,21 @@ int hasToUpdate(){
 void case_d(t_tetrimino temp)
 {
 	temp.col++;
-	if(can_move_field(temp))
+	if(can_move_field(&temp))
 		current.col++;
 }
 
 void case_a(t_tetrimino temp)
 {
 	temp.col--;
-	if(can_move_field(temp))
+	if(can_move_field(&temp))
 		current.col--;
 }
 
 void case_w(t_tetrimino temp,t_tetrimino current)
 {
 	FunctionRS(temp);
-	if(can_move_field(temp))
+	if(can_move_field(&temp))
 		FunctionRS(current);
 }
 
@@ -138,7 +138,7 @@ int main() {
 	init_game(&tetris);
 
 	current = make_new_tetrimino(type_tetrimino);
-	if(!can_move_field(current)){
+	if(!can_move_field(&current)){
 		tetris.game_status = GAME_OVER;
 	}
 	
@@ -152,7 +152,7 @@ int main() {
 			switch(input_from_keyboard){
 				case 's':
 					temp.row++;  //move down
-					if(can_move_field(temp))
+					if(can_move_field(&temp))
 						current.row++;
 					else {
 						int i, j;
@@ -186,7 +186,7 @@ int main() {
 						new_shape.row = 0;
 						destroy_tetrimino(&current);
 						current = new_shape;
-						if(!can_move_field(current)){
+						if(!can_move_field(&current)){
 							tetris.game_status = GAME_OVER;
 						}
 					}
@@ -210,7 +210,7 @@ int main() {
 			switch('s'){
 				case 's':
 					temp.row++;
-					if(can_move_field(temp))
+					if(can_move_field(&temp))
 						current.row++;
 					else {
 						int i, j;
@@ -242,7 +242,7 @@ int main() {
 						new_shape.row = 0;
 						destroy_tetrimino(&current);
 						current = new_shape;
-						if(!can_move_field(current)){
+						if(!can_move_field(&current)){
 							tetris.game_status = GAME_OVER;
 						}
 					}
