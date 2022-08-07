@@ -57,27 +57,31 @@ void FunctionRS(t_tetrimino shape){
 }
 
 //printw
+//clear() スクリーンをリフレッシュする
 void FunctionPT(t_tetris *tetris){
-	
+	const int n = current.width_and_height;
 	char Buffer[FIELD_ROW][FIELD_COL] = {0};
 	int i, j;
-	for(i = 0; i < current.width_and_height ;i++){
-		for(j = 0; j < current.width_and_height ; j++){
+	for(i = 0; i < n ;i++){
+		for(j = 0; j < n ; j++){
 			if(current.figure[i][j])
 				Buffer[current.row+i][current.col+j] = current.figure[i][j];
 		}
 	}
 	clear();
-	for(i=0; i<FIELD_COL-9; i++)
-		output_to_screen(" ");
-	output_to_screen("42 Tetris\n");
+	print_game_title();
 	for(i = 0; i < FIELD_ROW ;i++){
 		for(j = 0; j < FIELD_COL ; j++){
-			output_to_screen("%c ", (playing_field[i][j] + Buffer[i][j])? '#': '.');
+			if (playing_field[i][j] + Buffer[i][j]){
+				print_string_to_screen("%c ", '#');
+			} else{
+				print_string_to_screen("%c ", '.');
+			}
+			//print_string_to_screen("%c ", (playing_field[i][j] + Buffer[i][j])? '#': '.');
 		}
-		output_to_screen("\n");
+		print_string_to_screen("\n");
 	}
-	output_to_screen("\nScore: %d\n", tetris->score);
+	print_string_to_screen("\nScore: %d\n", tetris->score);
 }
 
 //struct timeval before_now, now;
