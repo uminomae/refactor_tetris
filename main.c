@@ -1,6 +1,7 @@
 #include "tetris.h"
 #include "tetrimino.h"
 
+t_tetrimino create_tetrimino(const t_tetrimino *type_tetrimino);
 t_tetrimino make_new_tetrimino(const t_tetrimino *type_tetrimino);
 void refresh_game_screen(t_tetris *tetris);
 void end_of_game(t_tetris *tetris,t_tetrimino current);
@@ -38,7 +39,7 @@ void fix_tetrimino_on_the_field(){
 }
 
 void make_the_next_tetrimino(t_tetris *tetris){
-	t_tetrimino new_shape = create_tetrimino(type_tetrimino[rand()%7]);
+	t_tetrimino new_shape = create_tetrimino(&type_tetrimino[rand()%7]);
 	new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
 	new_shape.row = 0;
 	destroy_tetrimino(&current);
@@ -63,7 +64,7 @@ void case_s(t_tetris *tetris,t_tetrimino temp, bool update){
 
 void move_tetrimino_with_key(t_tetris *tetris, bool update){
 	int key = tetris->input_from_keyboard;
-	t_tetrimino temp = create_tetrimino(current);
+	t_tetrimino temp = create_tetrimino(&current);
 
 	if (key == DROP_KEY){
 		case_s(tetris, temp, update);
@@ -113,11 +114,23 @@ int main() {
 //
 //
 
+
+//構造体型はmalloc失敗時にNULL返す方法を質問する
+t_tetrimino create_tetrimino(const t_tetrimino *type_tetrimino){
+	const int y_size = type_tetrimino->width_and_height;
+	t_tetrimino new_type_tetrimino = *type_tetrimino;
+
+	new_type_tetrimino.figure = (char**)malloc(sizeof(char *) * y_size);
+	copy_figure(&new_type_tetrimino, type_tetrimino->figure);
+    return (new_type_tetrimino);
+}
+
+
 //7種類の形
 //0 + rand() % 10) // 最小値:0 取得個数:10個
 t_tetrimino make_new_tetrimino(const t_tetrimino *type_tetrimino)
 {
-	t_tetrimino new_figure = create_tetrimino(type_tetrimino[rand()%7]);
+	t_tetrimino new_figure = create_tetrimino(&type_tetrimino[rand()%7]);
 
     new_figure.col = rand()%(FIELD_COL-new_figure.width_and_height+1);
     new_figure.row = 0;
@@ -196,7 +209,7 @@ bool hasToUpdate(){
 
 void roteta_tetrimino(t_tetrimino shape){
 	const int n = shape.width_and_height;
-	t_tetrimino temp = create_tetrimino(shape);
+	t_tetrimino temp = create_tetrimino(&shape);
 	int i, j, k;
 
 	for(i = 0; i < n ; i++){

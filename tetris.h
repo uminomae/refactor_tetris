@@ -14,8 +14,8 @@
 # define TRUE		1
 # define FALSE		0
 # define MILLION	1000000
-//# define FALL_VELOCITY_INTERVAL	10000
-# define FALL_VELOCITY_INTERVAL	400000
+# define FALL_VELOCITY_INTERVAL	10000
+//# define FALL_VELOCITY_INTERVAL	400000
 # define INTERVAL_DECREASE	1000
 # define TOP_ROW	0
 # define DROP_KEY 's'
@@ -52,7 +52,7 @@ void print_string_to_window(char *str,...);
 
 
 void copy_figure(t_tetrimino *new_tetrimino, char **type_tetrimino_figure);
-t_tetrimino create_tetrimino(const t_tetrimino type_tetrimino);
+//t_tetrimino create_tetrimino(const t_tetrimino type_tetrimino);
 void destroy_tetrimino(t_tetrimino *tetrimino);
 
 //void refresh_game_screen(t_tetris *tetris);
