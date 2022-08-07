@@ -6,28 +6,26 @@ suseconds_t timer = 400000;
 int decrease = 1000;
 t_tetrimino current;
 
-void write_array(t_tetrimino *new_type_tetrimino, char **copy_type_tetrimino_figure)
+// constの設定がうまくいかないので質問する
+void copy_figure(t_tetrimino *new_tetrimino, char **type_tetrimino_figure)
 {
-	const int n = new_type_tetrimino->width_and_height;
-	//int x, y;
+	const int n = new_tetrimino->width_and_height;
+
 	for(int x = 0; x < n; x++){
-	//for(x = 0; x < figure->width_and_height; x++){
-		new_type_tetrimino->figure[x] = (char*)malloc(sizeof(char) * n);
-		//figure->figure[x] = (char*)malloc(figure->width_and_height*sizeof(char));
+		new_tetrimino->figure[x] = (char*)malloc(sizeof(char) * n);
 		for(int y = 0; y < n; y++) {
-		//for(y = 0; y < figure->width_and_height; y++) {
-			new_type_tetrimino->figure[x][y] = copy_type_tetrimino_figure[x][y];
+			new_tetrimino->figure[x][y] = type_tetrimino_figure[x][y];
 		}
 	}
 }
 
-t_tetrimino create_shape(t_tetrimino type_tetrimino){
+//構造体型はmalloc失敗時にNULL返す方法を質問する
+t_tetrimino create_shape(const t_tetrimino type_tetrimino){
 	const int n = type_tetrimino.width_and_height;
 	t_tetrimino new_type_tetrimino = type_tetrimino;
 
 	new_type_tetrimino.figure = (char**)malloc(sizeof(char *) * n);
-	//new_type_tetrimino.figure = (char**)malloc(new_type_tetrimino.width_and_height*sizeof(char*));
-	write_array(&new_type_tetrimino, type_tetrimino.figure);
+	copy_figure(&new_type_tetrimino, type_tetrimino.figure);
     return (new_type_tetrimino);
 }
 
