@@ -4,6 +4,8 @@
 t_tetrimino make_new_tetrimino(const t_tetrimino *type_tetrimino);
 void refresh_game_screen(t_tetris *tetris);
 void end_of_game(t_tetris *tetris,t_tetrimino current);
+bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j);
+int can_move_field(t_tetrimino *tetrimino);
 
 char playing_field[FIELD_ROW][FIELD_COL] = {0};
 suseconds_t timer = 400000;
@@ -11,23 +13,23 @@ int decrease = 1000;
 t_tetrimino current;
 
 
-bool check_left(t_tetrimino *tetrimino, int i, int j){
-	if (tetrimino->col+ j < 0 && tetrimino->figure[i][j])
-		return FALSE;
-	return TRUE;
-}
+//bool check_left(t_tetrimino *tetrimino, int i, int j){
+//	if (tetrimino->col+ j < 0 && tetrimino->figure[i][j])
+//		return FALSE;
+//	return TRUE;
+//}
 
-bool check_right(t_tetrimino *tetrimino, int i, int j){
-	if (tetrimino->col + j >= FIELD_COL && tetrimino->figure[i][j])
-		return FALSE;
-	return TRUE;
-}
+//bool check_right(t_tetrimino *tetrimino, int i, int j){
+//	if (tetrimino->col + j >= FIELD_COL && tetrimino->figure[i][j])
+//		return FALSE;
+//	return TRUE;
+//}
 
-bool check_bottom(t_tetrimino *tetrimino, int i, int j){
-	if (tetrimino->row + i >= FIELD_ROW && tetrimino->figure[i][j])
-		return FALSE;
-	return TRUE;
-}
+//bool check_bottom(t_tetrimino *tetrimino, int i, int j){
+//	if (tetrimino->row + i >= FIELD_ROW && tetrimino->figure[i][j])
+//		return FALSE;
+//	return TRUE;
+//}
 
 bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j){
 	if (playing_field[tetrimino->row + i][tetrimino->col + j] && tetrimino->figure[i][j])
