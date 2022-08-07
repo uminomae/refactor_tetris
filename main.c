@@ -1,8 +1,8 @@
 #include "tetris.h"
 #include "tetrimino.h"
 
-t_tetrimino *create_tetrimino(const t_tetrimino *type_tetrimino);
-t_tetrimino make_new_tetrimino(const t_tetrimino *type_tetrimino);
+t_tetrimino *create_tetrimino(t_tetrimino *type_tetrimino);
+t_tetrimino make_new_tetrimino(t_tetrimino *type_tetrimino);
 void refresh_game_screen(t_tetris *tetris);
 void end_of_game(t_tetris *tetris,t_tetrimino current);
 bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j);
@@ -116,7 +116,7 @@ int main() {
 
 
 //構造体型はmalloc失敗時にNULL返す方法を質問する
-t_tetrimino *create_tetrimino(const t_tetrimino *type_tetrimino){
+t_tetrimino *create_tetrimino(t_tetrimino *type_tetrimino){
 	const int y_size = type_tetrimino->width_and_height;
 	t_tetrimino new_type_tetrimino = *type_tetrimino;
 
@@ -128,7 +128,7 @@ t_tetrimino *create_tetrimino(const t_tetrimino *type_tetrimino){
 
 //7種類の形
 //0 + rand() % 10) // 最小値:0 取得個数:10個
-t_tetrimino make_new_tetrimino(const t_tetrimino *type_tetrimino)
+t_tetrimino make_new_tetrimino(t_tetrimino *type_tetrimino)
 {
 	t_tetrimino new_figure = *create_tetrimino(&type_tetrimino[rand()%7]);
 

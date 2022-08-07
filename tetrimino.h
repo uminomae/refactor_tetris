@@ -40,7 +40,7 @@
 	(char []){0,0,0,0}, \
 	(char []){0,0,0,0}\
 	}, 4
-const t_tetrimino type_tetrimino[7]= {
+t_tetrimino type_tetrimino[7]= {
 	{
 		S_FIGURE
 	},
