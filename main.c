@@ -66,7 +66,8 @@ void print_game_field(t_tetris *tetris, \
 						char Buffer[FIELD_ROW][FIELD_COL]){
 	for(int i = 0; i < FIELD_ROW ;i++){
 		for(int j = 0; j < FIELD_COL ; j++){
-			if (playing_field[i][j] + Buffer[i][j])
+			if (tetris->playing_field[i][j] + Buffer[i][j])
+			//if (playing_field[i][j] + Buffer[i][j])
 				print_string_to_window("%c ", '#');
 			else
 				print_string_to_window("%c ", '.');
@@ -86,12 +87,14 @@ void print_game_screen(t_tetris *tetris, \
 	print_footer(tetris);
 }
 
-void get_current_position(char Buffer[FIELD_ROW][FIELD_COL]){
+void get_current_position(t_tetris *tetris, \
+							char Buffer[FIELD_ROW][FIELD_COL]){
 	const int n = current.width_and_height;
 
 	for(int i = 0; i < n ;i++){
 		for(int j = 0; j < n ; j++){
-			if(current.figure[i][j])
+			if(tetris->tetrimino->figure[i][j])
+			//if(current.figure[i][j])
 				Buffer[current.row+i][current.col+j] = current.figure[i][j];
 		}
 	}
@@ -102,8 +105,11 @@ void get_current_position(char Buffer[FIELD_ROW][FIELD_COL]){
 void refresh_game_screen(t_tetris *tetris){
 	
 	char Buffer[FIELD_ROW][FIELD_COL] = {0};
+	tetris->tetrimino = &current;
+	//tetris->playing_field = playing_field;
+	memcpy(tetris->playing_field, playing_field, sizeof(char) * FIELD_ROW * FIELD_COL);
 
-	get_current_position(Buffer);
+	get_current_position(tetris, Buffer);
 	clear();
 	print_game_screen(tetris, Buffer);
 }

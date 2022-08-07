@@ -3,6 +3,7 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <time.h>
 # include <sys/time.h>
 # include <ncurses.h>
@@ -30,7 +31,9 @@ typedef struct {
 typedef struct {
 	int score;
 	char game_status;
+	t_tetrimino *tetrimino;
 	//char **playing_field;
+	char playing_field[FIELD_ROW][FIELD_COL];
 } t_tetris;
 
 void end_ncurses();
