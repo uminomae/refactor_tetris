@@ -40,7 +40,6 @@ void case_w(t_tetrimino temp,t_tetrimino current)
 		roteta_tetrimino(current);
 }
 
-
 void aaaa4(){
 	const int n = current.width_and_height;
 	for(int i = 0; i < n ;i++){
@@ -49,6 +48,11 @@ void aaaa4(){
 				playing_field[current.row+i][current.col+j] = current.figure[i][j];
 		}
 	}
+}
+
+void clear_line(int y){
+	for(int x = 0; x < FIELD_COL; x++)
+		playing_field[y][x] = 0;
 }
 
 int bbbbb5(){
@@ -64,14 +68,14 @@ int bbbbb5(){
 			for(k = y ;k >= 1; k--)
 				for(l = 0; l < FIELD_COL; l++)
 					playing_field[k][l]=playing_field[k-1][l];
-			for(l = 0; l < FIELD_COL; l++)
-				playing_field[k][l] = 0;
+			clear_line(y);
+			//for(l = 0; l < FIELD_COL; l++)
+			//	playing_field[k][l] = 0;
 			timer -= decrease--;
 		}
 	}
 	return (count);
 }
-
 
 void ccc3(t_tetris *tetris){
 	t_tetrimino new_shape = create_tetrimino(type_tetrimino[rand()%7]);
@@ -111,16 +115,7 @@ int main() {
 						int count = 0;
 						count = bbbbb5();
 						tetris.score += 100 * count;
-
 						ccc3(&tetris);
-						//t_tetrimino new_shape = create_tetrimino(type_tetrimino[rand()%7]);
-						//new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
-						//new_shape.row = 0;
-						//destroy_tetrimino(&current);
-						//current = new_shape;
-						//if(!can_move_field(&current)){
-						//	tetris.game_status = GAME_OVER;
-						//}
 					}
 					break;
 				case 'd':
@@ -148,15 +143,7 @@ int main() {
 						aaaa4();
 						int count = 0;
 						count = bbbbb5();
-						
-						t_tetrimino new_shape = create_tetrimino(type_tetrimino[rand()%7]);
-						new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
-						new_shape.row = 0;
-						destroy_tetrimino(&current);
-						current = new_shape;
-						if(!can_move_field(&current)){
-							tetris.game_status = GAME_OVER;
-						}
+						ccc3(&tetris);
 					}
 					break;
 				case 'd':
