@@ -11,25 +11,39 @@ int can_move_field(t_tetrimino *tetrimino);
 suseconds_t get_millisecond(struct timeval timevalue);
 int hasToUpdate();
 
-
 char playing_field[FIELD_ROW][FIELD_COL] = {0};
 suseconds_t timer = FALL_VELOCITY_INTERVAL;
 int decrease = INTERVAL_DECREASE;
 t_tetrimino current;
 
 
-void FunctionRS(t_tetrimino shape){
+void roteta_tetrimino(t_tetrimino shape){
+	const int n = shape.width_and_height;
 	t_tetrimino temp = create_tetrimino(shape);
-	int i, j, k, width_and_height;
-	width_and_height = shape.width_and_height;
-	for(i = 0; i < width_and_height ; i++){
-		for(j = 0, k = width_and_height-1; j < width_and_height ; j++, k--){
+	int i, j, k;
+	//width_and_height = shape.width_and_height;
+
+	for(i = 0; i < n ; i++){
+		for(j = 0, k = n - 1; j < n ; j++, k--){
 				shape.figure[i][j] = temp.figure[k][i];
 		}
 	}
 	destroy_tetrimino(&temp);
 }
 
+//void roteta_tetrimino(t_tetrimino shape){
+//	const int n = shape.width_and_height;
+//	t_tetrimino temp = create_tetrimino(shape);
+//	int i, j, k, width_and_height;
+//	//width_and_height = shape.width_and_height;
+	
+//	for(i = 0; i < width_and_height ; i++){
+//		for(j = 0, k = width_and_height-1; j < width_and_height ; j++, k--){
+//				shape.figure[i][j] = temp.figure[k][i];
+//		}
+//	}
+//	destroy_tetrimino(&temp);
+//}
 void case_d(t_tetrimino temp)
 {
 	temp.col++;
@@ -46,9 +60,9 @@ void case_a(t_tetrimino temp)
 
 void case_w(t_tetrimino temp,t_tetrimino current)
 {
-	FunctionRS(temp);
+	roteta_tetrimino(temp);
 	if(can_move_field(&temp))
-		FunctionRS(current);
+		roteta_tetrimino(current);
 }
 
 //initscr()： スクリーンを初期化する． （curses を利用する場合，最初に呼び出さなければならない．）
