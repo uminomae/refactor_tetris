@@ -1,33 +1,23 @@
 #include "tetris.h"
 #include "tetrimino.h"
 
+t_tetrimino make_new_tetrimino(const t_tetrimino *type_tetrimino);
 void refresh_game_screen(t_tetris *tetris);
-
 
 char playing_field[FIELD_ROW][FIELD_COL] = {0};
 suseconds_t timer = 400000;
 int decrease = 1000;
 t_tetrimino current;
 
-//7種類の形
-//0 + rand() % 10) // 最小値:0 取得個数:10個
-t_tetrimino make_new_tetrimino(const t_tetrimino *type_tetrimino)
-{
-	t_tetrimino new_figure = create_tetrimino(type_tetrimino[rand()%7]);
+////destroy
+//void destroy_tetrimino(t_tetrimino *tetrimino){
+//	const int n = tetrimino->width_and_height;
 
-    new_figure.col = rand()%(FIELD_COL-new_figure.width_and_height+1);
-    new_figure.row = 0;
-	return (new_figure);
-}
-
-//destroy
-void destroy_shape(t_tetrimino shape){
-    int i;
-    for(i = 0; i < shape.width_and_height; i++){
-		free(shape.figure[i]);
-    }
-    free(shape.figure);
-}
+//    for(int i = 0; i < n; i++){
+//		free(tetrimino->figure[i]);
+//    }
+//    free(tetrimino->figure);
+//}
 
 //current_position?
 int FunctionCP(t_tetrimino shape){
@@ -56,7 +46,7 @@ void FunctionRS(t_tetrimino shape){
 				shape.figure[i][j] = temp.figure[k][i];
 		}
 	}
-	destroy_shape(temp);
+	destroy_tetrimino(&temp);
 }
 
 
@@ -71,7 +61,7 @@ int hasToUpdate(){
 
 void end_of_game(t_tetris *tetris,t_tetrimino current)
 {
-	destroy_shape(current);
+	destroy_tetrimino(&current);
 	end_ncurses();
 	int i, j;
 	for(i = 0; i < FIELD_ROW ;i++){
@@ -172,7 +162,7 @@ int main() {
 						t_tetrimino new_shape = create_tetrimino(type_tetrimino[rand()%7]);
 						new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
 						new_shape.row = 0;
-						destroy_shape(current);
+						destroy_tetrimino(&current);
 						current = new_shape;
 						if(!FunctionCP(current)){
 							tetris.game_status = GAME_OVER;
@@ -189,7 +179,7 @@ int main() {
 					case_w(temp,current);
 					break;
 			}
-			destroy_shape(temp);
+			destroy_tetrimino(&temp);
 			refresh_game_screen(&tetris);
 		}
 		gettimeofday(&now, NULL);
@@ -228,7 +218,7 @@ int main() {
 						t_tetrimino new_shape = create_tetrimino(type_tetrimino[rand()%7]);
 						new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
 						new_shape.row = 0;
-						destroy_shape(current);
+						destroy_tetrimino(&current);
 						current = new_shape;
 						if(!FunctionCP(current)){
 							tetris.game_status = GAME_OVER;
@@ -245,7 +235,7 @@ int main() {
 					case_w(temp,current);
 					break;
 			}
-			destroy_shape(temp);
+			destroy_tetrimino(&temp);
 			refresh_game_screen(&tetris);
 			gettimeofday(&before_now, NULL);
 		}
@@ -259,6 +249,19 @@ int main() {
 //--------------------------------------------------------
 //
 //
+
+//7種類の形
+//0 + rand() % 10) // 最小値:0 取得個数:10個
+t_tetrimino make_new_tetrimino(const t_tetrimino *type_tetrimino)
+{
+	t_tetrimino new_figure = create_tetrimino(type_tetrimino[rand()%7]);
+
+    new_figure.col = rand()%(FIELD_COL-new_figure.width_and_height+1);
+    new_figure.row = 0;
+	return (new_figure);
+}
+
+
 ////printw
 ////clear() スクリーンをリフレッシュする
 void refresh_game_screen(t_tetris *tetris){
