@@ -10,6 +10,8 @@ bool can_move_not_overlapping(t_tetrimino *tetrimino, int i, int j);
 int can_move_field(t_tetrimino *tetrimino);
 suseconds_t get_millisecond(struct timeval timevalue);
 int hasToUpdate();
+void roteta_tetrimino(t_tetrimino shape);
+void init_game(t_tetris *tetris);
 
 char playing_field[FIELD_ROW][FIELD_COL] = {0};
 suseconds_t timer = FALL_VELOCITY_INTERVAL;
@@ -17,33 +19,6 @@ int decrease = INTERVAL_DECREASE;
 t_tetrimino current;
 
 
-void roteta_tetrimino(t_tetrimino shape){
-	const int n = shape.width_and_height;
-	t_tetrimino temp = create_tetrimino(shape);
-	int i, j, k;
-	//width_and_height = shape.width_and_height;
-
-	for(i = 0; i < n ; i++){
-		for(j = 0, k = n - 1; j < n ; j++, k--){
-				shape.figure[i][j] = temp.figure[k][i];
-		}
-	}
-	destroy_tetrimino(&temp);
-}
-
-//void roteta_tetrimino(t_tetrimino shape){
-//	const int n = shape.width_and_height;
-//	t_tetrimino temp = create_tetrimino(shape);
-//	int i, j, k, width_and_height;
-//	//width_and_height = shape.width_and_height;
-	
-//	for(i = 0; i < width_and_height ; i++){
-//		for(j = 0, k = width_and_height-1; j < width_and_height ; j++, k--){
-//				shape.figure[i][j] = temp.figure[k][i];
-//		}
-//	}
-//	destroy_tetrimino(&temp);
-//}
 void case_d(t_tetrimino temp)
 {
 	temp.col++;
@@ -63,16 +38,6 @@ void case_w(t_tetrimino temp,t_tetrimino current)
 	roteta_tetrimino(temp);
 	if(can_move_field(&temp))
 		roteta_tetrimino(current);
-}
-
-//initscr()： スクリーンを初期化する． （curses を利用する場合，最初に呼び出さなければならない．）
-void init_game(t_tetris *tetris)
-{
-	tetris->score = 0;
-	tetris->game_status = GAME_PLAY;
-	initscr();
-	gettimeofday(&before_now, NULL);
-	set_timeout_millisecond(1);
 }
 
 
@@ -286,6 +251,10 @@ int can_move_field(t_tetrimino *tetrimino){
 	return TRUE;
 }
 
+////struct timeval {
+////    time_t      tv_sec;     /* 秒 */
+////    suseconds_t tv_usec;    /* マイクロ秒 */
+////};
 suseconds_t get_millisecond(struct timeval timevalue){
 	return (timevalue.tv_sec * MILLION + timevalue.tv_usec);
 }
@@ -297,11 +266,31 @@ int hasToUpdate(){
 }
 
 
+void roteta_tetrimino(t_tetrimino shape){
+	const int n = shape.width_and_height;
+	t_tetrimino temp = create_tetrimino(shape);
+	int i, j, k;
+
+	for(i = 0; i < n ; i++){
+		for(j = 0, k = n - 1; j < n ; j++, k--){
+				shape.figure[i][j] = temp.figure[k][i];
+		}
+	}
+	destroy_tetrimino(&temp);
+}
+
 ////struct timeval before_now, now;
-////struct timeval {
-////    time_t      tv_sec;     /* 秒 */
-////    suseconds_t tv_usec;    /* マイクロ秒 */
-////};
 //int hasToUpdate(){
 //	return ((suseconds_t)(now.tv_sec*1000000 + now.tv_usec) -((suseconds_t)before_now.tv_sec*1000000 + before_now.tv_usec)) > timer;
 //}
+
+
+//initscr()： スクリーンを初期化する． （curses を利用する場合，最初に呼び出さなければならない．）
+void init_game(t_tetris *tetris)
+{
+	tetris->score = 0;
+	tetris->game_status = GAME_PLAY;
+	initscr();
+	gettimeofday(&before_now, NULL);
+	set_timeout_millisecond(1);
+}
