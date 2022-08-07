@@ -6,28 +6,30 @@ suseconds_t timer = 400000;
 int decrease = 1000;
 t_tetrimino current;
 
-void write_array(t_tetrimino *figure, char **copy_array)
+void write_array(t_tetrimino *figure, char **copy_type_tetrimino)
 {
 	int x, y;
 	for(x = 0; x < figure->width_and_height; x++){
 		figure->figure[x] = (char*)malloc(figure->width_and_height*sizeof(char));
 		for(y = 0; y < figure->width_and_height; y++) {
-			figure->figure[x][y] = copy_array[x][y];
+			figure->figure[x][y] = copy_type_tetrimino[x][y];
 		}
 	}
 }
 
 t_tetrimino create_shape(t_tetrimino type_tetrimino){
-	//t_tetrimino new_type_tetrimino;
 	t_tetrimino new_type_tetrimino = type_tetrimino;
-	//char **copytype_tetrimino;
-	char **copytype_tetrimino = type_tetrimino.figure;
-	//new_type_tetrimino.width_and_height = type_tetrimino.width_and_height;
+	//char **copy_type_tetrimino = type_tetrimino.figure;
 	new_type_tetrimino.figure = (char**)malloc(new_type_tetrimino.width_and_height*sizeof(char*));
-	//write_array(&new_type_tetrimino, type_tetrimino.figure);
-	write_array(&new_type_tetrimino, copytype_tetrimino);
+	//write_array(&new_type_tetrimino, copy_type_tetrimino);
+	write_array(&new_type_tetrimino, type_tetrimino.figure);
     return (new_type_tetrimino);
 }
+	//t_tetrimino new_type_tetrimino;
+	//char **copytype_tetrimino;
+	//new_type_tetrimino.width_and_height = type_tetrimino.width_and_height;
+	//write_array(&new_type_tetrimino, type_tetrimino.figure);
+
 
 //7種類の形
 //0 + rand() % 10) // 最小値:0 取得個数:10個
