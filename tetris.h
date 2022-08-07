@@ -56,8 +56,8 @@ void print_game_field(t_tetris *tetris, \
 						char Buffer[FIELD_ROW][FIELD_COL]);
 void print_header();
 
-bool check_left(t_tetrimino *tetrimino, int i, int j);
-bool check_right(t_tetrimino *tetrimino, int i, int j);
-bool check_bottom(t_tetrimino *tetrimino, int i, int j);
+bool can_move_left(t_tetrimino *tetrimino, int i, int j);
+bool can_move_right(t_tetrimino *tetrimino, int i, int j);
+bool can_move_bottom(t_tetrimino *tetrimino, int i, int j);
 
 #endif 

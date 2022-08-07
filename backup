@@ -1,0 +1,14 @@
+
+//struct timeval {
+//    time_t      tv_sec;     /* 秒 */
+//    suseconds_t tv_usec;    /* マイクロ秒 */
+//};
+suseconds_t get_millisecond(struct timeval timevalue){
+	return (timevalue.tv_sec * MILLION + timevalue.tv_usec);
+}
+
+int hasToUpdate(t_tetris *tetris){
+	const suseconds_t now = get_millisecond(tetris->timevalue->now);
+	const suseconds_t before_now = get_millisecond(tetris->timevalue->before_now);
+	return (now - before_now > timer_millisecond);
+}

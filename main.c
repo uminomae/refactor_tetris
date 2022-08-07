@@ -6,74 +6,14 @@ void refresh_game_screen(t_tetris *tetris);
 void end_of_game(t_tetris *tetris,t_tetrimino current);
 bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j);
 int can_move_field(t_tetrimino *tetrimino);
+bool can_move_not_overlapping(t_tetrimino *tetrimino, int i, int j);
+int can_move_field(t_tetrimino *tetrimino);
 
 char playing_field[FIELD_ROW][FIELD_COL] = {0};
 suseconds_t timer = 400000;
 int decrease = 1000;
 t_tetrimino current;
 
-
-//bool check_left(t_tetrimino *tetrimino, int i, int j){
-//	if (tetrimino->col+ j < 0 && tetrimino->figure[i][j])
-//		return FALSE;
-//	return TRUE;
-//}
-
-//bool check_right(t_tetrimino *tetrimino, int i, int j){
-//	if (tetrimino->col + j >= FIELD_COL && tetrimino->figure[i][j])
-//		return FALSE;
-//	return TRUE;
-//}
-
-//bool check_bottom(t_tetrimino *tetrimino, int i, int j){
-//	if (tetrimino->row + i >= FIELD_ROW && tetrimino->figure[i][j])
-//		return FALSE;
-//	return TRUE;
-//}
-
-bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j){
-	if (playing_field[tetrimino->row + i][tetrimino->col + j] && tetrimino->figure[i][j])
-		return FALSE;
-	return TRUE;
-}
-
-//exists_in_fieldでtrueにしたい
-int can_move_field(t_tetrimino *tetrimino){
-//int can_move_field(t_tetris *tetris, t_tetrimino tetrimino){
-	const int n = tetrimino->width_and_height;
-	//tetris->playing_field = playing_field;
-
-	for(int i = 0; i < n; i++) {
-		for(int j = 0; j < n; j++){
-			if (!check_left(tetrimino, i, j))
-				return FALSE;
-			if (!check_right(tetrimino, i, j))
-				return FALSE;
-			if (!check_bottom(tetrimino, i, j))
-				return FALSE;
-			if (!check_overlap_other_pieces(tetrimino, i, j))
-				return FALSE;
-		}
-	}
-	return TRUE;
-}
-
-//int can_move_field(t_tetrimino tetrimino){
-//	const int n = tetrimino.width_and_height;
-//	char **array = tetrimino.figure;
-
-//	for(int i = 0; i < n; i++) {
-//		for(int j = 0; j < n; j++){
-//			if((tetrimino.col+j < 0 || tetrimino.col+j >= FIELD_COL || tetrimino.row+i >= FIELD_ROW)){
-//				if(array[i][j])
-//					return FALSE;
-//			}
-//			else if(playing_field[tetrimino.row+i][tetrimino.col+j] && array[i][j])
-//				return FALSE;
-//		}
-//	}
-//	return TRUE;
-//}
 
 void FunctionRS(t_tetrimino shape){
 	t_tetrimino temp = create_tetrimino(shape);
@@ -313,4 +253,29 @@ void end_of_game(t_tetris *tetris,t_tetrimino current)
 	}
 	printf("\nGame over!\n");
 	printf("\nScore: %d\n", tetris->score);
+}
+
+bool can_move_not_overlapping(t_tetrimino *tetrimino, int i, int j){
+	if (playing_field[tetrimino->row + i][tetrimino->col + j] && tetrimino->figure[i][j])
+		return FALSE;
+	return TRUE;
+}
+
+//exists_in_fieldでtrueにしたい
+int can_move_field(t_tetrimino *tetrimino){
+	const int n = tetrimino->width_and_height;
+
+	for(int i = 0; i < n; i++) {
+		for(int j = 0; j < n; j++){
+			if (!can_move_left(tetrimino, i, j))
+				return FALSE;
+			if (!can_move_right(tetrimino, i, j))
+				return FALSE;
+			if (!can_move_bottom(tetrimino, i, j))
+				return FALSE;
+			if (!can_move_not_overlapping(tetrimino, i, j))
+				return FALSE;
+		}
+	}
+	return TRUE;
 }

@@ -20,8 +20,8 @@ fclean:	clean
 
 re: fclean all
 
-#debug: CFLAGS +=  -g -fsanitize=address -fsanitize=undefined
-#debug: re
+debug: CFLAGS +=  -g -fsanitize=address -fsanitize=undefined
+debug: re
 
 .PHONY: all clean fclean re debug
 
