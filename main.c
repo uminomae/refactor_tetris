@@ -6,26 +6,29 @@ t_tetrimino make_new_tetrimino(t_tetrimino *type_tetrimino);
 void refresh_game_screen(t_tetris *tetris);
 void end_of_game(t_tetris *tetris,t_tetrimino current);
 bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j);
-int can_move_field(t_tetrimino *tetrimino);
-bool can_move_not_overlapping(t_tetrimino *tetrimino, int i, int j);
-int can_move_field(t_tetrimino *tetrimino);
+//int can_move_field(t_tetrimino *tetrimino);
+bool can_move_not_overlapping(t_tetris *tetris, int i, int j);
+//bool can_move_not_overlapping(t_tetrimino *tetrimino, int i, int j);
+int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino);
+//int can_move_field(t_tetrimino *tetrimino);
 suseconds_t get_millisecond(struct timeval timevalue);
 //bool need_update();
 bool need_update(t_tetris *tetris);
 void roteta_tetrimino(t_tetrimino *shape);
 void init_game(t_tetris *tetris);
-int count_blocks_of_line(int y);
-void lower_the_upper_block(int y);
-void clear_line(int y);
-void drop_placed_block_one_rank(int y);
+int count_blocks_of_line(t_tetris *tetris, int y);
+void lower_the_upper_block(t_tetris *tetris, int y);
+void clear_line(t_tetris *tetris, int y);
+void drop_placed_block_one_rank(t_tetris *tetris, int y);
 int count_completed_lines_and_erase(t_tetris *tetris);
 //int count_completed_lines_and_erase();
-void case_d(t_tetrimino *temp);
-void case_a(t_tetrimino *temp);
-void case_w(t_tetrimino *temp,t_tetrimino current);
-void fix_tetrimino_on_the_field(t_tetrimino *tetrimino);
+void case_d(t_tetris *tetris, t_tetrimino *temp);
+void case_a(t_tetris *tetris, t_tetrimino *temp);
+void case_w(t_tetris *tetris, t_tetrimino *temp,t_tetrimino current);
+void fix_tetrimino_on_the_field(t_tetris *tetris);
+//void fix_tetrimino_on_the_field(t_tetris *tetris, t_tetrimino *tetrimino);
 
-char playing_field[FIELD_ROW][FIELD_COL] = {0};
+//char playing_field[FIELD_ROW][FIELD_COL] = {0};
 //suseconds_t time_to_update = FALL_VELOCITY_INTERVAL;
 //int decrease = INTERVAL_DECREASE;
 t_tetrimino current;
@@ -40,6 +43,7 @@ void init_game(t_tetris *tetris)
 	tetris->game_status = GAME_PLAY;
 	tetris->time_to_update = FALL_VELOCITY_INTERVAL;
 	tetris->decrease = INTERVAL_DECREASE;
+	memset(tetris->playing_field, 0, sizeof(char)*FIELD_ROW*FIELD_COL);
 	initscr();
 	gettimeofday(&before_now, NULL);
 	set_timeout_millisecond(1);
@@ -50,17 +54,17 @@ void make_the_next_tetrimino(t_tetris *tetris){
 	new_shape.row = 0;
 	destroy_tetrimino(&current);
 	current = new_shape;
-	if(!can_move_field(&current)){
+	if(!can_move_field(tetris, &current)){
 		tetris->game_status = GAME_OVER;
 	}
 }
 
 void case_s(t_tetris *tetris, t_tetrimino *temp, bool update){
 	temp->row++;
-	if(can_move_field(temp))
+	if(can_move_field(tetris, temp))
 		current.row++;
 	else {
-		fix_tetrimino_on_the_field(tetris->tetrimino);
+		fix_tetrimino_on_the_field(tetris);
 		int completed_lines = count_completed_lines_and_erase(tetris);
 		if (update == false)
 			tetris->score += 100 * completed_lines;
@@ -75,11 +79,11 @@ void move_tetrimino_with_key(t_tetris *tetris, bool update){
 	if (key == DROP_KEY){
 		case_s(tetris, &temp, update);
 	}else if (key == RIGHT_KEY){
-		case_d(&temp);
+		case_d(tetris, &temp);
 	}else if (key == LEFT_KEY){
-		case_a(&temp);
+		case_a(tetris, &temp);
 	}else if (key == ROTATE_KEY){
-		case_w(&temp,current);
+		case_w(tetris, &temp, current);
 	}
 	destroy_tetrimino(&temp);
 	refresh_game_screen(tetris);
@@ -94,7 +98,7 @@ int main() {
     srand(time(0));
 	init_game(&tetris);
 	current = make_new_tetrimino(type_tetrimino);
-	if(!can_move_field(&current)){
+	if(!can_move_field(&tetris, &current)){
 		tetris.game_status = GAME_OVER;
 	}
     refresh_game_screen(&tetris);
@@ -150,7 +154,7 @@ void refresh_game_screen(t_tetris *tetris){
 	
 	char Buffer[FIELD_ROW][FIELD_COL] = {0};
 	tetris->tetrimino = &current;
-	memcpy(tetris->playing_field, playing_field, sizeof(char) * FIELD_ROW * FIELD_COL);
+	//memcpy(tetris->playing_field, playing_field, sizeof(char) * FIELD_ROW * FIELD_COL);
 
 	get_current_position(tetris, Buffer);
 	clear();
@@ -165,7 +169,7 @@ void end_of_game(t_tetris *tetris,t_tetrimino current)
 	int i, j;
 	for(i = 0; i < FIELD_ROW ;i++){
 		for(j = 0; j < FIELD_COL ; j++){
-			printf("%c ", playing_field[i][j] ? '#': '.');
+			printf("%c ", tetris->playing_field[i][j] ? '#': '.');
 		}
 		printf("\n");
 	}
@@ -173,14 +177,16 @@ void end_of_game(t_tetris *tetris,t_tetrimino current)
 	printf("\nScore: %d\n", tetris->score);
 }
 
-bool can_move_not_overlapping(t_tetrimino *tetrimino, int i, int j){
-	if (playing_field[tetrimino->row + i][tetrimino->col + j] && tetrimino->figure[i][j])
+bool can_move_not_overlapping(t_tetris *tetris, int i, int j){
+//bool can_move_not_overlapping(t_tetris *tetris, t_tetrimino *tetrimino, int i, int j){
+	const t_tetrimino *tetrimino = tetris->tetrimino;
+	if (tetris->playing_field[tetrimino->row + i][tetrimino->col + j] && tetrimino->figure[i][j])
 		return FALSE;
 	return TRUE;
 }
 
 //exists_in_fieldでtrueにしたい
-int can_move_field(t_tetrimino *tetrimino){
+int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino){
 	const int n = tetrimino->width_and_height;
 
 	for(int i = 0; i < n; i++) {
@@ -191,7 +197,7 @@ int can_move_field(t_tetrimino *tetrimino){
 				return FALSE;
 			if (!can_move_bottom(tetrimino, i, j))
 				return FALSE;
-			if (!can_move_not_overlapping(tetrimino, i, j))
+			if (!can_move_not_overlapping(tetris, i, j))
 				return FALSE;
 		}
 	}
@@ -234,36 +240,36 @@ void roteta_tetrimino(t_tetrimino *tetrimino){
 
 
 
-int count_blocks_of_line(int y){
+int count_blocks_of_line(t_tetris *tetris, int y){
 	int blocks = 0;
 
 	for(int x = 0; x < FIELD_COL; x++) {
-		blocks += playing_field[y][x];
+		blocks += tetris->playing_field[y][x];
 	}
 	return (blocks);
 }
 
-void lower_the_upper_block(int y){
+void lower_the_upper_block(t_tetris *tetris, int y){
 	for( ; y >= 1; y--)
 		for(int x = 0; x < FIELD_COL; x++)
-			playing_field[y][x]=playing_field[y-1][x];
+			tetris->playing_field[y][x] = tetris->playing_field[y-1][x];
 }
 
-void clear_line(int y){
+void clear_line(t_tetris *tetris, int y){
 	for(int x = 0; x < FIELD_COL; x++)
-		playing_field[y][x] = 0;
+		tetris->playing_field[y][x] = 0;
 }
 
-void drop_placed_block_one_rank(int y){
-	lower_the_upper_block(y);
-	clear_line(TOP_ROW);
+void drop_placed_block_one_rank(t_tetris *tetris, int y){
+	lower_the_upper_block(tetris, y);
+	clear_line(tetris, TOP_ROW);
 }
 
 int count_completed_lines_and_erase(t_tetris *tetris){
 	int number_of_completed_lines = 0;
 	for(int y = 0; y < FIELD_ROW; y++){
-		if(count_blocks_of_line(y) == FIELD_COL){
-			drop_placed_block_one_rank(y);
+		if(count_blocks_of_line(tetris, y) == FIELD_COL){
+			drop_placed_block_one_rank(tetris, y);
 			tetris->time_to_update -= tetris->decrease--;
 			number_of_completed_lines++;
 		}
@@ -271,33 +277,38 @@ int count_completed_lines_and_erase(t_tetris *tetris){
 	return (number_of_completed_lines);
 }
 
-void case_d(t_tetrimino *temp)
+void case_d(t_tetris *tetris, t_tetrimino *temp)
 {
 	temp->col++;
-	if(can_move_field(temp))
+	if(can_move_field(tetris, temp))
 		current.col++;
 }
 
-void case_a(t_tetrimino *temp)
+void case_a(t_tetris *tetris, t_tetrimino *temp)
 {
 	temp->col--;
-	if(can_move_field(temp))
+	if(can_move_field(tetris, temp))
 		current.col--;
 }
 
-void case_w(t_tetrimino *temp,t_tetrimino current)
+void case_w(t_tetris *tetris, t_tetrimino *temp,t_tetrimino current)
 {
 	roteta_tetrimino(temp);
-	if(can_move_field(temp))
+	if(can_move_field(tetris, temp))
 		roteta_tetrimino(&current);
 }
 
-void fix_tetrimino_on_the_field(t_tetrimino *tetrimino){
-	const int n = tetrimino->width_and_height;
+void fix_tetrimino_on_the_field(t_tetris *tetris){
+//void fix_tetrimino_on_the_field(t_tetris *tetris, t_tetrimino *tetrimino){
+	const int n = tetris->tetrimino->width_and_height;
+	const int row = tetris->tetrimino->row;
+	const int col = tetris->tetrimino->col;
+
 	for(int i = 0; i < n ;i++){
 		for(int j = 0; j < n ; j++){
-			if(tetrimino->figure[i][j])
-				playing_field[tetrimino->row+i][tetrimino->col+j] = tetrimino->figure[i][j];
+			if(tetris->tetrimino->figure[i][j])
+				tetris->playing_field[row+i][col+j] = tetris->tetrimino->figure[i][j];
+				//tetris->playing_field[tetrimino->row+i][tetrimino->col+j] = tetrimino->figure[i][j];
 		}
 	}
 }
