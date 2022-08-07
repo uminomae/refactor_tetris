@@ -50,6 +50,15 @@ void aaaa4(){
 	}
 }
 
+int count_blocks_of_line(int y){
+	int blocks = 0;
+
+	for(int x = 0; x < FIELD_COL; x++) {
+		blocks += playing_field[y][x];
+	}
+	return (blocks);
+}
+
 void lower_the_upper_block(int y){
 	for( ; y >= 1; y--)
 		for(int x = 0; x < FIELD_COL; x++)
@@ -61,27 +70,23 @@ void clear_line(int y){
 		playing_field[y][x] = 0;
 }
 
-int bbbbb5(){
-	int sum, count=0;
+void drop_placed_block_one_rank(int y){
+	lower_the_upper_block(y);
+	clear_line(TOP_ROW);
+}
+
+int count_completed_lines(){
+	int number_of_completed_lines = 0;
 	for(int y = 0; y < FIELD_ROW; y++){
-		sum = 0;
-		for(int x = 0; x < FIELD_COL; x++) {
-			sum += playing_field[y][x];
-		}
-		if(sum == FIELD_COL){
-			count++;
-			lower_the_upper_block(y);
-			//int l, k;
-			//for(k = y ;k >= 1; k--)
-			//	for(l = 0; l < FIELD_COL; l++)
-			//		playing_field[k][l]=playing_field[k-1][l];
-			clear_line(TOP_ROW);
-			//for(l = 0; l < FIELD_COL; l++)
-			//	playing_field[k][l] = 0;
+		if(count_blocks_of_line(y) == FIELD_COL){
+			drop_placed_block_one_rank(y);
+			//lower_the_upper_block(y);
+			//clear_line(TOP_ROW);
 			timer -= decrease--;
+			number_of_completed_lines++;
 		}
 	}
-	return (count);
+	return (number_of_completed_lines);
 }
 
 void ccc3(t_tetris *tetris){
@@ -120,7 +125,7 @@ int main() {
 					else {
 						aaaa4();
 						int count = 0;
-						count = bbbbb5();
+						count = count_completed_lines();
 						tetris.score += 100 * count;
 						ccc3(&tetris);
 					}
@@ -149,7 +154,7 @@ int main() {
 					else {
 						aaaa4();
 						int count = 0;
-						count = bbbbb5();
+						count = count_completed_lines();
 						ccc3(&tetris);
 					}
 					break;
