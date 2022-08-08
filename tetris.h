@@ -50,12 +50,14 @@ typedef struct {
 
 t_tetrimino *copy_tetrimino_type(t_tetrimino *type_tetrimino);
 t_tetrimino create_new_tetrimino(t_tetrimino *type_tetrimino);
-
+void print_game_field(t_tetris *tetris, \
+						char next_playing_field[FIELD_ROW][FIELD_COL]);
 
 
 void end_ncurses();
 void set_timeout_millisecond(int time);
 void print_string_to_window(char *str,...);
+void print_resulting_to_standard_output(t_tetris *tetris);
 
 //time.c
 suseconds_t get_millisecond(struct timeval timevalue);
@@ -64,13 +66,9 @@ bool need_update(t_tetris *tetris);
 void destroy_tetrimino(t_tetrimino *tetrimino);
 
 void get_current_position(t_tetris *tetris, \
-							char Buffer[FIELD_ROW][FIELD_COL]);
+							char next_playing_field[FIELD_ROW][FIELD_COL]);
 void print_game_screen(t_tetris *tetris, \
-						char Buffer[FIELD_ROW][FIELD_COL]);
-void print_footer(t_tetris *tetris);
-void print_game_field(t_tetris *tetris, \
-						char Buffer[FIELD_ROW][FIELD_COL]);
-void print_header();
+						char next_playing_field[FIELD_ROW][FIELD_COL]);
 
 bool can_move_left(t_tetrimino *tetrimino, int i, int j);
 bool can_move_right(t_tetrimino *tetrimino, int i, int j);
