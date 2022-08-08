@@ -26,7 +26,7 @@
 # define INTERVAL_DECREASE	1000
 # define NUM_OF_TYPE	7
 
-struct timeval before_now, now;
+//struct timeval before_now, now;
 
 typedef enum s_game_status {
 	GAME_OVER = 0,
@@ -41,6 +41,11 @@ typedef struct {
 } t_tetrimino;
 
 typedef struct {
+	struct timeval before_now;
+	struct timeval now;
+} t_time;
+
+typedef struct {
 	int 		score;
 	char 		game_status;
 	t_tetrimino *tetrimino;
@@ -48,6 +53,7 @@ typedef struct {
 	int 		decrease;
 	char		playing_field[FIELD_ROW][FIELD_COL];
 	int 		input_from_keyboard;
+	t_time		*time
 } t_tetris;
 
 
@@ -55,8 +61,8 @@ void begin_game(t_tetris *tetris);
 void run_game(t_tetris *tetris);
 
 //begin.c
-void set_timeout_millisecond(int time);
-void init_tetris(t_tetris *tetris);
+//void set_timeout_millisecond(int time);
+//void init_tetris(t_tetris *tetris);
 void init_game(t_tetris *tetris);
 
 //can_move.c

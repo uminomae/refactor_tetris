@@ -4,6 +4,10 @@ void finish_ncurses(){
 	endwin();
 }
 
+//--------------------------------------------------------
+//print_resulting_to_standard_output
+//--------------------------------------------------------
+
 static void print_field_result(t_tetris *tetris){
 	for(int i = 0; i < FIELD_ROW ;i++){
 		for(int j = 0; j < FIELD_COL ; j++){
@@ -26,3 +30,6 @@ void print_resulting_to_standard_output(t_tetris *tetris){
 	print_result_footer(tetris);
 }
 
+//--------------------------------------------------------
+//end of print_resulting_to_standard_output
+//--------------------------------------------------------

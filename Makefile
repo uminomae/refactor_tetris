@@ -23,5 +23,8 @@ re: fclean all
 debug: CFLAGS +=  -g -fsanitize=address -fsanitize=undefined
 debug: re
 
+g3: CFLAGS += -g3
+g3: re
+
 .PHONY: all clean fclean re debug
 
