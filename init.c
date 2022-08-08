@@ -19,15 +19,6 @@ static void set_timeout_millisecond(int time) {
 	timeout(time);
 }
 
-static void init_ncurses_window(){
-	initscr();
-}
-
-//_STRUCT_TIMEVAL
-//{
-//	__darwin_time_t         tv_sec;         /* seconds */
-//	__darwin_suseconds_t    tv_usec;        /* and microseconds */
-//};
 void init_game(t_tetris *tetris)
 {
 	
@@ -35,9 +26,12 @@ void init_game(t_tetris *tetris)
 	init_struct_tetris(tetris);
 	gettimeofday(&tetris->time->before_now, NULL);
 	set_timeout_millisecond(1);
-	//init_ncurses_window();
 }
 
 //--------------------------------------------------------
 //end of init_game
 //--------------------------------------------------------
+
+void init_ncurses_window(){
+	initscr();
+}

@@ -57,6 +57,7 @@ typedef struct {
 
 
 //main.c
+void init_ncurses_window();
 void begin_game(t_tetris *tetris);
 void run_game(t_tetris *tetris);
 void finish_game(t_tetris *tetris);
