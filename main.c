@@ -17,13 +17,13 @@ void move_tetrimino_with_key(t_tetris *tetris, t_tetrimino *tetrimino, bool upda
 	t_tetrimino for_judg_move = *copy_tetrimino_type(&current);
 
 	if (key == DROP_KEY){
-		move_case_s(tetris, &for_judg_move, update);
+		move_case_key_s(tetris, &for_judg_move, update);
 	}else if (key == RIGHT_KEY){
-		move_case_d(tetris, &for_judg_move);
+		move_case_key_d(tetris, &current, &for_judg_move);
 	}else if (key == LEFT_KEY){
-		move_case_a(tetris, &for_judg_move);
+		move_case_key_a(tetris, &for_judg_move);
 	}else if (key == ROTATE_KEY){
-		move_case_w(tetris, &for_judg_move, current);
+		move_case_key_w(tetris, &for_judg_move, current);
 	}
 	destroy_tetrimino(&for_judg_move);
 	refresh_game_screen(tetris, &current);
@@ -58,21 +58,22 @@ int main() {
 //--------------------------------------------------------
 // move
 //
-void move_case_d(t_tetris *tetris, t_tetrimino *temp)
+void move_case_key_d(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judg)
 {
-	temp->col++;
-	if(can_move_field(tetris, temp))
-		current.col++;
+	temp_for_judg->col++;
+	if(can_move_field(tetris, temp_for_judg))
+		//current.col++;
+		tetrimino->col++;
 }
 
-void move_case_a(t_tetris *tetris, t_tetrimino *temp)
+void move_case_key_a(t_tetris *tetris, t_tetrimino *temp)
 {
 	temp->col--;
 	if(can_move_field(tetris, temp))
 		current.col--;
 }
 
-void move_case_w(t_tetris *tetris, t_tetrimino *temp,t_tetrimino current)
+void move_case_key_w(t_tetris *tetris, t_tetrimino *temp, t_tetrimino current)
 {
 	roteta_tetrimino(temp);
 	if(can_move_field(tetris, temp))
@@ -144,7 +145,7 @@ void make_the_next_tetrimino(t_tetris *tetris){
 	}
 }
 
-void move_case_s(t_tetris *tetris, t_tetrimino *temp, bool update){
+void move_case_key_s(t_tetris *tetris, t_tetrimino *temp, bool update){
 	temp->row++;
 	if(can_move_field(tetris, temp))
 		current.row++;

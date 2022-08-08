@@ -16,3 +16,4 @@ void roteta_tetrimino(t_tetrimino *tetrimino){
 	}
 	destroy_tetrimino(temp);
 }
+
