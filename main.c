@@ -8,8 +8,8 @@ void end_game(t_tetris *tetris,t_tetrimino current);
 bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j);
 bool can_move_not_overlapping(t_tetris *tetris, int i, int j);
 int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino);
-suseconds_t get_millisecond(struct timeval timevalue);
-bool need_update(t_tetris *tetris);
+//suseconds_t get_millisecond(struct timeval timevalue);
+//bool need_update(t_tetris *tetris);
 void roteta_tetrimino(t_tetrimino *shape);
 void init_game(t_tetris *tetris);
 int count_blocks_of_line(t_tetris *tetris, int y);
@@ -131,7 +131,6 @@ bool can_move_not_overlapping(t_tetris *tetris, int i, int j){
 	return TRUE;
 }
 
-//exists_in_fieldでtrueにしたい
 int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino){
 	const int n = tetrimino->width_and_height;
 
@@ -150,19 +149,19 @@ int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino){
 	return TRUE;
 }
 
-////struct timeval {
-////    time_t      tv_sec;     /* 秒 */
-////    suseconds_t tv_usec;    /* マイクロ秒 */
-////};
-suseconds_t get_millisecond(struct timeval timevalue){
-	return (timevalue.tv_sec * MILLION + timevalue.tv_usec);
-}
+//////struct timeval {
+//////    time_t      tv_sec;     /* 秒 */
+//////    suseconds_t tv_usec;    /* マイクロ秒 */
+//////};
+//suseconds_t get_millisecond(struct timeval timevalue){
+//	return (timevalue.tv_sec * MILLION + timevalue.tv_usec);
+//}
 
-bool need_update(t_tetris *tetris){
-	const suseconds_t now_ms = get_millisecond(now);
-	const suseconds_t before_now_ms = get_millisecond(before_now);
-	return (now_ms - before_now_ms > tetris->time_to_update);
-}
+//bool need_update(t_tetris *tetris){
+//	const suseconds_t now_ms = get_millisecond(now);
+//	const suseconds_t before_now_ms = get_millisecond(before_now);
+//	return (now_ms - before_now_ms > tetris->time_to_update);
+//}
 
 
 void roteta_tetrimino(t_tetrimino *tetrimino){
