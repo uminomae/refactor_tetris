@@ -9,6 +9,7 @@
 # include <sys/time.h>
 # include <ncurses.h>
 
+//x,yに
 # define FIELD_ROW	20
 # define FIELD_COL	15
 # define TRUE		1
@@ -63,6 +64,7 @@ void print_resulting_to_standard_output(t_tetris *tetris);
 suseconds_t get_millisecond(struct timeval timevalue);
 bool need_update(t_tetris *tetris);
 
+
 void destroy_tetrimino(t_tetrimino *tetrimino);
 
 void get_current_position(t_tetris *tetris, \
@@ -70,8 +72,18 @@ void get_current_position(t_tetris *tetris, \
 void print_game_screen(t_tetris *tetris, \
 						char next_playing_field[FIELD_ROW][FIELD_COL]);
 
-bool can_move_left(t_tetrimino *tetrimino, int i, int j);
-bool can_move_right(t_tetrimino *tetrimino, int i, int j);
-bool can_move_bottom(t_tetrimino *tetrimino, int i, int j);
+//can_move
+//bool can_move_left(t_tetrimino *tetrimino, int i, int j);
+//bool can_move_right(t_tetrimino *tetrimino, int i, int j);
+//bool can_move_bottom(t_tetrimino *tetrimino, int i, int j);
+//bool can_move_not_overlapping(t_tetris *tetris, int i, int j);
+int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino);
+
+//move.c
+void roteta_tetrimino(t_tetrimino *tetrimino);
+
+//init.c
+void init_tetris(t_tetris *tetris);
+void init_game(t_tetris *tetris);
 
 #endif 

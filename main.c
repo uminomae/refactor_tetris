@@ -4,13 +4,6 @@
 void refresh_game_screen(t_tetris *tetris);
 void end_game(t_tetris *tetris,t_tetrimino current);
 bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j);
-bool can_move_not_overlapping(t_tetris *tetris, int i, int j);
-
-int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino);
-
-void roteta_tetrimino(t_tetrimino *shape);
-void init_tetris(t_tetris *tetris);
-void init_game(t_tetris *tetris);
 int count_blocks_of_line(t_tetris *tetris, int y);
 void lower_the_upper_block(t_tetris *tetris, int y);
 void clear_line(t_tetris *tetris, int y);
@@ -25,24 +18,6 @@ void move_case_s(t_tetris *tetris, t_tetrimino *temp, bool update);
 void move_tetrimino_with_key(t_tetris *tetris, bool update);
 
 t_tetrimino current;
-
-int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino){
-	const int n = tetrimino->width_and_height;
-
-	for(int i = 0; i < n; i++) {
-		for(int j = 0; j < n; j++){
-			if (!can_move_left(tetrimino, i, j))
-				return FALSE;
-			if (!can_move_right(tetrimino, i, j))
-				return FALSE;
-			if (!can_move_bottom(tetrimino, i, j))
-				return FALSE;
-			if (!can_move_not_overlapping(tetris, i, j))
-				return FALSE;
-		}
-	}
-	return TRUE;
-}
 
 void refresh_game_screen(t_tetris *tetris){
 	char next_playing_field[FIELD_ROW][FIELD_COL] = {0};
@@ -97,14 +72,6 @@ int main() {
 //
 //
 
-bool can_move_not_overlapping(t_tetris *tetris, int i, int j){
-	const t_tetrimino *tetrimino = tetris->tetrimino;
-	//const t_tetrimino *tetrimino = &current;;
-	if (tetris->playing_field[tetrimino->row + i][tetrimino->col + j] && tetrimino->figure[i][j])
-		return FALSE;
-	return TRUE;
-}
-
 int count_blocks_of_line(t_tetris *tetris, int y){
 	int blocks = 0;
 
@@ -156,19 +123,19 @@ void move_case_a(t_tetris *tetris, t_tetrimino *temp)
 		current.col--;
 }
 
-void roteta_tetrimino(t_tetrimino *tetrimino){
-	const int n = tetrimino->width_and_height;
+//void roteta_tetrimino(t_tetrimino *tetrimino){
+//	const int n = tetrimino->width_and_height;
 
-	t_tetrimino *temp = copy_tetrimino_type(tetrimino);
+//	t_tetrimino *temp = copy_tetrimino_type(tetrimino);
 	
-	int k = n - 1;
-	for(int i = 0; i < n ; i++){
-		for(int j = 0, k = n - 1; j < n ; j++, k--){
-				tetrimino->figure[i][j] = temp->figure[k][i];
-		}
-	}
-	destroy_tetrimino(temp);
-}
+//	int k = n - 1;
+//	for(int i = 0; i < n ; i++){
+//		for(int j = 0, k = n - 1; j < n ; j++, k--){
+//				tetrimino->figure[i][j] = temp->figure[k][i];
+//		}
+//	}
+//	destroy_tetrimino(temp);
+//}
 
 void move_case_w(t_tetris *tetris, t_tetrimino *temp,t_tetrimino current)
 {
