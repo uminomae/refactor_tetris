@@ -67,8 +67,10 @@ void roteta_tetrimino(t_tetrimino *tetrimino);
 void move_tetrimino_with_key(t_tetris *tetris, t_tetrimino *tetrimino, bool update);
 void move_case_key_d(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judg);
 //void move_case_d(t_tetris *tetris, t_tetrimino *temp);
-void move_case_key_a(t_tetris *tetris, t_tetrimino *temp);
-void move_case_key_w(t_tetris *tetris, t_tetrimino *temp,t_tetrimino current);
+void move_case_key_a(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judg);
+//void move_case_key_a(t_tetris *tetris, t_tetrimino *temp);
+void move_case_key_w(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judg);
+//void move_case_key_w(t_tetris *tetris, t_tetrimino *temp,t_tetrimino current);
 	//case s
 void fix_tetrimino_on_the_field(t_tetris *tetris);
 void make_the_next_tetrimino(t_tetris *tetris);
