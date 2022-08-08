@@ -6,11 +6,10 @@
 int main() {
 	t_tetris tetris;
 
-	printf("a--main----\n");
+	//printf("a--main----\n");
 	begin_game(&tetris);
 	run_game(&tetris);
 	finish_game(&tetris);
-	//finish_game(&tetris, current);
     return (0);
 }
 
@@ -22,10 +21,8 @@ void begin_game(t_tetris *tetris){
 	init_game(tetris);
 
 	printf("b--begin----\n");
-	*tetris->tetrimino = create_new_tetrimino(type_tetrimino);
-	//current = create_new_tetrimino(type_tetrimino);
+	tetris->tetrimino = create_new_tetrimino(type_tetrimino);
 	if(!can_move_field(tetris, tetris->tetrimino)){
-	//if(!can_move_field(tetris, tetris->tetrimino)){
 		tetris->game_status = GAME_OVER;
 	}
     refresh_game_screen(tetris, tetris->tetrimino);

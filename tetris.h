@@ -75,6 +75,7 @@ void finish_ncurses();
 void print_resulting_to_standard_output(t_tetris *tetris);
 
 //key_command.c
+t_tetrimino *select_type_tetrimino(t_tetrimino *src);
 void move_by_key_case(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *for_judg_move, bool update, int key);
 void move_tetrimino_with_key(t_tetris *tetris, t_tetrimino *tetrimino, bool update);
 void roteta_tetrimino(t_tetrimino *tetrimino);
@@ -95,7 +96,7 @@ void move_case_key_s(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp
 
 //make and destroy
 t_tetrimino *copy_tetrimino_type(t_tetrimino *type_tetrimino);
-t_tetrimino create_new_tetrimino(t_tetrimino *type_tetrimino);
+t_tetrimino *create_new_tetrimino(t_tetrimino *type_tetrimino);
 void destroy_tetrimino(t_tetrimino *tetrimino);
 
 //refresh
