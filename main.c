@@ -12,7 +12,7 @@ void begin_game(t_tetris *tetris){
     refresh_game_screen(tetris, &current);
 }
 
-void move_tetrimino_with_key(t_tetris *tetris, bool update){
+void move_tetrimino_with_key(t_tetris *tetris, t_tetrimino *tetrimino, bool update){
 	int key = tetris->input_from_keyboard;
 	t_tetrimino for_judg_move = *copy_tetrimino_type(&current);
 
@@ -33,12 +33,12 @@ void run_game(t_tetris *tetris){
 	while(tetris->game_status == GAME_PLAY){
     	tetris->input_from_keyboard = getch();
 		if (tetris->input_from_keyboard != ERR) {
-			move_tetrimino_with_key(tetris, false);
+			move_tetrimino_with_key(tetris, &current, false);
 		}
 		gettimeofday(&now, NULL);
 		if (need_update(tetris)) {
 			tetris->input_from_keyboard = 's';
-			move_tetrimino_with_key(tetris, true);
+			move_tetrimino_with_key(tetris, &current, true);
 			gettimeofday(&before_now, NULL);
 		}
 	}
