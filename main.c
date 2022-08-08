@@ -107,9 +107,9 @@ int count_completed_lines_and_erase(t_tetris *tetris){
 	return (number_of_completed_lines);
 }
 
-void make_the_next_tetrimino(t_tetris *tetris){
-	t_tetrimino new_shape = *copy_tetrimino_type(&type_tetrimino[rand()%7]);
-	new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
+void make_next_tetrimino(t_tetris *tetris){
+	t_tetrimino new_shape = *copy_tetrimino_type(&type_tetrimino[rand() % 7]);
+	new_shape.col = rand() % (FIELD_COL - new_shape.width_and_height+1);
 	new_shape.row = 0;
 	destroy_tetrimino(&current);
 	current = new_shape;
@@ -127,6 +127,6 @@ void move_case_key_s(t_tetris *tetris, t_tetrimino *temp, bool update){
 		int completed_lines = count_completed_lines_and_erase(tetris);
 		if (update == false)
 			tetris->score += 100 * completed_lines;
-		make_the_next_tetrimino(tetris);
+		make_next_tetrimino(tetris);
 	}
 }
