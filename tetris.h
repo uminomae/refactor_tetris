@@ -53,7 +53,7 @@ typedef struct {
 	int 		decrease;
 	char		playing_field[FIELD_ROW][FIELD_COL];
 	int 		input_from_keyboard;
-	t_time		*time
+	t_time		*time;
 } t_tetris;
 
 
@@ -69,7 +69,8 @@ void init_game(t_tetris *tetris);
 int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino);
 
 //finish.c
-void finish_game(t_tetris *tetris,t_tetrimino current);
+void finish_game(t_tetris *tetris);
+//void finish_game(t_tetris *tetris,t_tetrimino current);
 void finish_ncurses();
 void print_resulting_to_standard_output(t_tetris *tetris);
 

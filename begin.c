@@ -17,28 +17,22 @@ static void set_timeout_millisecond(int time) {
 	timeout(time);
 }
 
-//static void init_window(){
-//	initscr();
-//}
+static void init_ncurses_window(){
+	initscr();
+}
 
 //_STRUCT_TIMEVAL
 //{
 //	__darwin_time_t         tv_sec;         /* seconds */
 //	__darwin_suseconds_t    tv_usec;        /* and microseconds */
 //};
-//static void get_timeval(t_tetris *tetris){
-//	gettimeofday(&tetris->before_now, NULL);
-//}
-
 void init_game(t_tetris *tetris)
 {
 	
 	srand(time(0));
 	init_struct_tetris(tetris);
-	//init_window();
-	//initscr();
-	//get_timeval(tetris);
-	gettimeofday(&tetris->before_now, NULL);
+	//init_ncurses_window();
+	gettimeofday(&tetris->time->before_now, NULL);
 	set_timeout_millisecond(1);
 }
 
