@@ -42,11 +42,11 @@ void get_current_position(t_tetris *tetris, \
 	}
 }
 
-//void refresh_game_screen(t_tetris *tetris){
-//	char next_playing_field[FIELD_ROW][FIELD_COL] = {0};
+void refresh_game_screen(t_tetris *tetris, t_tetrimino *current){
+	char next_playing_field[FIELD_ROW][FIELD_COL] = {0};
 	
-//	tetris->tetrimino = &current;
-//	get_current_position(tetris, next_playing_field);
-//	clear();
-//	print_game_screen(tetris, next_playing_field);
-//}
+	tetris->tetrimino = current;
+	get_current_position(tetris, next_playing_field);
+	clear();
+	print_game_screen(tetris, next_playing_field);
+}

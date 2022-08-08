@@ -1,6 +1,6 @@
 #include "tetris.h"
 
-void end_ncurses(){
+void finish_ncurses(){
 	endwin();
 }
 
@@ -26,9 +26,9 @@ void print_resulting_to_standard_output(t_tetris *tetris){
 	print_result_footer(tetris);
 }
 
-void end_game(t_tetris *tetris, t_tetrimino current)
+void finish_game(t_tetris *tetris, t_tetrimino current)
 {
 	destroy_tetrimino(&current);
-	end_ncurses();
+	finish_ncurses();
 	print_resulting_to_standard_output(tetris);
 }

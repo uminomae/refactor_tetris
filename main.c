@@ -1,7 +1,6 @@
 #include "tetris.h"
 #include "tetrimino.h"
-
-void refresh_game_screen(t_tetris *tetris);
+void refresh_game_screen(t_tetris *tetris, t_tetrimino *current);
 
 bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j);
 int count_blocks_of_line(t_tetris *tetris, int y);
@@ -19,21 +18,12 @@ void move_tetrimino_with_key(t_tetris *tetris, bool update);
 
 t_tetrimino current;
 
-void refresh_game_screen(t_tetris *tetris){
-	char next_playing_field[FIELD_ROW][FIELD_COL] = {0};
-	
-	tetris->tetrimino = &current;
-	get_current_position(tetris, next_playing_field);
-	clear();
-	print_game_screen(tetris, next_playing_field);
-}
-
-void start_game(t_tetris *tetris){
+void begin_game(t_tetris *tetris){
 	current = create_new_tetrimino(type_tetrimino);
 	if(!can_move_field(tetris, &current)){
 		tetris->game_status = GAME_OVER;
 	}
-    refresh_game_screen(tetris);
+    refresh_game_screen(tetris, &current);
 }
 
 void run_game(t_tetris *tetris){
@@ -55,9 +45,9 @@ int main() {
 	t_tetris tetris;
 
 	init_game(&tetris);
-	start_game(&tetris);
+	begin_game(&tetris);
 	run_game(&tetris);
-	end_game(&tetris, current);
+	finish_game(&tetris, current);
     return 0;
 }
 
@@ -174,5 +164,5 @@ void move_tetrimino_with_key(t_tetris *tetris, bool update){
 		move_case_w(tetris, &for_judg_move, current);
 	}
 	destroy_tetrimino(&for_judg_move);
-	refresh_game_screen(tetris);
+	refresh_game_screen(tetris, &current);
 }

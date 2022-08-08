@@ -71,8 +71,8 @@ void init_tetris(t_tetris *tetris);
 void init_game(t_tetris *tetris);
 
 //end.c
-void end_game(t_tetris *tetris,t_tetrimino current);
-void end_ncurses();
+void finish_game(t_tetris *tetris,t_tetrimino current);
+void finish_ncurses();
 
 //time.c
 suseconds_t get_millisecond(struct timeval timevalue);
