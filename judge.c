@@ -20,7 +20,7 @@ static bool can_move_bottom(t_tetrimino *tetrimino, int i, int j){
 
 static bool can_move_not_overlapping(t_tetris *tetris, int i, int j){
 	const t_tetrimino *tetrimino = tetris->tetrimino;
-	//printf("d1--can_move_x----\n");
+	printf("d1--can_move_x----\n");
 
 	if (tetris->playing_field[tetrimino->row + i][tetrimino->col + j] && tetrimino->figure[i][j])
 		return FALSE;
@@ -28,7 +28,7 @@ static bool can_move_not_overlapping(t_tetris *tetris, int i, int j){
 	return TRUE;
 }
 
-void judgee_the_end_of_game(t_tetris *tetris){
+void judge_the_end_of_game(t_tetris *tetris){
 	if(!can_move_field(tetris, tetris->tetrimino)){
 		tetris->game_status = GAME_OVER;
 	}

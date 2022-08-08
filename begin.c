@@ -10,7 +10,7 @@ static void init_struct_tetris(t_tetris *tetris){
 	tetris->game_status = GAME_PLAY;
 	tetris->time_to_update = FALL_VELOCITY_INTERVAL;
 	tetris->decrease = INTERVAL_DECREASE;
-	tetris->type[NUM_OF_TYPE] = type_tetrimino[NUM_OF_TYPE];
+	tetris->type = type_tetrimino;
 	memset(tetris->playing_field, 0, sizeof(char) * FIELD_ROW * FIELD_COL);
 	tetris->input_from_keyboard = 0;
 }
@@ -33,9 +33,9 @@ void init_game(t_tetris *tetris)
 	
 	srand(time(0));
 	init_struct_tetris(tetris);
-	//init_ncurses_window();
 	gettimeofday(&tetris->time->before_now, NULL);
 	set_timeout_millisecond(1);
+	//init_ncurses_window();
 }
 
 //--------------------------------------------------------

@@ -47,7 +47,7 @@ typedef struct {
 	int 		score;
 	char 		game_status;
 	t_tetrimino *tetrimino;
-	t_tetrimino type[NUM_OF_TYPE];
+	t_tetrimino *type;
 	suseconds_t time_to_update;
 	int 		decrease;
 	char		playing_field[FIELD_ROW][FIELD_COL];
@@ -56,50 +56,45 @@ typedef struct {
 } t_tetris;
 
 
+//main.c
 void begin_game(t_tetris *tetris);
 void run_game(t_tetris *tetris);
+void finish_game(t_tetris *tetris);
 
 //begin.c
 void init_game(t_tetris *tetris);
 
-//can_move.c
-void judgee_the_end_of_game(t_tetris *tetris);
-int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino);
+//field.c
+int count_completed_lines_and_erase(t_tetris *tetris);
 
 //finish.c
-void finish_game(t_tetris *tetris);
 void finish_ncurses();
 void print_resulting_to_standard_output(t_tetris *tetris);
 
-//key_command.c
-//t_tetrimino *select_type_tetrimino(t_tetrimino *src);
+//judge.c
+void judge_the_end_of_game(t_tetris *tetris);
+int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino);
+
+
+//key.c
+void get_char_input_from_keyboad(t_tetris *tetris);
+void move_tetrimino_with_key(t_tetris *tetris, t_tetrimino *tetrimino, bool update);
 void move_by_key_case(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *for_judge_move, bool update, int key);
-void move_tetrimino_with_key(t_tetris *tetris, t_tetrimino *tetrimino, bool update);
-void rotate_tetrimino(t_tetrimino *tetrimino);
-void move_tetrimino_with_key(t_tetris *tetris, t_tetrimino *tetrimino, bool update);
 void move_case_key_d(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judge);
 void move_case_key_a(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judge);
 void move_case_key_w(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judge);
-	//case s
-void fix_tetrimino_on_the_field(t_tetris *tetris);
-void switch_to_next_tetrimino(t_tetris *tetris, t_tetrimino *tetlimino);
-bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j);
-//int count_blocks_of_line(t_tetris *tetris, int y);
-//void lower_the_upper_block(t_tetris *tetris, int y);
-//void clear_line(t_tetris *tetris, int y);
-//void drop_placed_block_one_rank(t_tetris *tetris, int y);
-int count_completed_lines_and_erase(t_tetris *tetris);
 void move_case_key_s(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judge, bool update);
 
-//make and destroy
+//tetrimino.c
+void switch_to_next_tetrimino(t_tetris *tetris, t_tetrimino *tetlimino);
+void rotate_tetrimino(t_tetrimino *tetrimino);
+void fix_tetrimino_on_the_field(t_tetris *tetris);
+void destroy_tetrimino(t_tetrimino *tetrimino);
 t_tetrimino *copy_tetrimino_type(t_tetrimino *type_tetrimino);
 t_tetrimino *create_new_tetrimino(t_tetrimino *type_tetrimino);
-void destroy_tetrimino(t_tetrimino *tetrimino);
 
-//refresh
+//screen.c
 void refresh_game_screen(t_tetris *tetris, t_tetrimino *current);
-//void get_current_position(t_tetris *tetris, char next_playing_field[FIELD_ROW][FIELD_COL]);
-//void print_game_screen(t_tetris *tetris, char next_playing_field[FIELD_ROW][FIELD_COL]);
 
 //time.c
 suseconds_t get_millisecond(struct timeval timevalue);

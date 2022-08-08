@@ -4,6 +4,21 @@ static void print_string_to_window(char *str,...){
 	printw(str);
 }
 
+//--------------------------------------------------------
+// refresh_game_screen
+//--------------------------------------------------------
+static void get_current_position(t_tetris *tetris, \
+							char next_playing_field[FIELD_ROW][FIELD_COL]){
+	const int n = tetris->tetrimino->width_and_height;
+
+	for(int i = 0; i < n ;i++){
+		for(int j = 0; j < n ; j++){
+			if(tetris->tetrimino->figure[i][j])
+				next_playing_field[tetris->tetrimino->row+i][tetris->tetrimino->col+j] = tetris->tetrimino->figure[i][j];
+		}
+	}
+}
+
 static void print_header(){
 	for(int i = 0; i < FIELD_COL - 9; i++)
 		print_string_to_window(" ");
@@ -27,24 +42,14 @@ static void print_footer(t_tetris *tetris){
 	print_string_to_window("\nScore: %d\n", tetris->score);
 }
 
-void print_game_screen(t_tetris *tetris, \
+static void print_game_screen(t_tetris *tetris, \
 						char next_playing_field[FIELD_ROW][FIELD_COL]){
 	print_header();
 	print_game_field(tetris, next_playing_field);
 	print_footer(tetris);
 }
 
-void get_current_position(t_tetris *tetris, \
-							char next_playing_field[FIELD_ROW][FIELD_COL]){
-	const int n = tetris->tetrimino->width_and_height;
 
-	for(int i = 0; i < n ;i++){
-		for(int j = 0; j < n ; j++){
-			if(tetris->tetrimino->figure[i][j])
-				next_playing_field[tetris->tetrimino->row+i][tetris->tetrimino->col+j] = tetris->tetrimino->figure[i][j];
-		}
-	}
-}
 
 void refresh_game_screen(t_tetris *tetris, t_tetrimino *current){
 	char next_playing_field[FIELD_ROW][FIELD_COL] = {0};
@@ -54,3 +59,6 @@ void refresh_game_screen(t_tetris *tetris, t_tetrimino *current){
 	clear();
 	print_game_screen(tetris, next_playing_field);
 }
+//--------------------------------------------------------
+// refresh_game_screen
+//--------------------------------------------------------

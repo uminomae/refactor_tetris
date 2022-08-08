@@ -1,5 +1,9 @@
 #include "tetris.h"
 
+void get_char_input_from_keyboad(t_tetris *tetris){
+	tetris->input_from_keyboard = getch();
+}
+
 void move_tetrimino_with_key(t_tetris *tetris, \
 								t_tetrimino *tetrimino, \
 								bool update){

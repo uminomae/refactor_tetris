@@ -19,14 +19,14 @@ int main() {
 void begin_game(t_tetris *tetris){
 	init_game(tetris);
 	tetris->tetrimino = create_new_tetrimino(tetris->type);
-	judgee_the_end_of_game(tetris);
+	judge_the_end_of_game(tetris);
 	printf("b2--begin----\n");
     refresh_game_screen(tetris, tetris->tetrimino);
 }
 
-int get_char_input_from_keyboad(t_tetris *tetris){
-	tetris->input_from_keyboard = getch();
-}
+//void get_char_input_from_keyboad(t_tetris *tetris){
+//	tetris->input_from_keyboard = getch();
+//}
 
 void run_game(t_tetris *tetris){
 		printf("e--if need----\n");

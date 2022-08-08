@@ -4,8 +4,8 @@ void switch_to_next_tetrimino(t_tetris *tetris, t_tetrimino *tetrimino){
 	t_tetrimino *new = create_new_tetrimino(tetris->type);
 
 	destroy_tetrimino(tetrimino);
-	tetrimino = &new;
-	judgee_the_end_of_game(tetris);
+	tetrimino = new;
+	judge_the_end_of_game(tetris);
 }
 
 void rotate_tetrimino(t_tetrimino *tetrimino){
