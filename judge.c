@@ -28,6 +28,12 @@ static bool can_move_not_overlapping(t_tetris *tetris, int i, int j){
 	return TRUE;
 }
 
+void judgee_the_end_of_game(t_tetris *tetris){
+	if(!can_move_field(tetris, tetris->tetrimino)){
+		tetris->game_status = GAME_OVER;
+	}
+}
+
 // x,yに
 int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino){
 	const int n = tetrimino->width_and_height;

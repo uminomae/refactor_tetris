@@ -1,6 +1,9 @@
 #include "tetris.h"
 
-int count_blocks_of_line(t_tetris *tetris, int y){
+//--------------------------------------------------------
+// copy_tetrimino
+//--------------------------------------------------------
+static int count_blocks_of_line(t_tetris *tetris, int y){
 	int blocks = 0;
 
 	for(int x = 0; x < FIELD_COL; x++) {
@@ -9,18 +12,18 @@ int count_blocks_of_line(t_tetris *tetris, int y){
 	return (blocks);
 }
 
-void lower_the_upper_block(t_tetris *tetris, int y){
+static void lower_the_upper_block(t_tetris *tetris, int y){
 	for( ; y >= 1; y--)
 		for(int x = 0; x < FIELD_COL; x++)
 			tetris->playing_field[y][x] = tetris->playing_field[y-1][x];
 }
 
-void clear_line(t_tetris *tetris, int y){
+static void clear_line(t_tetris *tetris, int y){
 	for(int x = 0; x < FIELD_COL; x++)
 		tetris->playing_field[y][x] = 0;
 }
 
-void drop_placed_block_one_rank(t_tetris *tetris, int y){
+static void drop_placed_block_one_rank(t_tetris *tetris, int y){
 	lower_the_upper_block(tetris, y);
 	clear_line(tetris, TOP_ROW);
 }
@@ -36,3 +39,6 @@ int count_completed_lines_and_erase(t_tetris *tetris){
 	}
 	return (number_of_completed_lines);
 }
+//--------------------------------------------------------
+// endo of copy_tetrimino
+//--------------------------------------------------------

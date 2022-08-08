@@ -1,66 +1,14 @@
 #include "tetris.h"
 
-static void copy_figure_array(char **new, char **type_tetrimino_figure, int width_and_height)
-{
-	const int n = width_and_height;
-
-	for(int x = 0; x < n; x++){
-		for(int y = 0; y < n; y++) {
-			new[x][y] = type_tetrimino_figure[x][y];
-		}
-	}
-}
-
-static char **get_alloc_figure_array(int n){
-	char **figure = (char**)malloc(sizeof(char *) * n);
-	for(int x = 0; x < n; x++){
-		figure[x] = (char*)malloc(sizeof(char) * n);
-	}
-	return (figure);
-}
-
-t_tetrimino *copy_tetrimino_type(t_tetrimino *src){
-	const int n = src->width_and_height;
-	t_tetrimino *new = src;
-	
-	new->figure = get_alloc_figure_array(n);
-	copy_figure_array(new->figure, src->figure, n);
-    return (new);
-}
-
-t_tetrimino *select_type_tetrimino(t_tetrimino *src){
-	const int i = rand() % NUM_OF_TYPE;
-	t_tetrimino *select;
-	
-	select = &src[i];
-	return (select);
-}
-
-t_tetrimino *create_new_tetrimino(t_tetrimino *type_tetrimino)
-{
-	t_tetrimino *temp_type = select_type_tetrimino(type_tetrimino);
-	t_tetrimino *new = copy_tetrimino_type(temp_type);
-
-    new->col = rand() % (FIELD_COL - new->width_and_height + 1);
-    new->row = 0;
-	return (new);
-}
-
-void make_next_tetrimino(t_tetris *tetris, t_tetrimino *tetrimino){
-
-	t_tetrimino *new = copy_tetrimino_type(select_type_tetrimino);
-	
-	new->col = rand() % (FIELD_COL - new->width_and_height + 1);
-	new->row = 0;
+void switch_to_next_tetrimino(t_tetris *tetris, t_tetrimino *tetrimino){
+	t_tetrimino *new = create_new_tetrimino(tetris->type);
 
 	destroy_tetrimino(tetrimino);
 	tetrimino = &new;
-	if(!can_move_field(tetris, &tetrimino)){
-		tetris->game_status = GAME_OVER;
-	}
+	judgee_the_end_of_game(tetris);
 }
 
-void roteta_tetrimino(t_tetrimino *tetrimino){
+void rotate_tetrimino(t_tetrimino *tetrimino){
 	const int n = tetrimino->width_and_height;
 	t_tetrimino *temp = copy_tetrimino_type(tetrimino);
 	
@@ -94,3 +42,63 @@ void destroy_tetrimino(t_tetrimino *tetrimino){
     }
     free(tetrimino->figure);
 }
+
+//--------------------------------------------------------
+// copy_tetrimino
+//--------------------------------------------------------
+static void copy_figure_array(char **new, char **type_tetrimino_figure, int width_and_height){
+	const int n = width_and_height;
+
+	for(int x = 0; x < n; x++){
+		for(int y = 0; y < n; y++) {
+			new[x][y] = type_tetrimino_figure[x][y];
+		}
+	}
+}
+
+static char **get_alloc_figure_array(int n){
+	char **figure = (char**)malloc(sizeof(char *) * n);
+
+	for(int x = 0; x < n; x++){
+		figure[x] = (char*)malloc(sizeof(char) * n);
+	}
+	return (figure);
+}
+
+t_tetrimino *copy_tetrimino_type(t_tetrimino *src){
+	const int n = src->width_and_height;
+	t_tetrimino *new = src;
+	
+	new->figure = get_alloc_figure_array(n);
+	copy_figure_array(new->figure, src->figure, n);
+    return (new);
+}
+//--------------------------------------------------------
+// endo of copy_tetrimino
+//--------------------------------------------------------
+
+
+//--------------------------------------------------------
+// create_new_tetrimino
+//--------------------------------------------------------
+static t_tetrimino *select_type_tetrimino(t_tetrimino *src){
+	const int i = rand() % NUM_OF_TYPE;
+	t_tetrimino *select;
+	
+	select = &src[i];
+	return (select);
+}
+
+t_tetrimino *create_new_tetrimino(t_tetrimino *type){
+	t_tetrimino *temp_type = select_type_tetrimino(type);
+	t_tetrimino *new = copy_tetrimino_type(temp_type);
+
+    new->col = rand() % (FIELD_COL - new->width_and_height + 1);
+    new->row = 0;
+	return (new);
+}
+//--------------------------------------------------------
+// end of create_new_tetrimino
+//--------------------------------------------------------
+
+

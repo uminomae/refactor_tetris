@@ -18,12 +18,8 @@ int main() {
 
 void begin_game(t_tetris *tetris){
 	init_game(tetris);
-	//printf("b--begin----\n");
-	//tetris->tetrimino = create_new_tetrimino(type_tetrimino);
 	tetris->tetrimino = create_new_tetrimino(tetris->type);
-	if(!can_move_field(tetris, tetris->tetrimino)){
-		tetris->game_status = GAME_OVER;
-	}
+	judgee_the_end_of_game(tetris);
 	printf("b2--begin----\n");
     refresh_game_screen(tetris, tetris->tetrimino);
 }
