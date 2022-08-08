@@ -48,6 +48,11 @@ typedef struct {
 	int input_from_keyboard;
 } t_tetris;
 
+t_tetrimino *copy_tetrimino_type(t_tetrimino *type_tetrimino);
+t_tetrimino create_new_tetrimino(t_tetrimino *type_tetrimino);
+
+
+
 void end_ncurses();
 void set_timeout_millisecond(int time);
 void print_string_to_window(char *str,...);

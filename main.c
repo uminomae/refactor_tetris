@@ -1,9 +1,6 @@
 #include "tetris.h"
 #include "tetrimino.h"
 
-void copy_figure_array(char **new, char **type_tetrimino_figure, int width_and_height);
-t_tetrimino *copy_tetrimino(t_tetrimino *type_tetrimino);
-t_tetrimino create_new_tetrimino(t_tetrimino *type_tetrimino);
 void refresh_game_screen(t_tetris *tetris);
 void end_game(t_tetris *tetris,t_tetrimino current);
 bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j);
@@ -27,46 +24,6 @@ void move_tetrimino_with_key(t_tetris *tetris, bool update);
 
 t_tetrimino current;
 
-
-void copy_figure_array(char **new, char **type_tetrimino_figure, int width_and_height)
-{
-	const int n = width_and_height;
-
-	for(int x = 0; x < n; x++){
-		for(int y = 0; y < n; y++) {
-			new[x][y] = type_tetrimino_figure[x][y];
-		}
-	}
-}
-
-char **get_alloc_figure_array(int n){
-	char **figure = (char**)malloc(sizeof(char *) * n);
-	for(int x = 0; x < n; x++){
-		figure[x] = (char*)malloc(sizeof(char) * n);
-	}
-	return (figure);
-}
-
-t_tetrimino *copy_tetrimino(t_tetrimino *src){
-	const int n = src->width_and_height;
-	//t_tetrimino new;
-	t_tetrimino new = *src;
-	
-	new.figure = get_alloc_figure_array(n);
-	copy_figure_array((&new)->figure, src->figure, n);
-    return (&new);
-}
-
-t_tetrimino create_new_tetrimino(t_tetrimino *type_tetrimino)
-{
-	t_tetrimino new_figure = *copy_tetrimino(&type_tetrimino[rand()%7]);
-
-    new_figure.col = rand()%(FIELD_COL-new_figure.width_and_height+1);
-    new_figure.row = 0;
-	return (new_figure);
-}
-
-
 int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino){
 	const int n = tetrimino->width_and_height;
 
@@ -86,12 +43,15 @@ int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino){
 }
 
 void refresh_game_screen(t_tetris *tetris){
-	char Buffer[FIELD_ROW][FIELD_COL] = {0};
+	char next_playing_field[FIELD_ROW][FIELD_COL] = {0};
+	
 	tetris->tetrimino = &current;
-	get_current_position(tetris, Buffer);
+	get_current_position(tetris, next_playing_field);
 	clear();
-	print_game_screen(tetris, Buffer);
+	print_game_screen(tetris, next_playing_field);
 }
+
+
 
 void start_game(t_tetris *tetris){
 	current = create_new_tetrimino(type_tetrimino);
@@ -100,10 +60,6 @@ void start_game(t_tetris *tetris){
 	}
     refresh_game_screen(tetris);
 }
-
-
-
-
 
 void run_game(t_tetris *tetris){
 	while(tetris->game_status == GAME_PLAY){
@@ -173,7 +129,7 @@ bool can_move_not_overlapping(t_tetris *tetris, int i, int j){
 
 void roteta_tetrimino(t_tetrimino *tetrimino){
 	const int n = tetrimino->width_and_height;
-	t_tetrimino *temp = copy_tetrimino(tetrimino);
+	t_tetrimino *temp = copy_tetrimino_type(tetrimino);
 	int i, j, k;
 
 	for(i = 0; i < n ; i++){
@@ -257,7 +213,7 @@ void fix_tetrimino_on_the_field(t_tetris *tetris){
 
 
 void make_the_next_tetrimino(t_tetris *tetris){
-	t_tetrimino new_shape = *copy_tetrimino(&type_tetrimino[rand()%7]);
+	t_tetrimino new_shape = *copy_tetrimino_type(&type_tetrimino[rand()%7]);
 	new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
 	new_shape.row = 0;
 	destroy_tetrimino(&current);
@@ -282,7 +238,7 @@ void case_s(t_tetris *tetris, t_tetrimino *temp, bool update){
 
 void move_tetrimino_with_key(t_tetris *tetris, bool update){
 	int key = tetris->input_from_keyboard;
-	t_tetrimino for_judg_move = *copy_tetrimino(&current);
+	t_tetrimino for_judg_move = *copy_tetrimino_type(&current);
 
 	if (key == DROP_KEY){
 		case_s(tetris, &for_judg_move, update);

@@ -7,10 +7,10 @@ void print_header(){
 }
 
 void print_game_field(t_tetris *tetris, \
-						char Buffer[FIELD_ROW][FIELD_COL]){
+						char buffer[FIELD_ROW][FIELD_COL]){
 	for(int i = 0; i < FIELD_ROW ;i++){
 		for(int j = 0; j < FIELD_COL ; j++){
-			if (tetris->playing_field[i][j] + Buffer[i][j])
+			if (tetris->playing_field[i][j] + buffer[i][j])
 				print_string_to_window("%c ", '#');
 			else
 				print_string_to_window("%c ", '.');
@@ -24,20 +24,29 @@ void print_footer(t_tetris *tetris){
 }
 
 void print_game_screen(t_tetris *tetris, \
-						char Buffer[FIELD_ROW][FIELD_COL]){
+						char buffer[FIELD_ROW][FIELD_COL]){
 	print_header();
-	print_game_field(tetris, Buffer);
+	print_game_field(tetris, buffer);
 	print_footer(tetris);
 }
 
 void get_current_position(t_tetris *tetris, \
-							char Buffer[FIELD_ROW][FIELD_COL]){
+							char buffer[FIELD_ROW][FIELD_COL]){
 	const int n = tetris->tetrimino->width_and_height;
 
 	for(int i = 0; i < n ;i++){
 		for(int j = 0; j < n ; j++){
 			if(tetris->tetrimino->figure[i][j])
-				Buffer[tetris->tetrimino->row+i][tetris->tetrimino->col+j] = tetris->tetrimino->figure[i][j];
+				buffer[tetris->tetrimino->row+i][tetris->tetrimino->col+j] = tetris->tetrimino->figure[i][j];
 		}
 	}
 }
+
+//void refresh_game_screen(t_tetris *tetris){
+//	char next_playing_field[FIELD_ROW][FIELD_COL] = {0};
+	
+//	tetris->tetrimino = &current;
+//	get_current_position(tetris, next_playing_field);
+//	clear();
+//	print_game_screen(tetris, next_playing_field);
+//}
