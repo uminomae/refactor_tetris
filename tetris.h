@@ -49,18 +49,11 @@ typedef struct {
 	int input_from_keyboard;
 } t_tetris;
 
+
 t_tetrimino *copy_tetrimino_type(t_tetrimino *type_tetrimino);
 t_tetrimino create_new_tetrimino(t_tetrimino *type_tetrimino);
-void print_game_field(t_tetris *tetris, \
-						char next_playing_field[FIELD_ROW][FIELD_COL]);
-
-
 
 //can_move
-//bool can_move_left(t_tetrimino *tetrimino, int i, int j);
-//bool can_move_right(t_tetrimino *tetrimino, int i, int j);
-//bool can_move_bottom(t_tetrimino *tetrimino, int i, int j);
-//bool can_move_not_overlapping(t_tetris *tetris, int i, int j);
 int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino);
 
 //move.c
@@ -87,7 +80,7 @@ void print_game_screen(t_tetris *tetris, \
 						char next_playing_field[FIELD_ROW][FIELD_COL]);
 
 void set_timeout_millisecond(int time);
-void print_string_to_window(char *str,...);
+//void print_string_to_window(char *str,...);
 void print_resulting_to_standard_output(t_tetris *tetris);
 
 #endif 

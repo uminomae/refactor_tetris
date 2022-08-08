@@ -1,7 +1,7 @@
 #include "tetris.h"
 #include "tetrimino.h"
-void refresh_game_screen(t_tetris *tetris, t_tetrimino *current);
 
+void refresh_game_screen(t_tetris *tetris, t_tetrimino *current);
 bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j);
 int count_blocks_of_line(t_tetris *tetris, int y);
 void lower_the_upper_block(t_tetris *tetris, int y);

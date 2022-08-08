@@ -1,12 +1,16 @@
 #include "tetris.h"
 
+static void print_string_to_window(char *str,...){
+	printw(str);
+}
+
 static void print_header(){
 	for(int i = 0; i < FIELD_COL - 9; i++)
 		print_string_to_window(" ");
 	print_string_to_window("42 Tetris\n");
 }
 
-void print_game_field(t_tetris *tetris, \
+static void print_game_field(t_tetris *tetris, \
 						char next_playing_field[FIELD_ROW][FIELD_COL]){
 	for(int i = 0; i < FIELD_ROW ;i++){
 		for(int j = 0; j < FIELD_COL ; j++){

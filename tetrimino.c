@@ -36,3 +36,12 @@ t_tetrimino create_new_tetrimino(t_tetrimino *type_tetrimino)
     new_figure.row = 0;
 	return (new_figure);
 }
+
+void destroy_tetrimino(t_tetrimino *tetrimino){
+	const int n = tetrimino->width_and_height;
+
+    for(int i = 0; i < n; i++){
+		free(tetrimino->figure[i]);
+    }
+    free(tetrimino->figure);
+}
