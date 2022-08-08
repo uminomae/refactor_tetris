@@ -2,7 +2,7 @@
 #include "tetrimino.h"
 
 void refresh_game_screen(t_tetris *tetris);
-void end_game(t_tetris *tetris,t_tetrimino current);
+
 bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j);
 int count_blocks_of_line(t_tetris *tetris, int y);
 void lower_the_upper_block(t_tetris *tetris, int y);
@@ -49,13 +49,6 @@ void run_game(t_tetris *tetris){
 			gettimeofday(&before_now, NULL);
 		}
 	}
-}
-
-void end_game(t_tetris *tetris, t_tetrimino current)
-{
-	destroy_tetrimino(&current);
-	end_ncurses();
-	print_resulting_to_standard_output(tetris);
 }
 
 int main() {
@@ -122,20 +115,6 @@ void move_case_a(t_tetris *tetris, t_tetrimino *temp)
 	if(can_move_field(tetris, temp))
 		current.col--;
 }
-
-//void roteta_tetrimino(t_tetrimino *tetrimino){
-//	const int n = tetrimino->width_and_height;
-
-//	t_tetrimino *temp = copy_tetrimino_type(tetrimino);
-	
-//	int k = n - 1;
-//	for(int i = 0; i < n ; i++){
-//		for(int j = 0, k = n - 1; j < n ; j++, k--){
-//				tetrimino->figure[i][j] = temp->figure[k][i];
-//		}
-//	}
-//	destroy_tetrimino(temp);
-//}
 
 void move_case_w(t_tetris *tetris, t_tetrimino *temp,t_tetrimino current)
 {

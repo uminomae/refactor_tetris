@@ -55,22 +55,6 @@ void print_game_field(t_tetris *tetris, \
 						char next_playing_field[FIELD_ROW][FIELD_COL]);
 
 
-void end_ncurses();
-void set_timeout_millisecond(int time);
-void print_string_to_window(char *str,...);
-void print_resulting_to_standard_output(t_tetris *tetris);
-
-//time.c
-suseconds_t get_millisecond(struct timeval timevalue);
-bool need_update(t_tetris *tetris);
-
-
-void destroy_tetrimino(t_tetrimino *tetrimino);
-
-void get_current_position(t_tetris *tetris, \
-							char next_playing_field[FIELD_ROW][FIELD_COL]);
-void print_game_screen(t_tetris *tetris, \
-						char next_playing_field[FIELD_ROW][FIELD_COL]);
 
 //can_move
 //bool can_move_left(t_tetrimino *tetrimino, int i, int j);
@@ -85,5 +69,25 @@ void roteta_tetrimino(t_tetrimino *tetrimino);
 //init.c
 void init_tetris(t_tetris *tetris);
 void init_game(t_tetris *tetris);
+
+//end.c
+void end_game(t_tetris *tetris,t_tetrimino current);
+void end_ncurses();
+
+//time.c
+suseconds_t get_millisecond(struct timeval timevalue);
+bool need_update(t_tetris *tetris);
+
+
+void destroy_tetrimino(t_tetrimino *tetrimino);
+
+void get_current_position(t_tetris *tetris, \
+							char next_playing_field[FIELD_ROW][FIELD_COL]);
+void print_game_screen(t_tetris *tetris, \
+						char next_playing_field[FIELD_ROW][FIELD_COL]);
+
+void set_timeout_millisecond(int time);
+void print_string_to_window(char *str,...);
+void print_resulting_to_standard_output(t_tetris *tetris);
 
 #endif 
