@@ -1,5 +1,14 @@
 #include "tetris.h"
 
+void judge_the_end_of_game(t_tetris *tetris){
+	if(!can_move_field(tetris, tetris->tetrimino)){
+		tetris->game_status = GAME_OVER;
+	}
+}
+
+//--------------------------------------------------------
+//can_move_field
+//--------------------------------------------------------
 static bool can_move_left(t_tetrimino *tetrimino, int i, int j){
 	if (tetrimino->col+ j < 0 && tetrimino->figure[i][j])
 		return FALSE;
@@ -28,13 +37,7 @@ static bool can_move_not_overlapping(t_tetris *tetris, int i, int j){
 	return TRUE;
 }
 
-void judge_the_end_of_game(t_tetris *tetris){
-	if(!can_move_field(tetris, tetris->tetrimino)){
-		tetris->game_status = GAME_OVER;
-	}
-}
-
-// x,yに
+// todo:i,jをx,yに変更する
 int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino){
 	const int n = tetrimino->width_and_height;
 
@@ -53,3 +56,6 @@ int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino){
 	printf("c--can_move_field----\n");
 	return TRUE;
 }
+//--------------------------------------------------------
+//end of can_move_field
+//--------------------------------------------------------
