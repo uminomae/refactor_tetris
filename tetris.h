@@ -49,6 +49,7 @@ typedef struct {
 	int 		score;
 	char 		game_status;
 	t_tetrimino *tetrimino;
+	t_tetrimino type[NUM_OF_TYPE];
 	suseconds_t time_to_update;
 	int 		decrease;
 	char		playing_field[FIELD_ROW][FIELD_COL];

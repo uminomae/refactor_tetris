@@ -1,4 +1,5 @@
 #include "tetris.h"
+#include "tetrimino.h"
 
 //--------------------------------------------------------
 //init_game
@@ -9,6 +10,7 @@ static void init_struct_tetris(t_tetris *tetris){
 	tetris->game_status = GAME_PLAY;
 	tetris->time_to_update = FALL_VELOCITY_INTERVAL;
 	tetris->decrease = INTERVAL_DECREASE;
+	tetris->type[NUM_OF_TYPE] = type_tetrimino[NUM_OF_TYPE];
 	memset(tetris->playing_field, 0, sizeof(char) * FIELD_ROW * FIELD_COL);
 	tetris->input_from_keyboard = 0;
 }

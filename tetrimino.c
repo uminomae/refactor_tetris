@@ -47,11 +47,14 @@ t_tetrimino *create_new_tetrimino(t_tetrimino *type_tetrimino)
 }
 
 void make_next_tetrimino(t_tetris *tetris, t_tetrimino *tetrimino){
-	t_tetrimino *next = copy_tetrimino_type(select_type_tetrimino);
-	next->col = rand() % (FIELD_COL - next->width_and_height+1);
-	next->row = 0;
+
+	t_tetrimino *new = copy_tetrimino_type(select_type_tetrimino);
+	
+	new->col = rand() % (FIELD_COL - new->width_and_height + 1);
+	new->row = 0;
+
 	destroy_tetrimino(tetrimino);
-	tetrimino = &next;
+	tetrimino = &new;
 	if(!can_move_field(tetris, &tetrimino)){
 		tetris->game_status = GAME_OVER;
 	}

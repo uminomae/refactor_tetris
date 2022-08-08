@@ -1,12 +1,11 @@
 #include "tetris.h"
-#include "tetrimino.h"
+//#include "tetrimino.h"
 
 //t_tetrimino current;
 
 int main() {
 	t_tetris tetris;
 
-	//printf("a--main----\n");
 	begin_game(&tetris);
 	run_game(&tetris);
 	finish_game(&tetris);
@@ -19,12 +18,13 @@ int main() {
 
 void begin_game(t_tetris *tetris){
 	init_game(tetris);
-
-	printf("b--begin----\n");
-	tetris->tetrimino = create_new_tetrimino(type_tetrimino);
+	//printf("b--begin----\n");
+	//tetris->tetrimino = create_new_tetrimino(type_tetrimino);
+	tetris->tetrimino = create_new_tetrimino(tetris->type);
 	if(!can_move_field(tetris, tetris->tetrimino)){
 		tetris->game_status = GAME_OVER;
 	}
+	printf("b2--begin----\n");
     refresh_game_screen(tetris, tetris->tetrimino);
 }
 
@@ -33,10 +33,9 @@ int get_char_input_from_keyboad(t_tetris *tetris){
 }
 
 void run_game(t_tetris *tetris){
+		printf("e--if need----\n");
 	while(tetris->game_status == GAME_PLAY){
 		get_char_input_from_keyboad(tetris);
-    	//tetris->input_from_keyboard = getch();
-		printf("e--if need----\n");
 		if (tetris->input_from_keyboard != ERR) 
 			move_tetrimino_with_key(tetris, tetris->tetrimino, false);
 		gettimeofday(&tetris->time->now, NULL);
