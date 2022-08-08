@@ -12,6 +12,7 @@ bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j);
 bool can_move_not_overlapping(t_tetris *tetris, int i, int j);
 int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino);
 void roteta_tetrimino(t_tetrimino *shape);
+void init_tetris(t_tetris *tetris);
 void init_game(t_tetris *tetris);
 int count_blocks_of_line(t_tetris *tetris, int y);
 void lower_the_upper_block(t_tetris *tetris, int y);
@@ -29,14 +30,19 @@ void move_tetrimino_with_key(t_tetris *tetris, bool update);
 
 t_tetrimino current;
 
-void init_game(t_tetris *tetris)
-{
-	srand(time(0));
+void init_tetris(t_tetris *tetris){
 	tetris->score = 0;
 	tetris->game_status = GAME_PLAY;
 	tetris->time_to_update = FALL_VELOCITY_INTERVAL;
 	tetris->decrease = INTERVAL_DECREASE;
-	memset(tetris->playing_field, 0, sizeof(char)*FIELD_ROW*FIELD_COL);
+	memset(tetris->playing_field, 0, sizeof(char) * FIELD_ROW * FIELD_COL);
+	tetris->input_from_keyboard = 0;
+}
+
+void init_game(t_tetris *tetris)
+{
+	srand(time(0));
+	init_tetris(tetris);
 	initscr();
 	gettimeofday(&before_now, NULL);
 	set_timeout_millisecond(1);
@@ -133,13 +139,14 @@ char **get_alloc_figure_array(int n){
 	return (figure);
 }
 
-t_tetrimino *copy_tetrimino(t_tetrimino *type_tetrimino){
-	const int n = type_tetrimino->width_and_height;
-	t_tetrimino new_tetrimino = *type_tetrimino;
+t_tetrimino *copy_tetrimino(t_tetrimino *src){
+	const int n = src->width_and_height;
+	//t_tetrimino new;
+	t_tetrimino new = *src;
 	
-	new_tetrimino.figure = get_alloc_figure_array(n);
-	copy_figure_array((&new_tetrimino)->figure, type_tetrimino->figure, n);
-    return (&new_tetrimino);
+	new.figure = get_alloc_figure_array(n);
+	copy_figure_array((&new)->figure, src->figure, n);
+    return (&new);
 }
 
 t_tetrimino make_new_tetrimino(t_tetrimino *type_tetrimino)

@@ -33,7 +33,9 @@ typedef enum s_game_status {
 
 typedef struct {
     char **figure;
-    int width_and_height, row, col;
+    int width_and_height;
+	int row;
+	int col;
 } t_tetrimino;
 
 typedef struct {
