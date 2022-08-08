@@ -17,7 +17,7 @@ void move_tetrimino_with_key(t_tetris *tetris, t_tetrimino *tetrimino, bool upda
 	t_tetrimino for_judg_move = *copy_tetrimino_type(&current);
 
 	if (key == DROP_KEY){
-		move_case_key_s(tetris, &for_judg_move, update);
+		move_case_key_s(tetris, &current, &for_judg_move, update);
 	}else if (key == RIGHT_KEY){
 		move_case_key_d(tetris, &current, &for_judg_move);
 	}else if (key == LEFT_KEY){
@@ -107,26 +107,40 @@ int count_completed_lines_and_erase(t_tetris *tetris){
 	return (number_of_completed_lines);
 }
 
-void make_next_tetrimino(t_tetris *tetris){
+void make_next_tetrimino(t_tetris *tetris, t_tetrimino *tetlimino){
+//void make_next_tetrimino(t_tetris *tetris){
 	t_tetrimino new_shape = *copy_tetrimino_type(&type_tetrimino[rand() % 7]);
 	new_shape.col = rand() % (FIELD_COL - new_shape.width_and_height+1);
 	new_shape.row = 0;
-	destroy_tetrimino(&current);
-	current = new_shape;
-	if(!can_move_field(tetris, &current)){
+	destroy_tetrimino(tetlimino);
+	tetlimino = &new_shape;
+	//destroy_tetrimino(&current);
+	//current = new_shape;
+	if(!can_move_field(tetris, &tetlimino)){
 		tetris->game_status = GAME_OVER;
 	}
 }
 
-void move_case_key_s(t_tetris *tetris, t_tetrimino *temp, bool update){
-	temp->row++;
-	if(can_move_field(tetris, temp))
-		current.row++;
+void move_case_key_s(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judg, bool update){
+//void move_case_key_s(t_tetris *tetris, t_tetrimino *temp, bool update){
+	temp_for_judg->row++;
+	if(can_move_field(tetris, temp_for_judg))
+		tetrimino->row++;
 	else {
 		fix_tetrimino_on_the_field(tetris);
 		int completed_lines = count_completed_lines_and_erase(tetris);
 		if (update == false)
 			tetris->score += 100 * completed_lines;
-		make_next_tetrimino(tetris);
+		make_next_tetrimino(tetris, tetrimino);
 	}
+	//temp->row++;
+	//if(can_move_field(tetris, temp))
+	//	current.row++;
+	//else {
+	//	fix_tetrimino_on_the_field(tetris);
+	//	int completed_lines = count_completed_lines_and_erase(tetris);
+	//	if (update == false)
+	//		tetris->score += 100 * completed_lines;
+	//	make_next_tetrimino(tetris);
+	//}
 }

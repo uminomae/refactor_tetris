@@ -73,14 +73,16 @@ void move_case_key_w(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp
 //void move_case_key_w(t_tetris *tetris, t_tetrimino *temp,t_tetrimino current);
 	//case s
 void fix_tetrimino_on_the_field(t_tetris *tetris);
-void make_the_next_tetrimino(t_tetris *tetris);
+void make_next_tetrimino(t_tetris *tetris, t_tetrimino *tetlimino);
+//void make_next_tetrimino(t_tetris *tetris);
 bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j);
 int count_blocks_of_line(t_tetris *tetris, int y);
 void lower_the_upper_block(t_tetris *tetris, int y);
 void clear_line(t_tetris *tetris, int y);
 void drop_placed_block_one_rank(t_tetris *tetris, int y);
 int count_completed_lines_and_erase(t_tetris *tetris);
-void move_case_key_s(t_tetris *tetris, t_tetrimino *temp, bool update);
+void move_case_key_s(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judg, bool update);
+//void move_case_key_s(t_tetris *tetris, t_tetrimino *temp, bool update);
 
 //tmake_and_destroy_tetrimino.c
 t_tetrimino *copy_tetrimino_type(t_tetrimino *type_tetrimino);
