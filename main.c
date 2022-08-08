@@ -58,11 +58,6 @@ void start_game(t_tetris *tetris){
 }
 
 void run_game(t_tetris *tetris){
-	//current = make_new_tetrimino(type_tetrimino);
-	//if(!can_move_field(tetris, &current)){
-	//	tetris->game_status = GAME_OVER;
-	//}
-    //refresh_game_screen(tetris);
 	while(tetris->game_status == GAME_PLAY){
     	tetris->input_from_keyboard = getch();
 		if (tetris->input_from_keyboard != ERR) {
@@ -148,21 +143,6 @@ int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino){
 	}
 	return TRUE;
 }
-
-//////struct timeval {
-//////    time_t      tv_sec;     /* 秒 */
-//////    suseconds_t tv_usec;    /* マイクロ秒 */
-//////};
-//suseconds_t get_millisecond(struct timeval timevalue){
-//	return (timevalue.tv_sec * MILLION + timevalue.tv_usec);
-//}
-
-//bool need_update(t_tetris *tetris){
-//	const suseconds_t now_ms = get_millisecond(now);
-//	const suseconds_t before_now_ms = get_millisecond(before_now);
-//	return (now_ms - before_now_ms > tetris->time_to_update);
-//}
-
 
 void roteta_tetrimino(t_tetrimino *tetrimino){
 	const int n = tetrimino->width_and_height;
@@ -274,17 +254,17 @@ void case_s(t_tetris *tetris, t_tetrimino *temp, bool update){
 }
 void move_tetrimino_with_key(t_tetris *tetris, bool update){
 	int key = tetris->input_from_keyboard;
-	t_tetrimino temp = *create_tetrimino(&current);
+	t_tetrimino temp_for_change_whith_key = *create_tetrimino(&current);
 
 	if (key == DROP_KEY){
-		case_s(tetris, &temp, update);
+		case_s(tetris, &temp_for_change_whith_key, update);
 	}else if (key == RIGHT_KEY){
-		case_d(tetris, &temp);
+		case_d(tetris, &temp_for_change_whith_key);
 	}else if (key == LEFT_KEY){
-		case_a(tetris, &temp);
+		case_a(tetris, &temp_for_change_whith_key);
 	}else if (key == ROTATE_KEY){
-		case_w(tetris, &temp, current);
+		case_w(tetris, &temp_for_change_whith_key, current);
 	}
-	destroy_tetrimino(&temp);
+	destroy_tetrimino(&temp_for_change_whith_key);
 	refresh_game_screen(tetris);
 }
