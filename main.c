@@ -1,20 +1,7 @@
 #include "tetris.h"
 #include "tetrimino.h"
 
-void refresh_game_screen(t_tetris *tetris, t_tetrimino *current);
-bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j);
-int count_blocks_of_line(t_tetris *tetris, int y);
-void lower_the_upper_block(t_tetris *tetris, int y);
-void clear_line(t_tetris *tetris, int y);
-void drop_placed_block_one_rank(t_tetris *tetris, int y);
-int count_completed_lines_and_erase(t_tetris *tetris);
-void move_case_d(t_tetris *tetris, t_tetrimino *temp);
-void move_case_a(t_tetris *tetris, t_tetrimino *temp);
-void move_case_w(t_tetris *tetris, t_tetrimino *temp,t_tetrimino current);
-void fix_tetrimino_on_the_field(t_tetris *tetris);
-void make_the_next_tetrimino(t_tetris *tetris);
-void move_case_s(t_tetris *tetris, t_tetrimino *temp, bool update);
-void move_tetrimino_with_key(t_tetris *tetris, bool update);
+
 
 t_tetrimino current;
 
@@ -92,6 +79,10 @@ int count_completed_lines_and_erase(t_tetris *tetris){
 	return (number_of_completed_lines);
 }
 
+
+//--------------------------------------------------------
+// move
+//
 void move_case_d(t_tetris *tetris, t_tetrimino *temp)
 {
 	temp->col++;
