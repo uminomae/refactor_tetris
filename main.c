@@ -252,19 +252,36 @@ void case_s(t_tetris *tetris, t_tetrimino *temp, bool update){
 		make_the_next_tetrimino(tetris);
 	}
 }
+
+//void move_tetrimino_with_key(t_tetris *tetris, bool update){
+//	int key = tetris->input_from_keyboard;
+//	t_tetrimino temp_for_change_whith_key = *create_tetrimino(&current);
+
+//	if (key == DROP_KEY){
+//		case_s(tetris, &temp_for_change_whith_key, update);
+//	}else if (key == RIGHT_KEY){
+//		case_d(tetris, &temp_for_change_whith_key);
+//	}else if (key == LEFT_KEY){
+//		case_a(tetris, &temp_for_change_whith_key);
+//	}else if (key == ROTATE_KEY){
+//		case_w(tetris, &temp_for_change_whith_key, current);
+//	}
+//	destroy_tetrimino(&temp_for_change_whith_key);
+//	refresh_game_screen(tetris);
+//}
 void move_tetrimino_with_key(t_tetris *tetris, bool update){
 	int key = tetris->input_from_keyboard;
-	t_tetrimino temp_for_change_whith_key = *create_tetrimino(&current);
+	t_tetrimino for_judg_move = *create_tetrimino(&current);
 
 	if (key == DROP_KEY){
-		case_s(tetris, &temp_for_change_whith_key, update);
+		case_s(tetris, &for_judg_move, update);
 	}else if (key == RIGHT_KEY){
-		case_d(tetris, &temp_for_change_whith_key);
+		case_d(tetris, &for_judg_move);
 	}else if (key == LEFT_KEY){
-		case_a(tetris, &temp_for_change_whith_key);
+		case_a(tetris, &for_judg_move);
 	}else if (key == ROTATE_KEY){
-		case_w(tetris, &temp_for_change_whith_key, current);
+		case_w(tetris, &for_judg_move, current);
 	}
-	destroy_tetrimino(&temp_for_change_whith_key);
+	destroy_tetrimino(&for_judg_move);
 	refresh_game_screen(tetris);
 }
