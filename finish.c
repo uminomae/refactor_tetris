@@ -21,14 +21,8 @@ static void print_result_footer(t_tetris *tetris){
 	printf("\nScore: %d\n", tetris->score);
 }
 
-static void print_resulting_to_standard_output(t_tetris *tetris){
+void print_resulting_to_standard_output(t_tetris *tetris){
 	print_field_result(tetris);
 	print_result_footer(tetris);
 }
 
-void finish_game(t_tetris *tetris, t_tetrimino current)
-{
-	destroy_tetrimino(&current);
-	finish_ncurses();
-	print_resulting_to_standard_output(tetris);
-}
