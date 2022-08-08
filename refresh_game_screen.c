@@ -1,6 +1,4 @@
 #include "tetris.h"
-//#include "tetrimino.h"
-
 
 void print_header(){
 	for(int i = 0; i < FIELD_COL - 9; i++)
@@ -35,13 +33,11 @@ void print_game_screen(t_tetris *tetris, \
 void get_current_position(t_tetris *tetris, \
 							char Buffer[FIELD_ROW][FIELD_COL]){
 	const int n = tetris->tetrimino->width_and_height;
-	//const int n = current.width_and_height;
 
 	for(int i = 0; i < n ;i++){
 		for(int j = 0; j < n ; j++){
 			if(tetris->tetrimino->figure[i][j])
 				Buffer[tetris->tetrimino->row+i][tetris->tetrimino->col+j] = tetris->tetrimino->figure[i][j];
-				//Buffer[current.row+i][current.col+j] = current.figure[i][j];
 		}
 	}
 }

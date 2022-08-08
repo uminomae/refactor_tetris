@@ -4,7 +4,7 @@
 t_tetrimino *create_tetrimino(t_tetrimino *type_tetrimino);
 t_tetrimino make_new_tetrimino(t_tetrimino *type_tetrimino);
 void refresh_game_screen(t_tetris *tetris);
-void end_of_game(t_tetris *tetris,t_tetrimino current);
+void end_game(t_tetris *tetris,t_tetrimino current);
 bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j);
 bool can_move_not_overlapping(t_tetris *tetris, int i, int j);
 int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino);
@@ -24,12 +24,13 @@ void fix_tetrimino_on_the_field(t_tetris *tetris);
 void make_the_next_tetrimino(t_tetris *tetris);
 void case_s(t_tetris *tetris, t_tetrimino *temp, bool update);
 void init_game(t_tetris *tetris);
+void move_tetrimino_with_key(t_tetris *tetris, bool update);
 
 t_tetrimino current;
 
-//initscr()： スクリーンを初期化する． （curses を利用する場合，最初に呼び出さなければならない．）
 void init_game(t_tetris *tetris)
 {
+	srand(time(0));
 	tetris->score = 0;
 	tetris->game_status = GAME_PLAY;
 	tetris->time_to_update = FALL_VELOCITY_INTERVAL;
@@ -40,29 +41,28 @@ void init_game(t_tetris *tetris)
 	set_timeout_millisecond(1);
 }
 
-void move_tetrimino_with_key(t_tetris *tetris, bool update){
-	int key = tetris->input_from_keyboard;
-	t_tetrimino temp = *create_tetrimino(&current);
-
-	if (key == DROP_KEY){
-		case_s(tetris, &temp, update);
-	}else if (key == RIGHT_KEY){
-		case_d(tetris, &temp);
-	}else if (key == LEFT_KEY){
-		case_a(tetris, &temp);
-	}else if (key == ROTATE_KEY){
-		case_w(tetris, &temp, current);
-	}
-	destroy_tetrimino(&temp);
-	refresh_game_screen(tetris);
+void refresh_game_screen(t_tetris *tetris){
+	char Buffer[FIELD_ROW][FIELD_COL] = {0};
+	tetris->tetrimino = &current;
+	get_current_position(tetris, Buffer);
+	clear();
+	print_game_screen(tetris, Buffer);
 }
 
-void run_game(t_tetris *tetris){
+void start_game(t_tetris *tetris){
 	current = make_new_tetrimino(type_tetrimino);
 	if(!can_move_field(tetris, &current)){
 		tetris->game_status = GAME_OVER;
 	}
     refresh_game_screen(tetris);
+}
+
+void run_game(t_tetris *tetris){
+	//current = make_new_tetrimino(type_tetrimino);
+	//if(!can_move_field(tetris, &current)){
+	//	tetris->game_status = GAME_OVER;
+	//}
+    //refresh_game_screen(tetris);
 	while(tetris->game_status == GAME_PLAY){
     	tetris->input_from_keyboard = getch();
 		if (tetris->input_from_keyboard != ERR) {
@@ -76,61 +76,8 @@ void run_game(t_tetris *tetris){
 		}
 	}
 }
-//srand関数はrand関数の擬似乱数の発生系列を変更する関数 //srand((unsigned int)time(NULL));
-//getch()標準入力(キーボード)から1文字読み込み、その文字を返します。
-int main() {
-	t_tetris tetris;
 
-    srand(time(0));
-	init_game(&tetris);
-	run_game(&tetris);
-	end_of_game(&tetris, current);
-    return 0;
-}
-
-
-
-//--------------------------------------------------------
-//
-//
-
-
-//構造体型はmalloc失敗時にNULL返す方法を質問する
-t_tetrimino *create_tetrimino(t_tetrimino *type_tetrimino){
-	const int y_size = type_tetrimino->width_and_height;
-	t_tetrimino new_type_tetrimino = *type_tetrimino;
-
-	new_type_tetrimino.figure = (char**)malloc(sizeof(char *) * y_size);
-	copy_figure(&new_type_tetrimino, type_tetrimino->figure);
-    return (&new_type_tetrimino);
-}
-
-
-//7種類の形
-//0 + rand() % 10) // 最小値:0 取得個数:10個
-t_tetrimino make_new_tetrimino(t_tetrimino *type_tetrimino)
-{
-	t_tetrimino new_figure = *create_tetrimino(&type_tetrimino[rand()%7]);
-
-    new_figure.col = rand()%(FIELD_COL-new_figure.width_and_height+1);
-    new_figure.row = 0;
-	return (new_figure);
-}
-
-
-////printw
-////clear() スクリーンをリフレッシュする
-void refresh_game_screen(t_tetris *tetris){
-	
-	char Buffer[FIELD_ROW][FIELD_COL] = {0};
-	tetris->tetrimino = &current;
-	get_current_position(tetris, Buffer);
-	clear();
-	print_game_screen(tetris, Buffer);
-}
-
-
-void end_of_game(t_tetris *tetris,t_tetrimino current)
+void end_game(t_tetris *tetris, t_tetrimino current)
 {
 	destroy_tetrimino(&current);
 	end_ncurses();
@@ -145,8 +92,40 @@ void end_of_game(t_tetris *tetris,t_tetrimino current)
 	printf("\nScore: %d\n", tetris->score);
 }
 
+int main() {
+	t_tetris tetris;
+
+	init_game(&tetris);
+	start_game(&tetris);
+	run_game(&tetris);
+	end_game(&tetris, current);
+    return 0;
+}
+
+//--------------------------------------------------------
+//
+//
+t_tetrimino *create_tetrimino(t_tetrimino *type_tetrimino){
+	const int y_size = type_tetrimino->width_and_height;
+	t_tetrimino new_type_tetrimino = *type_tetrimino;
+
+	new_type_tetrimino.figure = (char**)malloc(sizeof(char *) * y_size);
+	copy_figure(&new_type_tetrimino, type_tetrimino->figure);
+    return (&new_type_tetrimino);
+}
+
+t_tetrimino make_new_tetrimino(t_tetrimino *type_tetrimino)
+{
+	t_tetrimino new_figure = *create_tetrimino(&type_tetrimino[rand()%7]);
+
+    new_figure.col = rand()%(FIELD_COL-new_figure.width_and_height+1);
+    new_figure.row = 0;
+	return (new_figure);
+}
+
 bool can_move_not_overlapping(t_tetris *tetris, int i, int j){
 	const t_tetrimino *tetrimino = tetris->tetrimino;
+	//const t_tetrimino *tetrimino = &current;;
 	if (tetris->playing_field[tetrimino->row + i][tetrimino->col + j] && tetrimino->figure[i][j])
 		return FALSE;
 	return TRUE;
@@ -293,4 +272,20 @@ void case_s(t_tetris *tetris, t_tetrimino *temp, bool update){
 			tetris->score += 100 * completed_lines;
 		make_the_next_tetrimino(tetris);
 	}
+}
+void move_tetrimino_with_key(t_tetris *tetris, bool update){
+	int key = tetris->input_from_keyboard;
+	t_tetrimino temp = *create_tetrimino(&current);
+
+	if (key == DROP_KEY){
+		case_s(tetris, &temp, update);
+	}else if (key == RIGHT_KEY){
+		case_d(tetris, &temp);
+	}else if (key == LEFT_KEY){
+		case_a(tetris, &temp);
+	}else if (key == ROTATE_KEY){
+		case_w(tetris, &temp, current);
+	}
+	destroy_tetrimino(&temp);
+	refresh_game_screen(tetris);
 }
