@@ -1,18 +1,5 @@
 #include "tetris.h"
 
-//void move_case_d(t_tetris *tetris, t_tetrimino *temp)
-//{
-//	temp->col++;
-//	if(can_move_field(tetris, temp))
-//		current.col++;
-//}
-
-//void move_case_a(t_tetris *tetris, t_tetrimino *temp)
-//{
-//	temp->col--;
-//	if(can_move_field(tetris, temp))
-//		current.col--;
-//}
 
 void roteta_tetrimino(t_tetrimino *tetrimino){
 	const int n = tetrimino->width_and_height;
@@ -27,10 +14,3 @@ void roteta_tetrimino(t_tetrimino *tetrimino){
 	}
 	destroy_tetrimino(temp);
 }
-
-//void move_case_w(t_tetris *tetris, t_tetrimino *temp,t_tetrimino current)
-//{
-//	roteta_tetrimino(temp);
-//	if(can_move_field(tetris, temp))
-//		roteta_tetrimino(&current);
-//}
