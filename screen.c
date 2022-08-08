@@ -49,8 +49,6 @@ static void print_game_screen(t_tetris *tetris, \
 	print_footer(tetris);
 }
 
-
-
 void refresh_game_screen(t_tetris *tetris, t_tetrimino *current){
 	char next_playing_field[FIELD_ROW][FIELD_COL] = {0};
 	

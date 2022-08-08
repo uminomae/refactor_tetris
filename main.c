@@ -4,7 +4,7 @@ int main() {
 	t_tetris tetris;
 
 	init_game(&tetris);
-	//init_ncurses_window();
+	init_ncurses_window();
 	begin_game(&tetris);
 	run_game(&tetris);
 	finish_game(&tetris);

@@ -9,6 +9,7 @@ void move_tetrimino_with_key(t_tetris *tetris, \
 								bool update){
 	int key = tetris->input_from_keyboard;
 	t_tetrimino temp_for_judge = *copy_tetrimino_type(tetrimino);
+	
 	move_by_key_case(tetris, tetrimino, &temp_for_judge, update, key);
 	destroy_tetrimino(&temp_for_judge);
 	refresh_game_screen(tetris, tetrimino);
