@@ -104,6 +104,6 @@ void print_game_screen(t_tetris *tetris, \
 						char next_playing_field[FIELD_ROW][FIELD_COL]);
 
 void set_timeout_millisecond(int time);
-void print_resulting_to_standard_output(t_tetris *tetris);
+//void print_resulting_to_standard_output(t_tetris *tetris);
 
 #endif 

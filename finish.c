@@ -21,7 +21,7 @@ static void print_result_footer(t_tetris *tetris){
 	printf("\nScore: %d\n", tetris->score);
 }
 
-void print_resulting_to_standard_output(t_tetris *tetris){
+static void print_resulting_to_standard_output(t_tetris *tetris){
 	print_field_result(tetris);
 	print_result_footer(tetris);
 }
