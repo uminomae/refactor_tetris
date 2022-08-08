@@ -54,7 +54,6 @@ void print_string_to_window(char *str,...);
 suseconds_t get_millisecond(struct timeval timevalue);
 bool need_update(t_tetris *tetris);
 
-void copy_figure(t_tetrimino *new_tetrimino, char **type_tetrimino_figure);
 void destroy_tetrimino(t_tetrimino *tetrimino);
 
 void get_current_position(t_tetris *tetris, \

@@ -1,4 +1,21 @@
 
+//void move_tetrimino_with_key(t_tetris *tetris, bool update){
+//	int key = tetris->input_from_keyboard;
+//	t_tetrimino temp_for_change_whith_key = *create_tetrimino(&current);
+
+//	if (key == DROP_KEY){
+//		case_s(tetris, &temp_for_change_whith_key, update);
+//	}else if (key == RIGHT_KEY){
+//		case_d(tetris, &temp_for_change_whith_key);
+//	}else if (key == LEFT_KEY){
+//		case_a(tetris, &temp_for_change_whith_key);
+//	}else if (key == ROTATE_KEY){
+//		case_w(tetris, &temp_for_change_whith_key, current);
+//	}
+//	destroy_tetrimino(&temp_for_change_whith_key);
+//	refresh_game_screen(tetris);
+//}
+
 //struct timeval {
 //    time_t      tv_sec;     /* 秒 */
 //    suseconds_t tv_usec;    /* マイクロ秒 */
