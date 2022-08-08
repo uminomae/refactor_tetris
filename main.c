@@ -12,6 +12,23 @@ void begin_game(t_tetris *tetris){
     refresh_game_screen(tetris, &current);
 }
 
+void move_tetrimino_with_key(t_tetris *tetris, bool update){
+	int key = tetris->input_from_keyboard;
+	t_tetrimino for_judg_move = *copy_tetrimino_type(&current);
+
+	if (key == DROP_KEY){
+		move_case_s(tetris, &for_judg_move, update);
+	}else if (key == RIGHT_KEY){
+		move_case_d(tetris, &for_judg_move);
+	}else if (key == LEFT_KEY){
+		move_case_a(tetris, &for_judg_move);
+	}else if (key == ROTATE_KEY){
+		move_case_w(tetris, &for_judg_move, current);
+	}
+	destroy_tetrimino(&for_judg_move);
+	refresh_game_screen(tetris, &current);
+}
+
 void run_game(t_tetris *tetris){
 	while(tetris->game_status == GAME_PLAY){
     	tetris->input_from_keyboard = getch();
@@ -62,6 +79,10 @@ void move_case_w(t_tetris *tetris, t_tetrimino *temp,t_tetrimino current)
 		roteta_tetrimino(&current);
 }
 
+
+//--------------------------------------------------------
+//case s move
+//
 void fix_tetrimino_on_the_field(t_tetris *tetris){
 	const int n = tetris->tetrimino->width_and_height;
 	const int row = tetris->tetrimino->row;
@@ -75,9 +96,6 @@ void fix_tetrimino_on_the_field(t_tetris *tetris){
 	}
 }
 
-//--------------------------------------------------------
-//
-//
 int count_blocks_of_line(t_tetris *tetris, int y){
 	int blocks = 0;
 
@@ -115,7 +133,6 @@ int count_completed_lines_and_erase(t_tetris *tetris){
 	return (number_of_completed_lines);
 }
 
-
 void make_the_next_tetrimino(t_tetris *tetris){
 	t_tetrimino new_shape = *copy_tetrimino_type(&type_tetrimino[rand()%7]);
 	new_shape.col = rand()%(FIELD_COL-new_shape.width_and_height+1);
@@ -138,21 +155,4 @@ void move_case_s(t_tetris *tetris, t_tetrimino *temp, bool update){
 			tetris->score += 100 * completed_lines;
 		make_the_next_tetrimino(tetris);
 	}
-}
-
-void move_tetrimino_with_key(t_tetris *tetris, bool update){
-	int key = tetris->input_from_keyboard;
-	t_tetrimino for_judg_move = *copy_tetrimino_type(&current);
-
-	if (key == DROP_KEY){
-		move_case_s(tetris, &for_judg_move, update);
-	}else if (key == RIGHT_KEY){
-		move_case_d(tetris, &for_judg_move);
-	}else if (key == LEFT_KEY){
-		move_case_a(tetris, &for_judg_move);
-	}else if (key == ROTATE_KEY){
-		move_case_w(tetris, &for_judg_move, current);
-	}
-	destroy_tetrimino(&for_judg_move);
-	refresh_game_screen(tetris, &current);
 }
