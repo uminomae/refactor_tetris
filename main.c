@@ -5,7 +5,9 @@ void refresh_game_screen(t_tetris *tetris);
 void end_game(t_tetris *tetris,t_tetrimino current);
 bool check_overlap_other_pieces(t_tetrimino *tetrimino, int i, int j);
 bool can_move_not_overlapping(t_tetris *tetris, int i, int j);
+
 int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino);
+
 void roteta_tetrimino(t_tetrimino *shape);
 void init_tetris(t_tetris *tetris);
 void init_game(t_tetris *tetris);
@@ -50,8 +52,6 @@ void refresh_game_screen(t_tetris *tetris){
 	clear();
 	print_game_screen(tetris, next_playing_field);
 }
-
-
 
 void start_game(t_tetris *tetris){
 	current = create_new_tetrimino(type_tetrimino);
