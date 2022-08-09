@@ -40,6 +40,16 @@ suseconds_t timer = FALL_VELOCITY_INTERVAL;
 //suseconds_t timer = 400000;
 int decrease = 1000;
 
+typedef enum s_game_status {
+	GAME_OVER = 0,
+	GAME_PLAY,
+} t_game_status;
+
+typedef struct s_time{
+	struct timeval before_now;
+	struct timeval now;
+} t_time;
+
 typedef struct s_tetrimino{
     char figure[4][4];
     int width_and_height, row, col;
