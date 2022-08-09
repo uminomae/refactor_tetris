@@ -89,13 +89,14 @@ void move_case_key_s(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp
 //tetrimino.c
 void switch_to_next_tetrimino(t_tetris *tetris, t_tetrimino *tetlimino, t_tetrimino *for_judge);
 void rotate_tetrimino(t_tetrimino *tetrimino);
-void fix_tetrimino_on_the_field(t_tetris *tetris);
+//void fix_tetrimino_on_the_field(t_tetris *tetris);
+void fix_tetrimino_on_the_field(t_tetris *tetris, t_tetrimino *tetrimino);
 //void destroy_tetrimino(t_tetrimino *tetrimino);
 t_tetrimino copy_tetrimino_type(t_tetrimino *type_tetrimino);
 t_tetrimino create_new_tetrimino(t_tetrimino *type_tetrimino);
 
 //screen.c
-void refresh_game_screen(t_tetris *tetris, t_tetrimino *current);
+void refresh_game_screen(t_tetris *tetris, t_tetrimino *tetrimino);
 
 //time.c
 suseconds_t get_millisecond(struct timeval timevalue);

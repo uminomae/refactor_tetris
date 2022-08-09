@@ -20,15 +20,15 @@ void rotate_tetrimino(t_tetrimino *tetrimino){
 	}
 }
 
-void fix_tetrimino_on_the_field(t_tetris *tetris){
-	const int n = tetris->tetrimino->width_and_height;
-	const int row = tetris->tetrimino->row;
-	const int col = tetris->tetrimino->col;
+void fix_tetrimino_on_the_field(t_tetris *tetris, t_tetrimino *tetrimino){
+	const int n = tetrimino->width_and_height;
+	const int row = tetrimino->row;
+	const int col = tetrimino->col;
 
 	for(int i = 0; i < n ;i++){
 		for(int j = 0; j < n ; j++){
-			if(tetris->tetrimino->figure[i][j])
-				tetris->playing_field[row+i][col+j] = tetris->tetrimino->figure[i][j];
+			if(tetrimino->figure[i][j])
+				tetris->playing_field[row+i][col+j] = tetrimino->figure[i][j];
 		}
 	}
 }

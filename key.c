@@ -34,7 +34,7 @@ void move_case_key_s(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp
 	if(can_move_field(tetris, tetrimino, temp_for_judge))
 		tetrimino->row++;
 	else {
-		fix_tetrimino_on_the_field(tetris);
+		fix_tetrimino_on_the_field(tetris, tetrimino);
 		int completed_lines = count_completed_lines_and_erase(tetris);
 		if (update == false)
 			tetris->score += 100 * completed_lines;

@@ -8,13 +8,14 @@ static void print_string_to_window(char *str,...){
 // refresh_game_screen
 //--------------------------------------------------------
 static void get_current_position(t_tetris *tetris, \
+							t_tetrimino *tetrimino, \
 							char next_playing_field[FIELD_ROW][FIELD_COL]){
-	const int n = tetris->tetrimino->width_and_height;
+	const int n = tetrimino->width_and_height;
 
 	for(int i = 0; i < n ;i++){
 		for(int j = 0; j < n ; j++){
-			if(tetris->tetrimino->figure[i][j])
-				next_playing_field[tetris->tetrimino->row+i][tetris->tetrimino->col+j] = tetris->tetrimino->figure[i][j];
+			if(tetrimino->figure[i][j])
+				next_playing_field[tetrimino->row+i][tetrimino->col+j] = tetrimino->figure[i][j];
 		}
 	}
 }
@@ -49,11 +50,11 @@ static void print_game_screen(t_tetris *tetris, \
 	print_footer(tetris);
 }
 
-void refresh_game_screen(t_tetris *tetris, t_tetrimino *current){
+void refresh_game_screen(t_tetris *tetris, t_tetrimino *tetrimino){
 	char next_playing_field[FIELD_ROW][FIELD_COL] = {0};
 	
-	tetris->tetrimino = current;
-	get_current_position(tetris, next_playing_field);
+	//tetris->tetrimino = current;
+	get_current_position(tetris, tetrimino ,next_playing_field);
 	clear();
 	print_game_screen(tetris, next_playing_field);
 }
