@@ -98,48 +98,8 @@ static bool can_move_bottom(t_tetrimino *for_judge, int i, int j){
 //	return TRUE;
 //}
 
-//// todo:i,jをx,yに変更する
-//int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *for_judge){
-//	ç
-	
-
-//	for(int i = 0; i < n; i++) {
-//		for(int j = 0; j < n; j++){
-//			if (!can_move_left(for_judge, i, j))
-//				return FALSE;
-//			if (!can_move_right(for_judge, i, j))
-//				return FALSE;
-//			if (!can_move_bottom(for_judge, i, j))
-//				return FALSE;
-//			if (!can_move_not_overlapping(tetris, tetrimino, i, j))
-//				return FALSE;
-//		}
-//	}
-//	return TRUE;
-//}
-////--------------------------------------------------------
-////end of can_move_field
-////--------------------------------------------------------
-
-
-int FunctionCanmovePos(t_tetrimino for_judge){
-//int FunctionCanmovePos(t_tetrimino shape){
-	//const int n = shape.width_and_height;
-
-	//int i, j;
-	//for(i = 0; i < n;i++) {
-		//for(j = 0; j < n ;j++){
-	//for(i = 0; i < shape.width_and_height;i++) {
-	//	for(j = 0; j < shape.width_and_height ;j++){
-			//if((shape.col+j < 0 || shape.col+j >= C || shape.row+i >= R)){
-			//	if(shape.figure[i][j])
-			//		return F;
-			//}
-			//else if(Table[shape.row+i][shape.col+j] && shape.figure[i][j])
-			//	return F;
-	//	}
-	//}
-	//return T;
+// todo:i,jをx,yに変更する
+int can_move_field(t_tetrimino for_judge){
 	const int n = for_judge.width_and_height;
 	for(int i = 0; i < n; i++) {
 		for(int j = 0; j < n; j++){
@@ -156,6 +116,9 @@ int FunctionCanmovePos(t_tetrimino for_judge){
 	}
 	return TRUE;
 }
+//--------------------------------------------------------
+//end of can_move_field
+//--------------------------------------------------------
 
 void FunctionRotateS(t_tetrimino shape){
 	t_tetrimino temp1 = FunctionCreateSape(shape);
@@ -222,7 +185,7 @@ int main() {
     new_shape.col = rand()%(C-new_shape.width_and_height+1);
     new_shape.row = 0;
 	t_tetrimino current = new_shape;
-	if(!FunctionCanmovePos(current)){
+	if(!can_move_field(current)){
 		GameOn = F;
 	}
     FunctionPrintTscreen(&current);
@@ -232,7 +195,7 @@ int main() {
 			switch(c){
 				case 's':
 					temp.row++;  //move down
-					if(FunctionCanmovePos(temp))
+					if(can_move_field(temp))
 						current.row++;
 					else {
 						int i, j;
@@ -264,24 +227,24 @@ int main() {
 						new_shape.col = rand()%(C-new_shape.width_and_height+1);
 						new_shape.row = 0;
 						current = new_shape;
-						if(!FunctionCanmovePos(current)){
+						if(!can_move_field(current)){
 							GameOn = F;
 						}
 					}
 					break;
 				case 'd':
 					temp.col++;
-					if(FunctionCanmovePos(temp))
+					if(can_move_field(temp))
 						current.col++;
 					break;
 				case 'a':
 					temp.col--;
-					if(FunctionCanmovePos(temp))
+					if(can_move_field(temp))
 						current.col--;
 					break;
 				case 'w':
 					FunctionRotateS(temp);
-					if(FunctionCanmovePos(temp))
+					if(can_move_field(temp))
 						FunctionRotateCurrent(&current);
 						//FunctionRotateS(current);
 					break;
@@ -294,7 +257,7 @@ int main() {
 			switch('s'){
 				case 's':
 					temp.row++;
-					if(FunctionCanmovePos(temp))
+					if(can_move_field(temp))
 						current.row++;
 					else {
 						int i, j;
@@ -325,24 +288,24 @@ int main() {
 						new_shape.col = rand()%(C-new_shape.width_and_height+1);
 						new_shape.row = 0;
 						current = new_shape;
-						if(!FunctionCanmovePos(current)){
+						if(!can_move_field(current)){
 							GameOn = F;
 						}
 					}
 					break;
 				case 'd':
 					temp.col++;
-					if(FunctionCanmovePos(temp))
+					if(can_move_field(temp))
 						current.col++;
 					break;
 				case 'a':
 					temp.col--;
-					if(FunctionCanmovePos(temp))
+					if(can_move_field(temp))
 						current.col--;
 					break;
 				case 'w':
 					FunctionRotateS(temp);
-					if(FunctionCanmovePos(temp))
+					if(can_move_field(temp))
 						FunctionRotateS(current);
 					break;
 			}
