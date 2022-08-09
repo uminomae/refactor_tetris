@@ -3,8 +3,6 @@
 int main() {
 	t_tetris tetris;
 
-	init_game(&tetris);
-	init_ncurses_window();
 	begin_game(&tetris);
 	run_game(&tetris);
 	finish_game(&tetris);
@@ -16,7 +14,8 @@ int main() {
 //--------------------------------------------------------
 
 void begin_game(t_tetris *tetris){
-	//judge_the_end_of_game(tetris, tetrimino, tetrimino);
+	init_game(tetris);
+	init_ncurses_window();
 }
 
 void run_game(t_tetris *tetris){

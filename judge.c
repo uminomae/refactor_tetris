@@ -27,9 +27,7 @@ static bool can_move_bottom(t_tetrimino *tetrimino, int i, int j){
 	return TRUE;
 }
 
-//static bool can_move_not_overlapping(t_tetris *tetris, int i, int j){
 static bool can_move_not_overlapping(t_tetris *tetris, t_tetrimino *tetrimino, int i, int j){
-	//const t_tetrimino *tetrimino = tetris->tetrimino;
 
 	if (tetris->playing_field[tetrimino->row + i][tetrimino->col + j] && tetrimino->figure[i][j])
 		return FALSE;
@@ -39,7 +37,6 @@ static bool can_move_not_overlapping(t_tetris *tetris, t_tetrimino *tetrimino, i
 // todo:i,jをx,yに変更する
 int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *for_judge){
 	const int n = for_judge->width_and_height;
-	//const int n = 4;
 	
 
 	for(int i = 0; i < n; i++) {

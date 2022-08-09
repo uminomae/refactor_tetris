@@ -27,8 +27,6 @@
 # define INTERVAL_DECREASE	1000
 # define NUM_OF_TYPE	7
 
-//typedef char t_shape[SHAPE_HEIGHT_MAX][SHAPE_WIDTH_MAX];
-
 typedef enum s_game_status {
 	GAME_OVER = 0,
 	GAME_PLAY,
@@ -77,8 +75,6 @@ void print_resulting_to_standard_output(t_tetris *tetris);
 
 //judge.c
 void judge_the_end_of_game(t_tetris *tetris,t_tetrimino *tetrimino, t_tetrimino *for_judge);
-//void judge_the_end_of_game(t_tetris *tetris);
-//int can_move_field(t_tetris *tetris, t_tetrimino *for_judge);
 int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *for_judge);
 
 //key.c
@@ -104,8 +100,5 @@ void refresh_game_screen(t_tetris *tetris, t_tetrimino *current);
 //time.c
 suseconds_t get_millisecond(struct timeval timevalue);
 bool need_update(t_tetris *tetris);
-
-
-
 
 #endif 
