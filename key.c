@@ -11,34 +11,34 @@ void get_char_from_keyboad(t_tetris *tetris){
 void move_case_key_d(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judge)
 {
 	temp_for_judge->col++;
-	if(can_move_field(tetris, temp_for_judge))
+	if(can_move_field(tetris, tetrimino, temp_for_judge))
 		tetrimino->col++;
 }
 
 void move_case_key_a(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judge)
 {
 	temp_for_judge->col--;
-	if(can_move_field(tetris, temp_for_judge))
+	if(can_move_field(tetris, tetrimino, temp_for_judge))
 		tetrimino->col--;
 }
 
 void move_case_key_w(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judge)
 {
 	rotate_tetrimino(temp_for_judge);
-	if(can_move_field(tetris, temp_for_judge))
+	if(can_move_field(tetris, tetrimino, temp_for_judge))
 		rotate_tetrimino(tetrimino);
 }
 
 void move_case_key_s(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judge, bool update){
 	temp_for_judge->row++;
-	if(can_move_field(tetris, temp_for_judge))
+	if(can_move_field(tetris, tetrimino, temp_for_judge))
 		tetrimino->row++;
 	else {
 		fix_tetrimino_on_the_field(tetris);
 		int completed_lines = count_completed_lines_and_erase(tetris);
 		if (update == false)
 			tetris->score += 100 * completed_lines;
-		switch_to_next_tetrimino(tetris, tetrimino);
+		switch_to_next_tetrimino(tetris, tetrimino, temp_for_judge);
 	}
 }
 

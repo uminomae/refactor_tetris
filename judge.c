@@ -1,7 +1,7 @@
 #include "tetris.h"
 
-void judge_the_end_of_game(t_tetris *tetris){
-	if(!can_move_field(tetris, tetris->tetrimino)){
+void judge_the_end_of_game(t_tetris *tetris,t_tetrimino *tetrimino, t_tetrimino *for_judge){
+	if(!can_move_field(tetris, tetrimino, for_judge)){
 		tetris->game_status = GAME_OVER;
 	}
 }
@@ -28,8 +28,8 @@ static bool can_move_bottom(t_tetrimino *tetrimino, int i, int j){
 }
 
 //static bool can_move_not_overlapping(t_tetris *tetris, int i, int j){
-static bool can_move_not_overlapping(t_tetris *tetris, int i, int j){
-	const t_tetrimino *tetrimino = tetris->tetrimino;
+static bool can_move_not_overlapping(t_tetris *tetris, t_tetrimino *tetrimino, int i, int j){
+	//const t_tetrimino *tetrimino = tetris->tetrimino;
 
 	if (tetris->playing_field[tetrimino->row + i][tetrimino->col + j] && tetrimino->figure[i][j])
 		return FALSE;
@@ -37,20 +37,20 @@ static bool can_move_not_overlapping(t_tetris *tetris, int i, int j){
 }
 
 // todo:i,jをx,yに変更する
-int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino){
-	const int n = tetrimino->width_and_height;
+int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *for_judge){
+	const int n = for_judge->width_and_height;
 	//const int n = 4;
 	
 
 	for(int i = 0; i < n; i++) {
 		for(int j = 0; j < n; j++){
-			if (!can_move_left(tetrimino, i, j))
+			if (!can_move_left(for_judge, i, j))
 				return FALSE;
-			if (!can_move_right(tetrimino, i, j))
+			if (!can_move_right(for_judge, i, j))
 				return FALSE;
-			if (!can_move_bottom(tetrimino, i, j))
+			if (!can_move_bottom(for_judge, i, j))
 				return FALSE;
-			if (!can_move_not_overlapping(tetris, i, j))
+			if (!can_move_not_overlapping(tetris, tetrimino, i, j))
 				return FALSE;
 		}
 	}

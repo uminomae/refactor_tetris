@@ -76,9 +76,10 @@ void finish_ncurses();
 void print_resulting_to_standard_output(t_tetris *tetris);
 
 //judge.c
-void judge_the_end_of_game(t_tetris *tetris);
-int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino);
-
+void judge_the_end_of_game(t_tetris *tetris,t_tetrimino *tetrimino, t_tetrimino *for_judge);
+//void judge_the_end_of_game(t_tetris *tetris);
+//int can_move_field(t_tetris *tetris, t_tetrimino *for_judge);
+int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *for_judge);
 
 //key.c
 void get_char_from_keyboad(t_tetris *tetris);
@@ -90,7 +91,7 @@ void move_case_key_w(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp
 void move_case_key_s(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judge, bool update);
 
 //tetrimino.c
-void switch_to_next_tetrimino(t_tetris *tetris, t_tetrimino *tetlimino);
+void switch_to_next_tetrimino(t_tetris *tetris, t_tetrimino *tetlimino, t_tetrimino *for_judge);
 void rotate_tetrimino(t_tetrimino *tetrimino);
 void fix_tetrimino_on_the_field(t_tetris *tetris);
 //void destroy_tetrimino(t_tetrimino *tetrimino);

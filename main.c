@@ -16,7 +16,7 @@ int main() {
 //--------------------------------------------------------
 
 void begin_game(t_tetris *tetris){
-	judge_the_end_of_game(tetris);
+	//judge_the_end_of_game(tetris, tetrimino, tetrimino);
 }
 
 void run_game(t_tetris *tetris){

@@ -1,11 +1,11 @@
 #include "tetris.h"
 
 	
-void switch_to_next_tetrimino(t_tetris *tetris, t_tetrimino *tetrimino){
+void switch_to_next_tetrimino(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *for_judge){
 	t_tetrimino new = create_new_tetrimino(tetris->type);
 
 	*tetrimino = new;
-	judge_the_end_of_game(tetris);
+	judge_the_end_of_game(tetris, tetrimino, for_judge);
 }
 
 void rotate_tetrimino(t_tetrimino *tetrimino){
