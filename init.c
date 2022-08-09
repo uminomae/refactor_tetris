@@ -67,7 +67,7 @@ void init_game(t_tetris *tetris)
 	//gettimeofday(&tetris->time->before_now, NULL);
 	gettimeofday(&timer.before_now, NULL);
 	tetris->timer = &timer;
-	printf("debug-5---");
+	//printf("debug-5---");
 	set_timeout_millisecond(1);
 }
 
