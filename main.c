@@ -17,24 +17,20 @@ int main() {
 
 void begin_game(t_tetris *tetris){
 	judge_the_end_of_game(tetris);
-	//refresh_game_screen(tetris, tetris->tetrimino);
 }
 
 void run_game(t_tetris *tetris){
 	t_tetrimino tetrimino = create_new_tetrimino(tetris->type);
 	
-	tetris->tetrimino = &tetrimino;
-	refresh_game_screen(tetris, tetris->tetrimino);
+	refresh_game_screen(tetris, &tetrimino);
 	while(tetris->game_status == GAME_PLAY){
 		get_char_input_from_keyboad(tetris);
 		if (tetris->input_from_keyboard != ERR) 
-			move_tetrimino_with_key(tetris, tetris->tetrimino, false);
-		//refresh_game_screen(tetris, tetris->tetrimino);
+			move_tetrimino_with_key(tetris, &tetrimino, false);
 		gettimeofday(&tetris->timer->now, NULL);
 		if (need_update(tetris)) {
 			tetris->input_from_keyboard = 's';
-			move_tetrimino_with_key(tetris, tetris->tetrimino, true);
-			//refresh_game_screen(tetris, tetris->tetrimino);
+			move_tetrimino_with_key(tetris, &tetrimino, true);
 			gettimeofday(&tetris->timer->before_now, NULL);
 		}
 	}

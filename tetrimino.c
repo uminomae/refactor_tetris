@@ -38,7 +38,6 @@ void fix_tetrimino_on_the_field(t_tetris *tetris){
 //--------------------------------------------------------
 static void copy_figure_array(char new[4][4], char type_tetrimino_figure[4][4], int width_and_height){
 	const int n = width_and_height;
-	//const int n = 4;
 
 	for(int x = 0; x < n; x++){
 		for(int y = 0; y < n; y++) {
@@ -49,10 +48,10 @@ static void copy_figure_array(char new[4][4], char type_tetrimino_figure[4][4], 
 
 t_tetrimino copy_tetrimino_type(t_tetrimino *src){
 	const int n = src->width_and_height;
-	t_tetrimino new = *src;
-	
-	//new->figure = get_alloc_figure_array(n);
+	t_tetrimino new;
+
 	copy_figure_array(new.figure, src->figure, n);
+	new.width_and_height = src->width_and_height;
     return (new);
 }
 //--------------------------------------------------------

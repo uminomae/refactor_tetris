@@ -37,7 +37,9 @@ static bool can_move_not_overlapping(t_tetris *tetris, int i, int j){
 
 // todo:i,jをx,yに変更する
 int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino){
-	const int n = tetris->tetrimino->width_and_height;
+	const int n = tetrimino->width_and_height;
+	//const int n = 4;
+	
 
 	for(int i = 0; i < n; i++) {
 		for(int j = 0; j < n; j++){

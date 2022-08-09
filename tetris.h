@@ -36,7 +36,6 @@ typedef enum s_game_status {
 
 typedef struct s_tetrimino{
     char 	figure[ONE_SIDE_SQUARE_MAX][ONE_SIDE_SQUARE_MAX];
-    //char 	**figure;
     int 	width_and_height;
 	int 	row;
 	int 	col;
@@ -50,15 +49,12 @@ typedef struct s_time{
 typedef struct s_tetris{
 	int 		score;
 	char 		game_status;
-	//t_tetrimino *tetrimino;
-	//t_tetrimino *type;
 	struct s_tetrimino *tetrimino;
 	struct s_tetrimino type[NUM_OF_TYPE];
 	suseconds_t time_to_update;
 	int 		decrease;
 	char		playing_field[FIELD_ROW][FIELD_COL];
 	int 		input_from_keyboard;
-	//t_time		*time;
 	struct s_time *timer;
 } t_tetris;
 
