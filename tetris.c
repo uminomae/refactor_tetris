@@ -32,7 +32,7 @@
 # define ROTATE_KEY 'w'
 # define ONE_SIDE_SQUARE_MAX 4
 
-char playing_field[FIELD_Y_ROW][FIELD_X_COL];
+//char playing_field[FIELD_Y_ROW][FIELD_X_COL];
 //char playing_field[FIELD_Y_ROW][FIELD_X_COL] = {0};
 int final = 0;
 char GameOn = T;
@@ -100,8 +100,8 @@ static bool can_move_bottom(t_tetrimino *for_judge, int i, int j){
 //}
 
 // todo:i,jをx,yに変更する
-int can_move_field(t_tetrimino for_judge){
-//int can_move_field(t_tetris *tetris, t_tetrimino for_judge){
+//int can_move_field(&tetris, t_tetrimino for_judge){
+int can_move_field(t_tetris *tetris, t_tetrimino for_judge){
 	//(void)tetris;
 	const int n = for_judge.width_and_height;
 	for(int i = 0; i < n; i++) {
@@ -113,7 +113,8 @@ int can_move_field(t_tetrimino for_judge){
 			if (!can_move_bottom(&for_judge, i, j))
 				return FALSE;
 			//if (!can_move_not_overlapping(tetris, tetrimino, i, j))
-			if(playing_field[for_judge.row+i][for_judge.col+j] && for_judge.figure[i][j])
+			if(tetris->playing_field[for_judge.row+i][for_judge.col+j] && for_judge.figure[i][j])
+			//if(playing_field[for_judge.row+i][for_judge.col+j] && for_judge.figure[i][j])
 				return FALSE;
 		}
 	}
@@ -198,7 +199,7 @@ int main() {
     new_shape.col = rand()%(C-new_shape.width_and_height+1);
     new_shape.row = 0;
 	t_tetrimino current = new_shape;
-	if(!can_move_field(current)){
+	if(!can_move_field(&tetris, current)){
 		GameOn = F;
 	}
     FunctionPrintTscreen(&tetris, &current);
@@ -209,7 +210,7 @@ int main() {
 			switch(c){
 				case 's':
 					temp.row++;  //move down
-					if(can_move_field(temp))
+					if(can_move_field(&tetris, temp))
 						current.row++;
 					else {
 						int i, j;
@@ -241,24 +242,24 @@ int main() {
 						new_shape.col = rand()%(C-new_shape.width_and_height+1);
 						new_shape.row = 0;
 						current = new_shape;
-						if(!can_move_field(current)){
+						if(!can_move_field(&tetris, current)){
 							GameOn = F;
 						}
 					}
 					break;
 				case 'd':
 					temp.col++;
-					if(can_move_field(temp))
+					if(can_move_field(&tetris, temp))
 						current.col++;
 					break;
 				case 'a':
 					temp.col--;
-					if(can_move_field(temp))
+					if(can_move_field(&tetris, temp))
 						current.col--;
 					break;
 				case 'w':
 					FunctionRotateS(temp);
-					if(can_move_field(temp))
+					if(can_move_field(&tetris, temp))
 						FunctionRotateCurrent(&current);
 						//FunctionRotateS(current);
 					break;
@@ -272,7 +273,7 @@ int main() {
 			switch('s'){
 				case 's':
 					temp.row++;
-					if(can_move_field(temp))
+					if(can_move_field(&tetris, temp))
 						current.row++;
 					else {
 						int i, j;
@@ -303,24 +304,24 @@ int main() {
 						new_shape.col = rand()%(C-new_shape.width_and_height+1);
 						new_shape.row = 0;
 						current = new_shape;
-						if(!can_move_field(current)){
+						if(!can_move_field(&tetris, current)){
 							GameOn = F;
 						}
 					}
 					break;
 				case 'd':
 					temp.col++;
-					if(can_move_field(temp))
+					if(can_move_field(&tetris, temp))
 						current.col++;
 					break;
 				case 'a':
 					temp.col--;
-					if(can_move_field(temp))
+					if(can_move_field(&tetris, temp))
 						current.col--;
 					break;
 				case 'w':
 					FunctionRotateS(temp);
-					if(can_move_field(temp))
+					if(can_move_field(&tetris, temp))
 						FunctionRotateS(current);
 					break;
 			}
