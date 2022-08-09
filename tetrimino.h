@@ -1,45 +1,95 @@
 # define S_FIGURE \
-	(char *[]){ \
-	(char []){0,1,1}, \
-	(char []){1,1,0}, \
-	(char []){0,0,0} \
-	} ,3 
+	.figure = { \
+		{0,1,1}, \
+		{1,1,0}, \
+		{0,0,0} \
+	},\
+	.width_and_height = 3,
 # define Z_FIGURE \
-	(char *[]){\
-	(char []){1,1,0},\
-	(char []){0,1,1}, \
-	(char []){0,0,0}\
-	}, 3
+	.figure = {\
+		{1,1,0},\
+		{0,1,1},\
+		{0,0,0}\
+	}, \
+	.width_and_height = 3,
 # define T_FIGURE \
-	(char *[]){\
-	(char []){0,1,0},\
-	(char []){1,1,1},\
-	(char []){0,0,0}\
-	}, 3
+	.figure = {\
+		{0,1,0},\
+		{1,1,1},\
+		{0,0,0}\
+	}, \
+	.width_and_height = 3,
 # define L_FIGURE \
-	(char *[]){\
-	(char []){0,0,1},\
-	(char []){1,1,1}, \
-	(char []){0,0,0}\
-	}, 3
+	.figure = {\
+		{0,0,1},\
+		{1,1,1},\
+		{0,0,0}\
+	}, \
+	.width_and_height = 3,
 # define J_FIGURE \
-	(char *[]){\
-	(char []){1,0,0},\
-	(char []){1,1,1}, \
-	(char []){0,0,0}\
-	}, 3
+	.figure = {\
+		{1,0,0},\
+		{1,1,1},\
+		{0,0,0}\
+	}, \
+	.width_and_height = 3,
 # define O_FIGURE \
-	(char *[]){\
-	(char []){1,1},\
-	(char []){1,1}\
-	}, 2
+	.figure = {\
+		{1,1},\
+		{1,1}\
+	}, \
+	.width_and_height = 2,
 # define I_FIGURE \
-	(char *[]){\
-	(char []){0,0,0,0}, \
-	(char []){1,1,1,1}, \
-	(char []){0,0,0,0}, \
-	(char []){0,0,0,0}\
-	}, 4
+	.figure = {\
+		{0,0,0,0},\
+		{1,1,1,1},\
+		{0,0,0,0},\
+		{0,0,0,0}\
+	}, \
+	.width_and_height = 4,
+
+//# define S_FIGURE \
+//	(char *[3]){ \
+//	(char []){0,1,1}, \
+//	(char []){1,1,0}, \
+//	(char []){0,0,0} \
+//	} ,3 
+//# define Z_FIGURE \
+//	(char *[]){\
+//	(char []){1,1,0},\
+//	(char []){0,1,1}, \
+//	(char []){0,0,0}\
+//	}, 3
+//# define T_FIGURE \
+//	(char *[]){\
+//	(char []){0,1,0},\
+//	(char []){1,1,1},\
+//	(char []){0,0,0}\
+//	}, 3
+//# define L_FIGURE \
+//	(char *[]){\
+//	(char []){0,0,1},\
+//	(char []){1,1,1}, \
+//	(char []){0,0,0}\
+//	}, 3
+//# define J_FIGURE \
+//	(char *[]){\
+//	(char []){1,0,0},\
+//	(char []){1,1,1}, \
+//	(char []){0,0,0}\
+//	}, 3
+//# define O_FIGURE \
+//	(char *[]){\
+//	(char []){1,1},\
+//	(char []){1,1}\
+//	}, 2
+//# define I_FIGURE \
+//	(char *[]){\
+//	(char []){0,0,0,0}, \
+//	(char []){1,1,1,1}, \
+//	(char []){0,0,0,0}, \
+//	(char []){0,0,0,0}\
+//	}, 4
 	
 //t_tetrimino type_tetrimino[7]= {
 //	{

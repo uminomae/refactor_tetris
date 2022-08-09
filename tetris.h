@@ -20,7 +20,7 @@
 # define RIGHT_KEY 	'd'
 # define LEFT_KEY 	'a'
 # define ROTATE_KEY 'w'
-//# define ONE_SIDE_SQUARE_MAX 4
+# define ONE_SIDE_SQUARE_MAX 4
 
 //# define FALL_VELOCITY_INTERVAL	50000
 # define FALL_VELOCITY_INTERVAL	400000
@@ -34,29 +34,32 @@ typedef enum s_game_status {
 	GAME_PLAY,
 } t_game_status;
 
-typedef struct {
-    //char 	figure[ONE_SIDE_SQUARE_MAX][ONE_SIDE_SQUARE_MAX];
-    char 	**figure;
+typedef struct s_tetrimino{
+    char 	figure[ONE_SIDE_SQUARE_MAX][ONE_SIDE_SQUARE_MAX];
+    //char 	**figure;
     int 	width_and_height;
 	int 	row;
 	int 	col;
 } t_tetrimino;
 
-typedef struct {
+typedef struct s_time{
 	struct timeval before_now;
 	struct timeval now;
 } t_time;
 
-typedef struct {
+typedef struct s_tetris{
 	int 		score;
 	char 		game_status;
-	t_tetrimino *tetrimino;
-	t_tetrimino *type;
+	//t_tetrimino *tetrimino;
+	//t_tetrimino *type;
+	struct s_tetrimino *tetrimino;
+	struct s_tetrimino type[NUM_OF_TYPE];
 	suseconds_t time_to_update;
 	int 		decrease;
 	char		playing_field[FIELD_ROW][FIELD_COL];
 	int 		input_from_keyboard;
-	t_time		*time;
+	//t_time		*time;
+	struct s_time *timer;
 } t_tetris;
 
 
@@ -94,9 +97,9 @@ void move_case_key_s(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp
 void switch_to_next_tetrimino(t_tetris *tetris, t_tetrimino *tetlimino);
 void rotate_tetrimino(t_tetrimino *tetrimino);
 void fix_tetrimino_on_the_field(t_tetris *tetris);
-void destroy_tetrimino(t_tetrimino *tetrimino);
-t_tetrimino *copy_tetrimino_type(t_tetrimino *type_tetrimino);
-t_tetrimino *create_new_tetrimino(t_tetrimino *type_tetrimino);
+//void destroy_tetrimino(t_tetrimino *tetrimino);
+t_tetrimino copy_tetrimino_type(t_tetrimino *type_tetrimino);
+t_tetrimino create_new_tetrimino(t_tetrimino *type_tetrimino);
 
 //screen.c
 void refresh_game_screen(t_tetris *tetris, t_tetrimino *current);
