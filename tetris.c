@@ -46,32 +46,21 @@ typedef struct s_tetris{
 	//struct s_time *timer;
 } t_tetris;
 
-//t_tetrimino current;
-
 const t_tetrimino type_tetrimino[] = {
 	{S_FIGURE},{Z_FIGURE},{T_FIGURE},{L_FIGURE},{J_FIGURE},{O_FIGURE},{I_FIGURE}
 };
 
-//static void copy_figure_figure(char new[4][4], \
-//							char type_tetrimino_figure[4][4], \
-//							int width_and_height_and_height){
-//	const int n = width_and_height_and_height;
-
-//	for(int x = 0; x < n; x++){
-//		for(int y = 0; y < n; y++) {
-//			new[x][y] = type_tetrimino_figure[x][y];
-//		}
-//	}
-//}
-
 t_tetrimino FunctionCreateSape(t_tetrimino shape){
 	t_tetrimino new_shape = shape;
-    int i, j;
-    for(i = 0; i < new_shape.width_and_height; i++){
-		for(j=0; j < new_shape.width_and_height; j++) {
-			new_shape.figure[i][j] = shape.figure[i][j];
-		}
-    }
+	int len = shape.width_and_height;
+
+	memcpy(new_shape.figure, shape.figure, sizeof(char) * len * len);
+    //int i, j;
+    //for(i = 0; i < new_shape.width_and_height; i++){
+	//	for(j=0; j < new_shape.width_and_height; j++) {
+	//		new_shape.figure[i][j] = shape.figure[i][j];
+	//	}
+    //}
     return new_shape;
 }
 
@@ -103,7 +92,6 @@ void FunctionRotateS(t_tetrimino shape){
 }
 
 void FunctionRotateCurrent(t_tetrimino *current){
-//void FunctionRotateCurrent(){
 	t_tetrimino temp1 = FunctionCreateSape(*current);
 	int i, j, k, width_and_height;
 	width_and_height = current->width_and_height;
@@ -115,7 +103,6 @@ void FunctionRotateCurrent(t_tetrimino *current){
 }
 
 void FunctionPrintTscreen(t_tetrimino *current){
-//void FunctionPrintTscreen(){
 	char Buffer[R][C] = {0};
 	int i, j;
 	for(i = 0; i < current->width_and_height ;i++){
