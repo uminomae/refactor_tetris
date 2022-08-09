@@ -27,6 +27,7 @@
 //# define INTERVAL_DECREASE	1000
 //# define NUM_OF_TYPE	7
 
+
 //typedef enum s_game_status {
 //	GAME_OVER = 0,
 //	GAME_PLAY,

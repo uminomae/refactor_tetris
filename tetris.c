@@ -7,57 +7,8 @@
 # include <string.h>
 # include <stdbool.h>
 # include "main.h"
+# include "figure.h"
 
-
-# define S_FIGURE \
-	.array = { \
-		{0,1,1}, \
-		{1,1,0}, \
-		{0,0,0} \
-	},\
-	.width = 3,
-# define Z_FIGURE \
-	.array = {\
-		{1,1,0},\
-		{0,1,1},\
-		{0,0,0}\
-	}, \
-	.width = 3,
-# define T_FIGURE \
-	.array = {\
-		{0,1,0},\
-		{1,1,1},\
-		{0,0,0}\
-	}, \
-	.width = 3,
-# define L_FIGURE \
-	.array = {\
-		{0,0,1},\
-		{1,1,1},\
-		{0,0,0}\
-	}, \
-	.width = 3,
-# define J_FIGURE \
-	.array = {\
-		{1,0,0},\
-		{1,1,1},\
-		{0,0,0}\
-	}, \
-	.width = 3,
-# define O_FIGURE \
-	.array = {\
-		{1,1},\
-		{1,1}\
-	}, \
-	.width = 2,
-# define I_FIGURE \
-	.array = {\
-		{0,0,0,0},\
-		{1,1,1,1},\
-		{0,0,0,0},\
-		{0,0,0,0}\
-	}, \
-	.width = 4,
 
 # define FALL_VELOCITY_INTERVAL		50000
 //# define FALL_VELOCITY_INTERVAL	400000
@@ -122,17 +73,6 @@ const Struct StructsArray[] = {
 		}
 	};
 
-
-//const Struct StructsArray[7]= {
-//	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},
-//	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},
-//	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
-//	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3},
-//	{(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
-//	{(char *[]){(char []){1,1},(char []){1,1}}, 2},
-//	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4}
-//};
-
 //static void copy_figure_array(char new[4][4], \
 //							char type_tetrimino_figure[4][4], \
 //							int width_and_height){
@@ -157,7 +97,7 @@ Struct FunctionCreateSape(Struct shape){
 }
 
 
-int FunctionCPos(Struct shape){
+int FunctionCanmovePos(Struct shape){
 	int i, j;
 	for(i = 0; i < shape.width;i++) {
 		for(j = 0; j < shape.width ;j++){
@@ -173,12 +113,23 @@ int FunctionCPos(Struct shape){
 }
 
 void FunctionRotateS(Struct shape){
-	Struct temp = FunctionCreateSape(shape);
+	Struct temp1 = FunctionCreateSape(shape);
 	int i, j, k, width;
 	width = shape.width;
 	for(i = 0; i < width ; i++){
 		for(j = 0, k = width-1; j < width ; j++, k--){
-				shape.array[i][j] = temp.array[k][i];
+				shape.array[i][j] = temp1.array[k][i];
+		}
+	}
+}
+
+void FunctionRotateCurrent(){
+	Struct temp1 = FunctionCreateSape(current);
+	int i, j, k, width;
+	width = current.width;
+	for(i = 0; i < width ; i++){
+		for(j = 0, k = width-1; j < width ; j++, k--){
+				current.array[i][j] = temp1.array[k][i];
 		}
 	}
 }
@@ -226,7 +177,7 @@ int main() {
     new_shape.col = rand()%(C-new_shape.width+1);
     new_shape.row = 0;
 	current = new_shape;
-	if(!FunctionCPos(current)){
+	if(!FunctionCanmovePos(current)){
 		GameOn = F;
 	}
     FunctionPrintTscreen();
@@ -236,7 +187,7 @@ int main() {
 			switch(c){
 				case 's':
 					temp.row++;  //move down
-					if(FunctionCPos(temp))
+					if(FunctionCanmovePos(temp))
 						current.row++;
 					else {
 						int i, j;
@@ -268,25 +219,26 @@ int main() {
 						new_shape.col = rand()%(C-new_shape.width+1);
 						new_shape.row = 0;
 						current = new_shape;
-						if(!FunctionCPos(current)){
+						if(!FunctionCanmovePos(current)){
 							GameOn = F;
 						}
 					}
 					break;
 				case 'd':
 					temp.col++;
-					if(FunctionCPos(temp))
+					if(FunctionCanmovePos(temp))
 						current.col++;
 					break;
 				case 'a':
 					temp.col--;
-					if(FunctionCPos(temp))
+					if(FunctionCanmovePos(temp))
 						current.col--;
 					break;
 				case 'w':
 					FunctionRotateS(temp);
-					if(FunctionCPos(temp))
-						FunctionRotateS(current);
+					if(FunctionCanmovePos(temp))
+						FunctionRotateCurrent();
+						//FunctionRotateS(current);
 					break;
 			}
 			FunctionPrintTscreen();
@@ -297,7 +249,7 @@ int main() {
 			switch('s'){
 				case 's':
 					temp.row++;
-					if(FunctionCPos(temp))
+					if(FunctionCanmovePos(temp))
 						current.row++;
 					else {
 						int i, j;
@@ -328,24 +280,24 @@ int main() {
 						new_shape.col = rand()%(C-new_shape.width+1);
 						new_shape.row = 0;
 						current = new_shape;
-						if(!FunctionCPos(current)){
+						if(!FunctionCanmovePos(current)){
 							GameOn = F;
 						}
 					}
 					break;
 				case 'd':
 					temp.col++;
-					if(FunctionCPos(temp))
+					if(FunctionCanmovePos(temp))
 						current.col++;
 					break;
 				case 'a':
 					temp.col--;
-					if(FunctionCPos(temp))
+					if(FunctionCanmovePos(temp))
 						current.col--;
 					break;
 				case 'w':
 					FunctionRotateS(temp);
-					if(FunctionCPos(temp))
+					if(FunctionCanmovePos(temp))
 						FunctionRotateS(current);
 					break;
 			}
