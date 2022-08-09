@@ -64,8 +64,15 @@ void move_by_key_case(t_tetris *tetris, \
 
 void move_tetrimino(t_tetris *tetris, t_tetrimino *tetrimino, bool update){
 	int key = tetris->input_from_keyboard;
-	t_tetrimino temp_for_judge = copy_tetrimino_type(tetrimino);
+	t_tetrimino temp_for_judge;
+	memcpy(&temp_for_judge, (const void *)tetrimino, sizeof(t_tetrimino) * 1);
+	//t_tetrimino temp_for_judge = copy_tetrimino_type(tetrimino);
 	
+	//printw("abc---\n\n");
 	move_by_key_case(tetris, tetrimino, &temp_for_judge, update, key);
 	refresh_game_screen(tetris, tetrimino);
+	printw("c---\n%d\n",key);
+	//clear();
+	printw("c---\n%p\n",tetrimino);
+	printw("c---\n%p\n",temp_for_judge);
 }
