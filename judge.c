@@ -27,6 +27,7 @@ static bool can_move_bottom(t_tetrimino *tetrimino, int i, int j){
 	return TRUE;
 }
 
+//static bool can_move_not_overlapping(t_tetris *tetris, int i, int j){
 static bool can_move_not_overlapping(t_tetris *tetris, int i, int j){
 	const t_tetrimino *tetrimino = tetris->tetrimino;
 

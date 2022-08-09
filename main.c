@@ -24,13 +24,13 @@ void run_game(t_tetris *tetris){
 	
 	refresh_game_screen(tetris, &tetrimino);
 	while(tetris->game_status == GAME_PLAY){
-		get_char_input_from_keyboad(tetris);
+		get_char_from_keyboad(tetris);
 		if (tetris->input_from_keyboard != ERR) 
-			move_tetrimino_with_key(tetris, &tetrimino, false);
+			move_tetrimino(tetris, &tetrimino, false);
 		gettimeofday(&tetris->timer->now, NULL);
 		if (need_update(tetris)) {
 			tetris->input_from_keyboard = 's';
-			move_tetrimino_with_key(tetris, &tetrimino, true);
+			move_tetrimino(tetris, &tetrimino, true);
 			gettimeofday(&tetris->timer->before_now, NULL);
 		}
 	}

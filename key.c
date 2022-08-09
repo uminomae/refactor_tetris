@@ -1,6 +1,6 @@
 #include "tetris.h"
 
-void get_char_input_from_keyboad(t_tetris *tetris){
+void get_char_from_keyboad(t_tetris *tetris){
 	tetris->input_from_keyboard = getch();
 }
 
@@ -62,9 +62,7 @@ void move_by_key_case(t_tetris *tetris, \
 	}
 }
 
-void move_tetrimino_with_key(t_tetris *tetris, \
-								t_tetrimino *tetrimino, \
-								bool update){
+void move_tetrimino(t_tetris *tetris, t_tetrimino *tetrimino, bool update){
 	int key = tetris->input_from_keyboard;
 	t_tetrimino temp_for_judge = copy_tetrimino_type(tetrimino);
 	

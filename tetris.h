@@ -81,8 +81,8 @@ int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino);
 
 
 //key.c
-void get_char_input_from_keyboad(t_tetris *tetris);
-void move_tetrimino_with_key(t_tetris *tetris, t_tetrimino *tetrimino, bool update);
+void get_char_from_keyboad(t_tetris *tetris);
+void move_tetrimino(t_tetris *tetris, t_tetrimino *tetrimino, bool update);
 void move_by_key_case(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *for_judge_move, bool update, int key);
 void move_case_key_d(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judge);
 void move_case_key_a(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judge);
