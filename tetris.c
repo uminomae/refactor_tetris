@@ -145,7 +145,9 @@ void FunctionRotateCurrent(t_tetrimino *current){
 	}
 }
 
-void FunctionPrintTscreen(t_tetrimino *current){
+//void FunctionPrintTscrtetris, een(t_tetrimino *current){
+//void FunctionPrintTscreen(t_tetrimino *current){
+void FunctionPrintTscreen(t_tetris *tetris, t_tetrimino *current){
 //void FunctionPrintTscreen(t_tetris *tetris, t_tetrimino *current){
 	//(void)tetris;
 	char Buffer[R][C] = {0};
@@ -162,7 +164,8 @@ void FunctionPrintTscreen(t_tetrimino *current){
 	printw("42 Tetris\n");
 	for(i = 0; i < R ;i++){
 		for(j = 0; j < C ; j++){
-			printw("%c ", (playing_field[i][j] + Buffer[i][j])? '#': '.');
+			printw("%c ", (tetris->playing_field[i][j] + Buffer[i][j])? '#': '.');
+			//printw("%c ", (playing_field[i][j] + Buffer[i][j])? '#': '.');
 		}
 		printw("\n");
 	}
@@ -181,6 +184,10 @@ void set_timeout(int time) {
 
 int main() {
 	t_tetris tetris;
+
+	char playing_field[FIELD_Y_ROW][FIELD_X_COL] = {0};
+	memcpy(tetris.playing_field, playing_field, sizeof(char) * FIELD_Y_ROW * FIELD_X_COL);
+	
     srand(time(0));
     final = 0;
     int c;
@@ -194,7 +201,8 @@ int main() {
 	if(!can_move_field(current)){
 		GameOn = F;
 	}
-    FunctionPrintTscreen(&current);
+    FunctionPrintTscreen(&tetris, &current);
+    //FunctionPrintTscreen(&current);
 	while(GameOn){
 		if ((c = getch()) != ERR) {
 			t_tetrimino temp = FunctionCreateSape(current);
@@ -208,23 +216,23 @@ int main() {
 						for(i = 0; i < current.width_and_height ;i++){
 							for(j = 0; j < current.width_and_height ; j++){
 								if(current.figure[i][j])
-									playing_field[current.row+i][current.col+j] = current.figure[i][j];
+									tetris.playing_field[current.row+i][current.col+j] = current.figure[i][j];
 							}
 						}
 						int n, m, sum, count=0;
 						for(n=0;n<R;n++){
 							sum = 0;
 							for(m=0;m< C;m++) {
-								sum+=playing_field[n][m];
+								sum+=tetris.playing_field[n][m];
 							}
 							if(sum==C){
 								count++;
 								int l, k;
 								for(k = n;k >=1;k--)
 									for(l=0;l<C;l++)
-										playing_field[k][l]=playing_field[k-1][l];
+										tetris.playing_field[k][l]=tetris.playing_field[k-1][l];
 								for(l=0;l<C;l++)
-									playing_field[k][l]=0;
+									tetris.playing_field[k][l]=0;
 								timer-=decrease--;
 							}
 						}
@@ -255,7 +263,8 @@ int main() {
 						//FunctionRotateS(current);
 					break;
 			}
-			FunctionPrintTscreen(&current);
+			FunctionPrintTscreen(&tetris, &current);
+			//FunctionPrintTscreen(&current);
 		}
 		gettimeofday(&now, NULL);
 		if (hasToUpdate()) {
@@ -270,23 +279,23 @@ int main() {
 						for(i = 0; i < current.width_and_height ;i++){
 							for(j = 0; j < current.width_and_height ; j++){
 								if(current.figure[i][j])
-									playing_field[current.row+i][current.col+j] = current.figure[i][j];
+									tetris.playing_field[current.row+i][current.col+j] = current.figure[i][j];
 							}
 						}
 						int n, m, sum, count=0;
 						for(n=0;n<R;n++){
 							sum = 0;
 							for(m=0;m< C;m++) {
-								sum+=playing_field[n][m];
+								sum+=tetris.playing_field[n][m];
 							}
 							if(sum==C){
 								count++;
 								int l, k;
 								for(k = n;k >=1;k--)
 									for(l=0;l<C;l++)
-										playing_field[k][l]=playing_field[k-1][l];
+										tetris.playing_field[k][l]=tetris.playing_field[k-1][l];
 								for(l=0;l<C;l++)
-									playing_field[k][l]=0;
+									tetris.playing_field[k][l]=0;
 								timer-=decrease--;
 							}
 						}
@@ -315,7 +324,8 @@ int main() {
 						FunctionRotateS(current);
 					break;
 			}
-			FunctionPrintTscreen(&current);
+			FunctionPrintTscreen(&tetris, &current);
+			//FunctionPrintTscreen(&current);
 			gettimeofday(&before_now, NULL);
 		}
 	}
@@ -323,7 +333,7 @@ int main() {
 	int i, j;
 	for(i = 0; i < R ;i++){
 		for(j = 0; j < C ; j++){
-			printf("%c ", playing_field[i][j] ? '#': '.');
+			printf("%c ", tetris.playing_field[i][j] ? '#': '.');
 		}
 		printf("\n");
 	}
