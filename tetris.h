@@ -20,11 +20,14 @@
 # define RIGHT_KEY 	'd'
 # define LEFT_KEY 	'a'
 # define ROTATE_KEY 'w'
+//# define ONE_SIDE_SQUARE_MAX 4
 
 //# define FALL_VELOCITY_INTERVAL	50000
 # define FALL_VELOCITY_INTERVAL	400000
 # define INTERVAL_DECREASE	1000
 # define NUM_OF_TYPE	7
+
+//typedef char t_shape[SHAPE_HEIGHT_MAX][SHAPE_WIDTH_MAX];
 
 typedef enum s_game_status {
 	GAME_OVER = 0,
@@ -32,6 +35,7 @@ typedef enum s_game_status {
 } t_game_status;
 
 typedef struct {
+    //char 	figure[ONE_SIDE_SQUARE_MAX][ONE_SIDE_SQUARE_MAX];
     char 	**figure;
     int 	width_and_height;
 	int 	row;

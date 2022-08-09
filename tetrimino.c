@@ -1,5 +1,6 @@
 #include "tetris.h"
 
+	
 void switch_to_next_tetrimino(t_tetris *tetris, t_tetrimino *tetrimino){
 	t_tetrimino *new = create_new_tetrimino(tetris->type);
 

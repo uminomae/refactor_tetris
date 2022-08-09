@@ -41,26 +41,26 @@
 	(char []){0,0,0,0}\
 	}, 4
 	
-t_tetrimino type_tetrimino[7]= {
-	{
-		S_FIGURE
-	},
-	{
-		Z_FIGURE
-	},
-	{
-		T_FIGURE
-	},
-	{
-		L_FIGURE
-	},
-	{
-		J_FIGURE
-	},
-	{
-		O_FIGURE
-	},
-	{
-		I_FIGURE
-	}
-};
+//t_tetrimino type_tetrimino[7]= {
+//	{
+//		S_FIGURE
+//	},
+//	{
+//		Z_FIGURE
+//	},
+//	{
+//		T_FIGURE
+//	},
+//	{
+//		L_FIGURE
+//	},
+//	{
+//		J_FIGURE
+//	},
+//	{
+//		O_FIGURE
+//	},
+//	{
+//		I_FIGURE
+//	}
+//};
