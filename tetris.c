@@ -59,7 +59,8 @@
 	}, \
 	.width = 4,
 
-# define FALL_VELOCITY_INTERVAL	400000
+# define FALL_VELOCITY_INTERVAL		50000
+//# define FALL_VELOCITY_INTERVAL	400000
 # define INTERVAL_DECREASE	1000
 # define NUM_OF_TYPE	7
 
@@ -73,7 +74,8 @@
 char Table[R][C] = {0};
 int final = 0;
 char GameOn = T;
-suseconds_t timer = 400000;
+suseconds_t timer = FALL_VELOCITY_INTERVAL;
+//suseconds_t timer = 400000;
 int decrease = 1000;
 
 typedef struct {
@@ -145,14 +147,10 @@ const Struct StructsArray[] = {
 
 Struct FunctionCreateSape(Struct shape){
 	Struct new_shape = shape;
-	//char **copyshape = shape.array;
-	//new_shape.array = (char**)malloc(new_shape.width*sizeof(char*));
     int i, j;
     for(i = 0; i < new_shape.width; i++){
-		//new_shape.array[i] = (char*)malloc(new_shape.width*sizeof(char));
 		for(j=0; j < new_shape.width; j++) {
 			new_shape.array[i][j] = shape.array[i][j];
-			//new_shape.array[i][j] = copyshape[i][j];
 		}
     }
     return new_shape;
@@ -160,18 +158,14 @@ Struct FunctionCreateSape(Struct shape){
 
 
 int FunctionCPos(Struct shape){
-	//char **array = shape.array;
 	int i, j;
 	for(i = 0; i < shape.width;i++) {
 		for(j = 0; j < shape.width ;j++){
 			if((shape.col+j < 0 || shape.col+j >= C || shape.row+i >= R)){
 				if(shape.array[i][j])
-				//if(array[i][j])
 					return F;
-				
 			}
 			else if(Table[shape.row+i][shape.col+j] && shape.array[i][j])
-			//else if(Table[shape.row+i][shape.col+j] && array[i][j])
 				return F;
 		}
 	}
