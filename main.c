@@ -6,6 +6,11 @@ int main() {
 	init_game(&tetris);
 	init_ncurses_window();
 	begin_game(&tetris);
+	
+	////debug
+	//endwin();
+	////
+
 	run_game(&tetris);
 	finish_game(&tetris);
     return (0);
@@ -18,12 +23,10 @@ int main() {
 void begin_game(t_tetris *tetris){
 	tetris->tetrimino = create_new_tetrimino(tetris->type);
 	judge_the_end_of_game(tetris);
-	printf("b2--begin----\n");
     refresh_game_screen(tetris, tetris->tetrimino);
 }
 
 void run_game(t_tetris *tetris){
-		printf("e--if need----\n");
 	while(tetris->game_status == GAME_PLAY){
 		get_char_input_from_keyboad(tetris);
 		if (tetris->input_from_keyboard != ERR) 
