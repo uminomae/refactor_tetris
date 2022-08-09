@@ -30,16 +30,15 @@ suseconds_t timer = FALL_VELOCITY_INTERVAL;
 int decrease = 1000;
 
 typedef struct {
-    char array[4][4];
-    //char **array;
-    int width, row, col;
-} Struct;
+    char figure[4][4];
+    int width_and_height, row, col;
+} t_tetrimino;
 
 typedef struct s_tetris{
 	int 		score;
 	//char 		game_status;
 	//struct s_tetrimino *tetrimino;
-	//struct Struct type[NUM_OF_TYPE];
+	//struct t_tetrimino type[NUM_OF_TYPE];
 	//suseconds_t time_to_update;
 	//int 		decrease;
 	//char		playing_field[FIELD_ROW][FIELD_COL];
@@ -47,36 +46,16 @@ typedef struct s_tetris{
 	//struct s_time *timer;
 } t_tetris;
 
-Struct current;
+//t_tetrimino current;
 
-const Struct StructsArray[] = {
-		{
-			S_FIGURE
-		},
-		{
-			Z_FIGURE
-		},
-		{
-			T_FIGURE
-		},
-		{
-			L_FIGURE
-		},
-		{
-			J_FIGURE
-		},
-		{
-			O_FIGURE
-		},
-		{
-			I_FIGURE
-		}
-	};
+const t_tetrimino type_tetrimino[] = {
+	{S_FIGURE},{Z_FIGURE},{T_FIGURE},{L_FIGURE},{J_FIGURE},{O_FIGURE},{I_FIGURE}
+};
 
-//static void copy_figure_array(char new[4][4], \
+//static void copy_figure_figure(char new[4][4], \
 //							char type_tetrimino_figure[4][4], \
-//							int width_and_height){
-//	const int n = width_and_height;
+//							int width_and_height_and_height){
+//	const int n = width_and_height_and_height;
 
 //	for(int x = 0; x < n; x++){
 //		for(int y = 0; y < n; y++) {
@@ -85,62 +64,64 @@ const Struct StructsArray[] = {
 //	}
 //}
 
-Struct FunctionCreateSape(Struct shape){
-	Struct new_shape = shape;
+t_tetrimino FunctionCreateSape(t_tetrimino shape){
+	t_tetrimino new_shape = shape;
     int i, j;
-    for(i = 0; i < new_shape.width; i++){
-		for(j=0; j < new_shape.width; j++) {
-			new_shape.array[i][j] = shape.array[i][j];
+    for(i = 0; i < new_shape.width_and_height; i++){
+		for(j=0; j < new_shape.width_and_height; j++) {
+			new_shape.figure[i][j] = shape.figure[i][j];
 		}
     }
     return new_shape;
 }
 
 
-int FunctionCanmovePos(Struct shape){
+int FunctionCanmovePos(t_tetrimino shape){
 	int i, j;
-	for(i = 0; i < shape.width;i++) {
-		for(j = 0; j < shape.width ;j++){
+	for(i = 0; i < shape.width_and_height;i++) {
+		for(j = 0; j < shape.width_and_height ;j++){
 			if((shape.col+j < 0 || shape.col+j >= C || shape.row+i >= R)){
-				if(shape.array[i][j])
+				if(shape.figure[i][j])
 					return F;
 			}
-			else if(Table[shape.row+i][shape.col+j] && shape.array[i][j])
+			else if(Table[shape.row+i][shape.col+j] && shape.figure[i][j])
 				return F;
 		}
 	}
 	return T;
 }
 
-void FunctionRotateS(Struct shape){
-	Struct temp1 = FunctionCreateSape(shape);
-	int i, j, k, width;
-	width = shape.width;
-	for(i = 0; i < width ; i++){
-		for(j = 0, k = width-1; j < width ; j++, k--){
-				shape.array[i][j] = temp1.array[k][i];
+void FunctionRotateS(t_tetrimino shape){
+	t_tetrimino temp1 = FunctionCreateSape(shape);
+	int i, j, k, width_and_height;
+	width_and_height = shape.width_and_height;
+	for(i = 0; i < width_and_height ; i++){
+		for(j = 0, k = width_and_height-1; j < width_and_height ; j++, k--){
+				shape.figure[i][j] = temp1.figure[k][i];
 		}
 	}
 }
 
-void FunctionRotateCurrent(){
-	Struct temp1 = FunctionCreateSape(current);
-	int i, j, k, width;
-	width = current.width;
-	for(i = 0; i < width ; i++){
-		for(j = 0, k = width-1; j < width ; j++, k--){
-				current.array[i][j] = temp1.array[k][i];
+void FunctionRotateCurrent(t_tetrimino *current){
+//void FunctionRotateCurrent(){
+	t_tetrimino temp1 = FunctionCreateSape(*current);
+	int i, j, k, width_and_height;
+	width_and_height = current->width_and_height;
+	for(i = 0; i < width_and_height ; i++){
+		for(j = 0, k = width_and_height-1; j < width_and_height ; j++, k--){
+				current->figure[i][j] = temp1.figure[k][i];
 		}
 	}
 }
 
-void FunctionPrintTscreen(){
+void FunctionPrintTscreen(t_tetrimino *current){
+//void FunctionPrintTscreen(){
 	char Buffer[R][C] = {0};
 	int i, j;
-	for(i = 0; i < current.width ;i++){
-		for(j = 0; j < current.width ; j++){
-			if(current.array[i][j])
-				Buffer[current.row+i][current.col+j] = current.array[i][j];
+	for(i = 0; i < current->width_and_height ;i++){
+		for(j = 0; j < current->width_and_height ; j++){
+			if(current->figure[i][j])
+				Buffer[current->row+i][current->col+j] = current->figure[i][j];
 		}
 	}
 	clear();
@@ -173,17 +154,17 @@ int main() {
     initscr();
 	gettimeofday(&before_now, NULL);
 	set_timeout(1);
-	Struct new_shape = FunctionCreateSape(StructsArray[rand()%7]);
-    new_shape.col = rand()%(C-new_shape.width+1);
+	t_tetrimino new_shape = FunctionCreateSape(type_tetrimino[rand()%7]);
+    new_shape.col = rand()%(C-new_shape.width_and_height+1);
     new_shape.row = 0;
-	current = new_shape;
+	t_tetrimino current = new_shape;
 	if(!FunctionCanmovePos(current)){
 		GameOn = F;
 	}
-    FunctionPrintTscreen();
+    FunctionPrintTscreen(&current);
 	while(GameOn){
 		if ((c = getch()) != ERR) {
-			Struct temp = FunctionCreateSape(current);
+			t_tetrimino temp = FunctionCreateSape(current);
 			switch(c){
 				case 's':
 					temp.row++;  //move down
@@ -191,10 +172,10 @@ int main() {
 						current.row++;
 					else {
 						int i, j;
-						for(i = 0; i < current.width ;i++){
-							for(j = 0; j < current.width ; j++){
-								if(current.array[i][j])
-									Table[current.row+i][current.col+j] = current.array[i][j];
+						for(i = 0; i < current.width_and_height ;i++){
+							for(j = 0; j < current.width_and_height ; j++){
+								if(current.figure[i][j])
+									Table[current.row+i][current.col+j] = current.figure[i][j];
 							}
 						}
 						int n, m, sum, count=0;
@@ -215,8 +196,8 @@ int main() {
 							}
 						}
 						final += 100*count;
-						Struct new_shape = FunctionCreateSape(StructsArray[rand()%7]);
-						new_shape.col = rand()%(C-new_shape.width+1);
+						t_tetrimino new_shape = FunctionCreateSape(type_tetrimino[rand()%7]);
+						new_shape.col = rand()%(C-new_shape.width_and_height+1);
 						new_shape.row = 0;
 						current = new_shape;
 						if(!FunctionCanmovePos(current)){
@@ -237,15 +218,15 @@ int main() {
 				case 'w':
 					FunctionRotateS(temp);
 					if(FunctionCanmovePos(temp))
-						FunctionRotateCurrent();
+						FunctionRotateCurrent(&current);
 						//FunctionRotateS(current);
 					break;
 			}
-			FunctionPrintTscreen();
+			FunctionPrintTscreen(&current);
 		}
 		gettimeofday(&now, NULL);
 		if (hasToUpdate()) {
-			Struct temp = FunctionCreateSape(current);
+			t_tetrimino temp = FunctionCreateSape(current);
 			switch('s'){
 				case 's':
 					temp.row++;
@@ -253,10 +234,10 @@ int main() {
 						current.row++;
 					else {
 						int i, j;
-						for(i = 0; i < current.width ;i++){
-							for(j = 0; j < current.width ; j++){
-								if(current.array[i][j])
-									Table[current.row+i][current.col+j] = current.array[i][j];
+						for(i = 0; i < current.width_and_height ;i++){
+							for(j = 0; j < current.width_and_height ; j++){
+								if(current.figure[i][j])
+									Table[current.row+i][current.col+j] = current.figure[i][j];
 							}
 						}
 						int n, m, sum, count=0;
@@ -276,8 +257,8 @@ int main() {
 								timer-=decrease--;
 							}
 						}
-						Struct new_shape = FunctionCreateSape(StructsArray[rand()%7]);
-						new_shape.col = rand()%(C-new_shape.width+1);
+						t_tetrimino new_shape = FunctionCreateSape(type_tetrimino[rand()%7]);
+						new_shape.col = rand()%(C-new_shape.width_and_height+1);
 						new_shape.row = 0;
 						current = new_shape;
 						if(!FunctionCanmovePos(current)){
@@ -301,7 +282,7 @@ int main() {
 						FunctionRotateS(current);
 					break;
 			}
-			FunctionPrintTscreen();
+			FunctionPrintTscreen(&current);
 			gettimeofday(&before_now, NULL);
 		}
 	}
