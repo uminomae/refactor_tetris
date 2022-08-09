@@ -20,8 +20,8 @@
 #define T 1
 #define F 0
 
-# define FIELD_ROW	20
-# define FIELD_COL	15
+# define FIELD_Y_ROW	20
+# define FIELD_X_COL	15
 # define TRUE		1
 # define FALSE		0
 # define MILLION	1000000
@@ -32,7 +32,7 @@
 # define ROTATE_KEY 'w'
 # define ONE_SIDE_SQUARE_MAX 4
 
-char Table[R][C] = {0};
+char playingfield[FIELD_Y_ROW][FIELD_X_COL] = {0};
 int final = 0;
 char GameOn = T;
 suseconds_t timer = FALL_VELOCITY_INTERVAL;
@@ -51,7 +51,7 @@ typedef struct s_tetris{
 	//struct t_tetrimino type[NUM_OF_TYPE];
 	//suseconds_t time_to_update;
 	//int 		decrease;
-	//char		playing_field[FIELD_ROW][FIELD_COL];
+	//char		playing_field[FIELD_Y_ROW][FIELD_X_COL];
 	//int 		input_from_keyboard;
 	//struct s_time *timer;
 } t_tetris;
@@ -80,13 +80,13 @@ static bool can_move_left(t_tetrimino *for_judge, int i, int j){
 }
 
 static bool can_move_right(t_tetrimino *for_judge, int i, int j){
-	if (for_judge->col + j >= FIELD_COL && for_judge->figure[i][j])
+	if (for_judge->col + j >= FIELD_X_COL && for_judge->figure[i][j])
 		return FALSE;
 	return TRUE;
 }
 
 static bool can_move_bottom(t_tetrimino *for_judge, int i, int j){
-	if (for_judge->row + i >= FIELD_ROW && for_judge->figure[i][j])
+	if (for_judge->row + i >= FIELD_Y_ROW && for_judge->figure[i][j])
 		return FALSE;
 	return TRUE;
 }
@@ -110,7 +110,7 @@ int can_move_field(t_tetrimino for_judge){
 			if (!can_move_bottom(&for_judge, i, j))
 				return FALSE;
 			//if (!can_move_not_overlapping(tetris, tetrimino, i, j))
-			if(Table[for_judge.row+i][for_judge.col+j] && for_judge.figure[i][j])
+			if(playingfield[for_judge.row+i][for_judge.col+j] && for_judge.figure[i][j])
 				return FALSE;
 		}
 	}
@@ -157,7 +157,7 @@ void FunctionPrintTscreen(t_tetrimino *current){
 	printw("42 Tetris\n");
 	for(i = 0; i < R ;i++){
 		for(j = 0; j < C ; j++){
-			printw("%c ", (Table[i][j] + Buffer[i][j])? '#': '.');
+			printw("%c ", (playingfield[i][j] + Buffer[i][j])? '#': '.');
 		}
 		printw("\n");
 	}
@@ -202,23 +202,23 @@ int main() {
 						for(i = 0; i < current.width_and_height ;i++){
 							for(j = 0; j < current.width_and_height ; j++){
 								if(current.figure[i][j])
-									Table[current.row+i][current.col+j] = current.figure[i][j];
+									playingfield[current.row+i][current.col+j] = current.figure[i][j];
 							}
 						}
 						int n, m, sum, count=0;
 						for(n=0;n<R;n++){
 							sum = 0;
 							for(m=0;m< C;m++) {
-								sum+=Table[n][m];
+								sum+=playingfield[n][m];
 							}
 							if(sum==C){
 								count++;
 								int l, k;
 								for(k = n;k >=1;k--)
 									for(l=0;l<C;l++)
-										Table[k][l]=Table[k-1][l];
+										playingfield[k][l]=playingfield[k-1][l];
 								for(l=0;l<C;l++)
-									Table[k][l]=0;
+									playingfield[k][l]=0;
 								timer-=decrease--;
 							}
 						}
@@ -264,23 +264,23 @@ int main() {
 						for(i = 0; i < current.width_and_height ;i++){
 							for(j = 0; j < current.width_and_height ; j++){
 								if(current.figure[i][j])
-									Table[current.row+i][current.col+j] = current.figure[i][j];
+									playingfield[current.row+i][current.col+j] = current.figure[i][j];
 							}
 						}
 						int n, m, sum, count=0;
 						for(n=0;n<R;n++){
 							sum = 0;
 							for(m=0;m< C;m++) {
-								sum+=Table[n][m];
+								sum+=playingfield[n][m];
 							}
 							if(sum==C){
 								count++;
 								int l, k;
 								for(k = n;k >=1;k--)
 									for(l=0;l<C;l++)
-										Table[k][l]=Table[k-1][l];
+										playingfield[k][l]=playingfield[k-1][l];
 								for(l=0;l<C;l++)
-									Table[k][l]=0;
+									playingfield[k][l]=0;
 								timer-=decrease--;
 							}
 						}
@@ -317,7 +317,7 @@ int main() {
 	int i, j;
 	for(i = 0; i < R ;i++){
 		for(j = 0; j < C ; j++){
-			printf("%c ", Table[i][j] ? '#': '.');
+			printf("%c ", playingfield[i][j] ? '#': '.');
 		}
 		printf("\n");
 	}
