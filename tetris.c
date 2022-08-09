@@ -10,17 +10,27 @@
 # include "figure.h"
 
 
-# define FALL_VELOCITY_INTERVAL		50000
+# define FALL_VELOCITY_INTERVAL		100000
 //# define FALL_VELOCITY_INTERVAL	400000
 # define INTERVAL_DECREASE	1000
 # define NUM_OF_TYPE	7
-
-
 
 #define R 20
 #define C 15
 #define T 1
 #define F 0
+
+# define FIELD_ROW	20
+# define FIELD_COL	15
+# define TRUE		1
+# define FALSE		0
+# define MILLION	1000000
+# define TOP_ROW	0
+# define DROP_KEY 	's'
+# define RIGHT_KEY 	'd'
+# define LEFT_KEY 	'a'
+# define ROTATE_KEY 'w'
+# define ONE_SIDE_SQUARE_MAX 4
 
 char Table[R][C] = {0};
 int final = 0;
@@ -29,7 +39,7 @@ suseconds_t timer = FALL_VELOCITY_INTERVAL;
 //suseconds_t timer = 400000;
 int decrease = 1000;
 
-typedef struct {
+typedef struct s_tetrimino{
     char figure[4][4];
     int width_and_height, row, col;
 } t_tetrimino;
@@ -51,33 +61,100 @@ const t_tetrimino type_tetrimino[] = {
 };
 
 t_tetrimino FunctionCreateSape(t_tetrimino shape){
+	const int len = shape.width_and_height;
 	t_tetrimino new_shape = shape;
-	int len = shape.width_and_height;
 
 	memcpy(new_shape.figure, shape.figure, sizeof(char) * len * len);
-    //int i, j;
-    //for(i = 0; i < new_shape.width_and_height; i++){
-	//	for(j=0; j < new_shape.width_and_height; j++) {
-	//		new_shape.figure[i][j] = shape.figure[i][j];
-	//	}
-    //}
-    return new_shape;
+    return (new_shape);
 }
 
 
-int FunctionCanmovePos(t_tetrimino shape){
-	int i, j;
-	for(i = 0; i < shape.width_and_height;i++) {
-		for(j = 0; j < shape.width_and_height ;j++){
-			if((shape.col+j < 0 || shape.col+j >= C || shape.row+i >= R)){
-				if(shape.figure[i][j])
-					return F;
-			}
-			else if(Table[shape.row+i][shape.col+j] && shape.figure[i][j])
-				return F;
+
+//--------------------------------------------------------
+//can_move_field
+//--------------------------------------------------------
+static bool can_move_left(t_tetrimino *for_judge, int i, int j){
+	if (for_judge->col+ j < 0 && for_judge->figure[i][j])
+		return FALSE;
+	return TRUE;
+}
+
+static bool can_move_right(t_tetrimino *for_judge, int i, int j){
+	if (for_judge->col + j >= FIELD_COL && for_judge->figure[i][j])
+		return FALSE;
+	return TRUE;
+}
+
+static bool can_move_bottom(t_tetrimino *for_judge, int i, int j){
+	if (for_judge->row + i >= FIELD_ROW && for_judge->figure[i][j])
+		return FALSE;
+	return TRUE;
+}
+
+//static bool can_move_not_overlapping(t_tetris *tetris, t_tetrimino *tetrimino, int i, int j){
+
+//	if (tetris->playing_field[tetrimino->row + i][tetrimino->col + j] && tetrimino->figure[i][j])
+//		return FALSE;
+//	return TRUE;
+//}
+
+//// todo:i,jをx,yに変更する
+//int can_move_field(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *for_judge){
+//	ç
+	
+
+//	for(int i = 0; i < n; i++) {
+//		for(int j = 0; j < n; j++){
+//			if (!can_move_left(for_judge, i, j))
+//				return FALSE;
+//			if (!can_move_right(for_judge, i, j))
+//				return FALSE;
+//			if (!can_move_bottom(for_judge, i, j))
+//				return FALSE;
+//			if (!can_move_not_overlapping(tetris, tetrimino, i, j))
+//				return FALSE;
+//		}
+//	}
+//	return TRUE;
+//}
+////--------------------------------------------------------
+////end of can_move_field
+////--------------------------------------------------------
+
+
+int FunctionCanmovePos(t_tetrimino for_judge){
+//int FunctionCanmovePos(t_tetrimino shape){
+	//const int n = shape.width_and_height;
+
+	//int i, j;
+	//for(i = 0; i < n;i++) {
+		//for(j = 0; j < n ;j++){
+	//for(i = 0; i < shape.width_and_height;i++) {
+	//	for(j = 0; j < shape.width_and_height ;j++){
+			//if((shape.col+j < 0 || shape.col+j >= C || shape.row+i >= R)){
+			//	if(shape.figure[i][j])
+			//		return F;
+			//}
+			//else if(Table[shape.row+i][shape.col+j] && shape.figure[i][j])
+			//	return F;
+	//	}
+	//}
+	//return T;
+	const int n = for_judge.width_and_height;
+	for(int i = 0; i < n; i++) {
+		for(int j = 0; j < n; j++){
+			if (!can_move_left(&for_judge, i, j))
+				return FALSE;
+			if (!can_move_right(&for_judge, i, j))
+				return FALSE;
+			if (!can_move_bottom(&for_judge, i, j))
+				return FALSE;
+			//if (!can_move_not_overlapping(tetris, tetrimino, i, j))
+			if(Table[for_judge.row+i][for_judge.col+j] && for_judge.figure[i][j])
+				return FALSE;
 		}
 	}
-	return T;
+	return TRUE;
 }
 
 void FunctionRotateS(t_tetrimino shape){
