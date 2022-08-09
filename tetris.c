@@ -32,7 +32,8 @@
 # define ROTATE_KEY 'w'
 # define ONE_SIDE_SQUARE_MAX 4
 
-char playingfield[FIELD_Y_ROW][FIELD_X_COL] = {0};
+char playingfield[FIELD_Y_ROW][FIELD_X_COL];
+//char playingfield[FIELD_Y_ROW][FIELD_X_COL] = {0};
 int final = 0;
 char GameOn = T;
 suseconds_t timer = FALL_VELOCITY_INTERVAL;
@@ -100,6 +101,8 @@ static bool can_move_bottom(t_tetrimino *for_judge, int i, int j){
 
 // todo:i,jをx,yに変更する
 int can_move_field(t_tetrimino for_judge){
+//int can_move_field(t_tetris *tetris, t_tetrimino for_judge){
+	//(void)tetris;
 	const int n = for_judge.width_and_height;
 	for(int i = 0; i < n; i++) {
 		for(int j = 0; j < n; j++){
@@ -143,6 +146,8 @@ void FunctionRotateCurrent(t_tetrimino *current){
 }
 
 void FunctionPrintTscreen(t_tetrimino *current){
+//void FunctionPrintTscreen(t_tetris *tetris, t_tetrimino *current){
+	(void)tetris;
 	char Buffer[R][C] = {0};
 	int i, j;
 	for(i = 0; i < current->width_and_height ;i++){
@@ -175,6 +180,7 @@ void set_timeout(int time) {
 }
 
 int main() {
+	t_tetris tetris;
     srand(time(0));
     final = 0;
     int c;
