@@ -39,7 +39,8 @@ int decrease = 1000;
 typedef char t_figure[WIDTH_AND_HEIGHT_MAX][WIDTH_AND_HEIGHT_MAX];
 
 typedef struct {
-    char **array;
+    //char **array;
+	char array[WIDTH_AND_HEIGHT_MAX][WIDTH_AND_HEIGHT_MAX];
     int width;
 	int row;
 	int col;
@@ -63,49 +64,60 @@ typedef struct {
 int final = 0;
 
 const t_tetrimino type_tetrimino[7]= {
-	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){1,1},(char []){1,1}}, 2},
-	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4}
+	{S_FIGURE},{Z_FIGURE},{T_FIGURE},{L_FIGURE},{J_FIGURE},{O_FIGURE},{I_FIGURE}
 };
+
+//const t_tetrimino type_tetrimino[7]= {
+//	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},
+//	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},
+//	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
+//	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3},
+//	{(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
+//	{(char *[]){(char []){1,1},(char []){1,1}}, 2},
+//	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4}
+//};
 
 t_tetrimino copy_tetrimino(t_tetrimino shape){
 	t_tetrimino new_shape = shape;
-	char **copyshape = shape.array;
-	new_shape.array = (char**)malloc(new_shape.width*sizeof(char*));
+	//char **copyshape = shape.array;
+	//new_shape.array = (char**)malloc(new_shape.width*sizeof(char*));
     int i, j;
     for(i = 0; i < new_shape.width; i++){
-		new_shape.array[i] = (char*)malloc(new_shape.width*sizeof(char));
+		//new_shape.array[i] = (char*)malloc(new_shape.width*sizeof(char));
 		for(j=0; j < new_shape.width; j++) {
-			new_shape.array[i][j] = copyshape[i][j];
+			new_shape.array[i][j] = shape.array[i][j];
+			//new_shape.array[i][j] = copyshape[i][j];
 		}
     }
     return new_shape;
 }
 
-void destroy_tetrimino(t_tetrimino shape){
-    int i;
-    for(i = 0; i < shape.width; i++){
-		free(shape.array[i]);
-    }
-    free(shape.array);
-}
+//void destroy_tetrimino(t_tetrimino shape){
+//    int i;
+//    for(i = 0; i < shape.width; i++){
+//		free(shape.array[i]);
+//    }
+//    free(shape.array);
+//}
 
-int can_move_tetrimino(t_tetris *tetris,t_tetrimino shape){
+int can_move_tetrimino(t_tetris *tetris, t_tetrimino shape){
 //int can_move_tetrimino t_tetrimino shape){
-	char **array = shape.array;
+	//char **array = shape.array;
+
+	//char array[4][4];
+	//memcpy(array, shape.array, shape.width);
+
 	int i, j;
 	for(i = 0; i < shape.width;i++) {
 		for(j = 0; j < shape.width ;j++){
 			if((shape.col+j < 0 || shape.col+j >= C || shape.row+i >= R)){
-				if(array[i][j])
+				if(shape.array[i][j])
+				//if(array[i][j])
 					return F;
 				
 			}
-			else if(tetris->playing_field[shape.row+i][shape.col+j] && array[i][j])
+			else if(tetris->playing_field[shape.row+i][shape.col+j] && shape.array[i][j])
+			//else if(tetris->playing_field[shape.row+i][shape.col+j] && array[i][j])
 				return F;
 		}
 	}
@@ -121,8 +133,9 @@ void rotate_clodkwise(t_tetrimino shape){
 				shape.array[i][j] = temp.array[k][i];
 		}
 	}
-	destroy_tetrimino(temp);
+	//destroy_tetrimino(temp);
 }
+
 
 void put_screen(t_tetris *tetris, t_tetrimino *current){
 	char Buffer[R][C] = {0};
@@ -216,7 +229,7 @@ int main() {
 						t_tetrimino new_shape = copy_tetrimino(type_tetrimino[rand()%7]);
 						new_shape.col = rand()%(C-new_shape.width+1);
 						new_shape.row = 0;
-						destroy_tetrimino(current);
+						//destroy_tetrimino(current);
 						current = new_shape;
 						if(!can_move_tetrimino(&tetris, current)){
 							GameOn = F;
@@ -239,7 +252,7 @@ int main() {
 						rotate_clodkwise(current);
 					break;
 			}
-			destroy_tetrimino(temp);
+			//destroy_tetrimino(temp);
 			put_screen(&tetris, &current);
 		}
 		gettimeofday(&now, NULL);
@@ -278,7 +291,7 @@ int main() {
 						t_tetrimino new_shape = copy_tetrimino(type_tetrimino[rand()%7]);
 						new_shape.col = rand()%(C-new_shape.width+1);
 						new_shape.row = 0;
-						destroy_tetrimino(current);
+						//destroy_tetrimino(current);
 						current = new_shape;
 						if(!can_move_tetrimino(&tetris, current)){
 							GameOn = F;
@@ -301,12 +314,12 @@ int main() {
 						rotate_clodkwise(current);
 					break;
 			}
-			destroy_tetrimino(temp);
+			//destroy_tetrimino(temp);
 			put_screen(&tetris, &current);
 			gettimeofday(&before_now, NULL);
 		}
 	}
-	destroy_tetrimino(current);
+	//destroy_tetrimino(current);
 	endwin();
 	int i, j;
 	for(i = 0; i < R ;i++){
