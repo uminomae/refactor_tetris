@@ -1,15 +1,15 @@
 #include "tetris.h"
 
-int main() {
-	t_tetris tetris;
+//int main() {
+//	t_tetris tetris;
 
-	init_game(&tetris);
-	init_ncurses_window();
-	begin_game(&tetris);
-	run_game(&tetris);
-	finish_game(&tetris);
-    return (0);
-}
+//	init_game(&tetris);
+//	init_ncurses_window();
+//	begin_game(&tetris);
+//	run_game(&tetris);
+//	finish_game(&tetris);
+//    return (0);
+//}
 
 //--------------------------------------------------------
 //sub
