@@ -72,6 +72,7 @@ int final = 0;
 
 
 
+
 const t_tetrimino type_tetrimino[7]= {
 	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},
 	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},
