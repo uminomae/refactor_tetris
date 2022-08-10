@@ -18,6 +18,7 @@
 # define RIGHT_KEY 	'd'
 # define LEFT_KEY 	'a'
 # define ROTATE_KEY 'w'
+# define WIDTH_AND_HEIGHT_MAX 4
 
 # define FALL_VELOCITY_INTERVAL	50000
 //# define FALL_VELOCITY_INTERVAL	400000
@@ -34,15 +35,21 @@ suseconds_t timer = FALL_VELOCITY_INTERVAL;
 //suseconds_t timer = 400000
 int decrease = 1000;
 
+typedef char t_figure[WIDTH_AND_HEIGHT_MAX][WIDTH_AND_HEIGHT_MAX];
+
 typedef struct {
     char **array;
-    int width, row, col;
+	//t_figure figure;
+    int width;
+	int row;
+	int col;
 } t_tetrimino;
 
 t_tetrimino current;
 
-//typedef char t_playing_fielld[R][C] = {0};
-char Table[R][C] = {0};
+//typedef char t_field[R][C];
+//t_field playing_field[R][C] = {0};
+char playing_field[R][C] = {0};
 
 typedef struct {
 	struct timeval before_now;
@@ -97,7 +104,8 @@ void destroy_tetrimino(t_tetrimino shape){
     free(shape.array);
 }
 
-int can_move_tetrimino(t_tetrimino shape){
+int can_move_tetrimino(t_tetris *tetris,t_tetrimino shape){
+//int can_move_tetrimino t_tetrimino shape){
 	char **array = shape.array;
 	int i, j;
 	for(i = 0; i < shape.width;i++) {
@@ -107,7 +115,7 @@ int can_move_tetrimino(t_tetrimino shape){
 					return F;
 				
 			}
-			else if(Table[shape.row+i][shape.col+j] && array[i][j])
+			else if(playing_field[shape.row+i][shape.col+j] && array[i][j])
 				return F;
 		}
 	}
@@ -126,7 +134,7 @@ void rotate_clodkwise(t_tetrimino shape){
 	destroy_tetrimino(temp);
 }
 
-void put_screen(){
+void put_screen(t_tetris *tetris){
 	char Buffer[R][C] = {0};
 	int i, j;
 	for(i = 0; i < current.width ;i++){
@@ -141,7 +149,7 @@ void put_screen(){
 	printw("42 Tetris\n");
 	for(i = 0; i < R ;i++){
 		for(j = 0; j < C ; j++){
-			printw("%c ", (Table[i][j] + Buffer[i][j])? '#': '.');
+			printw("%c ", (playing_field[i][j] + Buffer[i][j])? '#': '.');
 		}
 		printw("\n");
 	}
@@ -159,6 +167,9 @@ void set_timeout(int time) {
 }
 
 int main() {
+
+	t_tetris tetris;
+
     srand(time(0));
     final = 0;
     int c;
@@ -170,40 +181,40 @@ int main() {
     new_shape.row = 0;
     destroy_tetrimino(current);
 	current = new_shape;
-	if(!can_move_tetrimino(current)){
+	if(!can_move_tetrimino(&tetris, current)){
 		GameOn = F;
 	}
-    put_screen();
+    put_screen(&tetris);
 	while(GameOn){
 		if ((c = getch()) != ERR) {
 			t_tetrimino temp = copy_tetrimino(current);
 			switch(c){
 				case 's':
 					temp.row++;  //move down
-					if(can_move_tetrimino(temp))
+					if(can_move_tetrimino(&tetris, temp))
 						current.row++;
 					else {
 						int i, j;
 						for(i = 0; i < current.width ;i++){
 							for(j = 0; j < current.width ; j++){
 								if(current.array[i][j])
-									Table[current.row+i][current.col+j] = current.array[i][j];
+									playing_field[current.row+i][current.col+j] = current.array[i][j];
 							}
 						}
 						int n, m, sum, count=0;
 						for(n=0;n<R;n++){
 							sum = 0;
 							for(m=0;m< C;m++) {
-								sum+=Table[n][m];
+								sum+=playing_field[n][m];
 							}
 							if(sum==C){
 								count++;
 								int l, k;
 								for(k = n;k >=1;k--)
 									for(l=0;l<C;l++)
-										Table[k][l]=Table[k-1][l];
+										playing_field[k][l]=playing_field[k-1][l];
 								for(l=0;l<C;l++)
-									Table[k][l]=0;
+									playing_field[k][l]=0;
 								timer-=decrease--;
 							}
 						}
@@ -213,29 +224,29 @@ int main() {
 						new_shape.row = 0;
 						destroy_tetrimino(current);
 						current = new_shape;
-						if(!can_move_tetrimino(current)){
+						if(!can_move_tetrimino(&tetris, current)){
 							GameOn = F;
 						}
 					}
 					break;
 				case 'd':
 					temp.col++;
-					if(can_move_tetrimino(temp))
+					if(can_move_tetrimino(&tetris, temp))
 						current.col++;
 					break;
 				case 'a':
 					temp.col--;
-					if(can_move_tetrimino(temp))
+					if(can_move_tetrimino(&tetris, temp))
 						current.col--;
 					break;
 				case 'w':
 					rotate_clodkwise(temp);
-					if(can_move_tetrimino(temp))
+					if(can_move_tetrimino(&tetris, temp))
 						rotate_clodkwise(current);
 					break;
 			}
 			destroy_tetrimino(temp);
-			put_screen();
+			put_screen(&tetris);
 		}
 		gettimeofday(&now, NULL);
 		if (hasToUpdate()) {
@@ -243,30 +254,30 @@ int main() {
 			switch('s'){
 				case 's':
 					temp.row++;
-					if(can_move_tetrimino(temp))
+					if(can_move_tetrimino(&tetris, temp))
 						current.row++;
 					else {
 						int i, j;
 						for(i = 0; i < current.width ;i++){
 							for(j = 0; j < current.width ; j++){
 								if(current.array[i][j])
-									Table[current.row+i][current.col+j] = current.array[i][j];
+									playing_field[current.row+i][current.col+j] = current.array[i][j];
 							}
 						}
 						int n, m, sum, count=0;
 						for(n=0;n<R;n++){
 							sum = 0;
 							for(m=0;m< C;m++) {
-								sum+=Table[n][m];
+								sum+=playing_field[n][m];
 							}
 							if(sum==C){
 								count++;
 								int l, k;
 								for(k = n;k >=1;k--)
 									for(l=0;l<C;l++)
-										Table[k][l]=Table[k-1][l];
+										playing_field[k][l]=playing_field[k-1][l];
 								for(l=0;l<C;l++)
-									Table[k][l]=0;
+									playing_field[k][l]=0;
 								timer-=decrease--;
 							}
 						}
@@ -275,29 +286,29 @@ int main() {
 						new_shape.row = 0;
 						destroy_tetrimino(current);
 						current = new_shape;
-						if(!can_move_tetrimino(current)){
+						if(!can_move_tetrimino(&tetris, current)){
 							GameOn = F;
 						}
 					}
 					break;
 				case 'd':
 					temp.col++;
-					if(can_move_tetrimino(temp))
+					if(can_move_tetrimino(&tetris, temp))
 						current.col++;
 					break;
 				case 'a':
 					temp.col--;
-					if(can_move_tetrimino(temp))
+					if(can_move_tetrimino(&tetris, temp))
 						current.col--;
 					break;
 				case 'w':
 					rotate_clodkwise(temp);
-					if(can_move_tetrimino(temp))
+					if(can_move_tetrimino(&tetris, temp))
 						rotate_clodkwise(current);
 					break;
 			}
 			destroy_tetrimino(temp);
-			put_screen();
+			put_screen(&tetris);
 			gettimeofday(&before_now, NULL);
 		}
 	}
@@ -306,7 +317,7 @@ int main() {
 	int i, j;
 	for(i = 0; i < R ;i++){
 		for(j = 0; j < C ; j++){
-			printf("%c ", Table[i][j] ? '#': '.');
+			printf("%c ", playing_field[i][j] ? '#': '.');
 		}
 		printf("\n");
 	}
