@@ -115,7 +115,7 @@ int can_move_tetrimino(t_tetris *tetris,t_tetrimino shape){
 					return F;
 				
 			}
-			else if(playing_field[shape.row+i][shape.col+j] && array[i][j])
+			else if(tetris->playing_field[shape.row+i][shape.col+j] && array[i][j])
 				return F;
 		}
 	}
@@ -149,7 +149,7 @@ void put_screen(t_tetris *tetris){
 	printw("42 Tetris\n");
 	for(i = 0; i < R ;i++){
 		for(j = 0; j < C ; j++){
-			printw("%c ", (playing_field[i][j] + Buffer[i][j])? '#': '.');
+			printw("%c ", (tetris->playing_field[i][j] + Buffer[i][j])? '#': '.');
 		}
 		printw("\n");
 	}
@@ -169,6 +169,9 @@ void set_timeout(int time) {
 int main() {
 
 	t_tetris tetris;
+
+	char playing_field[R][C] = {0};
+	memcpy(tetris.playing_field, playing_field, sizeof(char) * 20*15);
 
     srand(time(0));
     final = 0;
@@ -198,23 +201,23 @@ int main() {
 						for(i = 0; i < current.width ;i++){
 							for(j = 0; j < current.width ; j++){
 								if(current.array[i][j])
-									playing_field[current.row+i][current.col+j] = current.array[i][j];
+									tetris.playing_field[current.row+i][current.col+j] = current.array[i][j];
 							}
 						}
 						int n, m, sum, count=0;
 						for(n=0;n<R;n++){
 							sum = 0;
 							for(m=0;m< C;m++) {
-								sum+=playing_field[n][m];
+								sum+=tetris.playing_field[n][m];
 							}
 							if(sum==C){
 								count++;
 								int l, k;
 								for(k = n;k >=1;k--)
 									for(l=0;l<C;l++)
-										playing_field[k][l]=playing_field[k-1][l];
+										tetris.playing_field[k][l]=tetris.playing_field[k-1][l];
 								for(l=0;l<C;l++)
-									playing_field[k][l]=0;
+									tetris.playing_field[k][l]=0;
 								timer-=decrease--;
 							}
 						}
@@ -261,23 +264,23 @@ int main() {
 						for(i = 0; i < current.width ;i++){
 							for(j = 0; j < current.width ; j++){
 								if(current.array[i][j])
-									playing_field[current.row+i][current.col+j] = current.array[i][j];
+									tetris.playing_field[current.row+i][current.col+j] = current.array[i][j];
 							}
 						}
 						int n, m, sum, count=0;
 						for(n=0;n<R;n++){
 							sum = 0;
 							for(m=0;m< C;m++) {
-								sum+=playing_field[n][m];
+								sum+=tetris.playing_field[n][m];
 							}
 							if(sum==C){
 								count++;
 								int l, k;
 								for(k = n;k >=1;k--)
 									for(l=0;l<C;l++)
-										playing_field[k][l]=playing_field[k-1][l];
+										tetris.playing_field[k][l]=tetris.playing_field[k-1][l];
 								for(l=0;l<C;l++)
-									playing_field[k][l]=0;
+									tetris.playing_field[k][l]=0;
 								timer-=decrease--;
 							}
 						}
@@ -317,7 +320,7 @@ int main() {
 	int i, j;
 	for(i = 0; i < R ;i++){
 		for(j = 0; j < C ; j++){
-			printf("%c ", playing_field[i][j] ? '#': '.');
+			printf("%c ", tetris.playing_field[i][j] ? '#': '.');
 		}
 		printf("\n");
 	}
