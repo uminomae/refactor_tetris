@@ -20,8 +20,8 @@
 # define ROTATE_KEY 'w'
 # define WIDTH_AND_HEIGHT_MAX 4
 
-# define FALL_VELOCITY_INTERVAL	50000
-//# define FALL_VELOCITY_INTERVAL	400000
+//# define FALL_VELOCITY_INTERVAL	50000
+# define FALL_VELOCITY_INTERVAL	400000
 # define INTERVAL_DECREASE	1000
 # define NUM_OF_TYPE	7
 
@@ -45,7 +45,7 @@ typedef struct {
 	int col;
 } t_tetrimino;
 
-t_tetrimino current;
+//t_tetrimino current;
 
 //typedef char t_field[R][C];
 //t_field playing_field[R][C] = {0};
@@ -135,13 +135,13 @@ void rotate_clodkwise(t_tetrimino shape){
 	destroy_tetrimino(temp);
 }
 
-void put_screen(t_tetris *tetris){
+void put_screen(t_tetris *tetris, t_tetrimino *current){
 	char Buffer[R][C] = {0};
 	int i, j;
-	for(i = 0; i < current.width ;i++){
-		for(j = 0; j < current.width ; j++){
-			if(current.array[i][j])
-				Buffer[current.row+i][current.col+j] = current.array[i][j];
+	for(i = 0; i < current->width ;i++){
+		for(j = 0; j < current->width ; j++){
+			if(current->array[i][j])
+				Buffer[current->row+i][current->col+j] = current->array[i][j];
 		}
 	}
 	clear();
@@ -170,6 +170,7 @@ void set_timeout(int time) {
 int main() {
 
 	t_tetris tetris;
+	t_tetrimino current;
 
 	char playing_field[R][C] = {0};
 	memcpy(tetris.playing_field, playing_field, sizeof(char) * 20*15);
@@ -183,12 +184,12 @@ int main() {
 	t_tetrimino new_shape = copy_tetrimino(type_tetrimino[rand()%7]);
     new_shape.col = rand()%(C-new_shape.width+1);
     new_shape.row = 0;
-    destroy_tetrimino(current);
+    //destroy_tetrimino(current);
 	current = new_shape;
 	if(!can_move_tetrimino(&tetris, current)){
 		GameOn = F;
 	}
-    put_screen(&tetris);
+    put_screen(&tetris, &current);
 	while(GameOn){
 		if ((c = getch()) != ERR) {
 			t_tetrimino temp = copy_tetrimino(current);
@@ -250,7 +251,7 @@ int main() {
 					break;
 			}
 			destroy_tetrimino(temp);
-			put_screen(&tetris);
+			put_screen(&tetris, &current);
 		}
 		gettimeofday(&now, NULL);
 		if (hasToUpdate()) {
@@ -312,7 +313,7 @@ int main() {
 					break;
 			}
 			destroy_tetrimino(temp);
-			put_screen(&tetris);
+			put_screen(&tetris, &current);
 			gettimeofday(&before_now, NULL);
 		}
 	}
