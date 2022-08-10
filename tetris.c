@@ -136,6 +136,17 @@ void rotate_clodkwise(t_tetrimino shape){
 	//destroy_tetrimino(temp);
 }
 
+void rotate_clodkwise2(t_tetrimino *shape){
+	t_tetrimino temp = copy_tetrimino(*shape);
+	int i, j, k, width;
+	width = shape->width;
+	for(i = 0; i < width ; i++){
+		for(j = 0, k = width-1; j < width ; j++, k--){
+				shape->array[i][j] = temp.array[k][i];
+		}
+	}
+	//destroy_tetrimino(temp);
+}
 
 void put_screen(t_tetris *tetris, t_tetrimino *current){
 	char Buffer[R][C] = {0};
@@ -249,7 +260,7 @@ int main() {
 				case 'w':
 					rotate_clodkwise(temp);
 					if(can_move_tetrimino(&tetris, temp))
-						rotate_clodkwise(current);
+						rotate_clodkwise2(&current);
 					break;
 			}
 			//destroy_tetrimino(temp);
@@ -311,7 +322,7 @@ int main() {
 				case 'w':
 					rotate_clodkwise(temp);
 					if(can_move_tetrimino(&tetris, temp))
-						rotate_clodkwise(current);
+						rotate_clodkwise2(&current);
 					break;
 			}
 			//destroy_tetrimino(temp);
