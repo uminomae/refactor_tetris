@@ -1,2 +1,0 @@
-tetris.c:161:90: runtime error: signed integer overflow: 1660132857 * 1000000 cannot be represented in type 'int'
-SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior tetris.c:161:90 in 
