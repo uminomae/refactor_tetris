@@ -5,6 +5,25 @@
 #include <ncurses.h>
 #include "main.h"
 
+# include <string.h>
+# include <stdbool.h>
+
+# define FIELD_Y_ROW	20
+# define FIELD_X_COL	15
+# define TRUE		1
+# define FALSE		0
+# define MILLION	1000000
+# define TOP_ROW	0
+# define DROP_KEY 	's'
+# define RIGHT_KEY 	'd'
+# define LEFT_KEY 	'a'
+# define ROTATE_KEY 'w'
+
+# define FALL_VELOCITY_INTERVAL	50000
+//# define FALL_VELOCITY_INTERVAL	400000
+# define INTERVAL_DECREASE	1000
+# define NUM_OF_TYPE	7
+
 #define R 20
 #define C 15
 #define T 1
@@ -19,13 +38,34 @@ typedef struct {
     char **array;
     int width, row, col;
 } t_tetrimino;
+
 t_tetrimino current;
+
+//typedef char t_playing_fielld[R][C] = {0};
 char Table[R][C] = {0};
+
+typedef struct {
+	struct timeval before_now;
+	struct timeval now;
+} t_time;
+
+typedef struct {
+	int 		score;
+	//char 		game_status;
+	//t_tetrimino *tetrimino;
+	//t_tetrimino *type;
+	//suseconds_t time_to_update;
+	//int 		decrease;
+	//char		playing_field[FIELD_Y_ROW][FIELD_X_COL];
+	//int 		input_from_keyboard;
+	//t_time		*time;
+} t_tetris;
 
 int final = 0;
 
 
-const t_tetrimino StructsArray[7]= {
+
+const t_tetrimino type_tetrimino[7]= {
 	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},
 	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},
 	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
@@ -49,7 +89,7 @@ t_tetrimino copy_tetrimino(t_tetrimino shape){
     return new_shape;
 }
 
-void FunctionDS(t_tetrimino shape){
+void destroy_tetrimino(t_tetrimino shape){
     int i;
     for(i = 0; i < shape.width; i++){
 		free(shape.array[i]);
@@ -57,7 +97,7 @@ void FunctionDS(t_tetrimino shape){
     free(shape.array);
 }
 
-int FunctionCP(t_tetrimino shape){
+int can_move_tetrimino(t_tetrimino shape){
 	char **array = shape.array;
 	int i, j;
 	for(i = 0; i < shape.width;i++) {
@@ -83,10 +123,10 @@ void rotate_clodkwise(t_tetrimino shape){
 				shape.array[i][j] = temp.array[k][i];
 		}
 	}
-	FunctionDS(temp);
+	destroy_tetrimino(temp);
 }
 
-void FunctionPT(){
+void put_screen(){
 	char Buffer[R][C] = {0};
 	int i, j;
 	for(i = 0; i < current.width ;i++){
@@ -125,22 +165,22 @@ int main() {
     initscr();
 	gettimeofday(&before_now, NULL);
 	set_timeout(1);
-	t_tetrimino new_shape = copy_tetrimino(StructsArray[rand()%7]);
+	t_tetrimino new_shape = copy_tetrimino(type_tetrimino[rand()%7]);
     new_shape.col = rand()%(C-new_shape.width+1);
     new_shape.row = 0;
-    FunctionDS(current);
+    destroy_tetrimino(current);
 	current = new_shape;
-	if(!FunctionCP(current)){
+	if(!can_move_tetrimino(current)){
 		GameOn = F;
 	}
-    FunctionPT();
+    put_screen();
 	while(GameOn){
 		if ((c = getch()) != ERR) {
 			t_tetrimino temp = copy_tetrimino(current);
 			switch(c){
 				case 's':
 					temp.row++;  //move down
-					if(FunctionCP(temp))
+					if(can_move_tetrimino(temp))
 						current.row++;
 					else {
 						int i, j;
@@ -168,34 +208,34 @@ int main() {
 							}
 						}
 						final += 100*count;
-						t_tetrimino new_shape = copy_tetrimino(StructsArray[rand()%7]);
+						t_tetrimino new_shape = copy_tetrimino(type_tetrimino[rand()%7]);
 						new_shape.col = rand()%(C-new_shape.width+1);
 						new_shape.row = 0;
-						FunctionDS(current);
+						destroy_tetrimino(current);
 						current = new_shape;
-						if(!FunctionCP(current)){
+						if(!can_move_tetrimino(current)){
 							GameOn = F;
 						}
 					}
 					break;
 				case 'd':
 					temp.col++;
-					if(FunctionCP(temp))
+					if(can_move_tetrimino(temp))
 						current.col++;
 					break;
 				case 'a':
 					temp.col--;
-					if(FunctionCP(temp))
+					if(can_move_tetrimino(temp))
 						current.col--;
 					break;
 				case 'w':
 					rotate_clodkwise(temp);
-					if(FunctionCP(temp))
+					if(can_move_tetrimino(temp))
 						rotate_clodkwise(current);
 					break;
 			}
-			FunctionDS(temp);
-			FunctionPT();
+			destroy_tetrimino(temp);
+			put_screen();
 		}
 		gettimeofday(&now, NULL);
 		if (hasToUpdate()) {
@@ -203,7 +243,7 @@ int main() {
 			switch('s'){
 				case 's':
 					temp.row++;
-					if(FunctionCP(temp))
+					if(can_move_tetrimino(temp))
 						current.row++;
 					else {
 						int i, j;
@@ -230,38 +270,38 @@ int main() {
 								timer-=decrease--;
 							}
 						}
-						t_tetrimino new_shape = copy_tetrimino(StructsArray[rand()%7]);
+						t_tetrimino new_shape = copy_tetrimino(type_tetrimino[rand()%7]);
 						new_shape.col = rand()%(C-new_shape.width+1);
 						new_shape.row = 0;
-						FunctionDS(current);
+						destroy_tetrimino(current);
 						current = new_shape;
-						if(!FunctionCP(current)){
+						if(!can_move_tetrimino(current)){
 							GameOn = F;
 						}
 					}
 					break;
 				case 'd':
 					temp.col++;
-					if(FunctionCP(temp))
+					if(can_move_tetrimino(temp))
 						current.col++;
 					break;
 				case 'a':
 					temp.col--;
-					if(FunctionCP(temp))
+					if(can_move_tetrimino(temp))
 						current.col--;
 					break;
 				case 'w':
 					rotate_clodkwise(temp);
-					if(FunctionCP(temp))
+					if(can_move_tetrimino(temp))
 						rotate_clodkwise(current);
 					break;
 			}
-			FunctionDS(temp);
-			FunctionPT();
+			destroy_tetrimino(temp);
+			put_screen();
 			gettimeofday(&before_now, NULL);
 		}
 	}
-	FunctionDS(current);
+	destroy_tetrimino(current);
 	endwin();
 	int i, j;
 	for(i = 0; i < R ;i++){
