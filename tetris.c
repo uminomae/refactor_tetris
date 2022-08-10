@@ -21,30 +21,32 @@
 # define LEFT_KEY 	'a'
 # define ROTATE_KEY 'w'
 # define WIDTH_AND_HEIGHT_MAX 4
+# define GAME_OVER 0
+# define IN_GAME 1
 
-//# define FALL_VELOCITY_INTERVAL	50000
-# define FALL_VELOCITY_INTERVAL	400000
+# define FALL_VELOCITY_INTERVAL	100000
+//# define FALL_VELOCITY_INTERVAL	400000
 # define INTERVAL_DECREASE	1000
 # define NUM_OF_TYPE	7
 
 #define R 20
 #define C 15
-#define T 1
-#define F 0
+#define TRUE 1
+#define FALSE 0
 
-char GameOn = T;
+char GameOn = TRUE;
 suseconds_t timer = FALL_VELOCITY_INTERVAL;
 int decrease = 1000;
 
-typedef char t_figure[WIDTH_AND_HEIGHT_MAX][WIDTH_AND_HEIGHT_MAX];
+//typedef char t_figure[WIDTH_AND_HEIGHT_MAX][WIDTH_AND_HEIGHT_MAX];
 
-typedef struct {
-    char **array;
-	//char array[WIDTH_AND_HEIGHT_MAX][WIDTH_AND_HEIGHT_MAX];
-    int width;
-	int row;
-	int col;
-} t_tetrimino;
+//typedef struct {
+//    char **array;
+//	//char array[WIDTH_AND_HEIGHT_MAX][WIDTH_AND_HEIGHT_MAX];
+//    int width;
+//	int row;
+//	int col;
+//} t_tetrimino;
 
 typedef struct s_time{
 	struct timeval before_now;
@@ -67,15 +69,15 @@ int final = 0;
 //	{S_FIGURE},{Z_FIGURE},{T_FIGURE},{L_FIGURE},{J_FIGURE},{O_FIGURE},{I_FIGURE}
 //};
 
-const t_tetrimino type_tetrimino[7]= {
-	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){1,1},(char []){1,1}}, 2},
-	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4}
-};
+//const t_tetrimino type_tetrimino[7]= {
+//	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},
+//	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},
+//	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
+//	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3},
+//	{(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
+//	{(char *[]){(char []){1,1},(char []){1,1}}, 2},
+//	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4}
+//};
 
 t_tetrimino copy_tetrimino(t_tetrimino shape){
 	t_tetrimino new_shape = shape;
@@ -113,15 +115,15 @@ int can_move_tetrimino(t_tetris *tetris, t_tetrimino shape){
 			if((shape.col+j < 0 || shape.col+j >= C || shape.row+i >= R)){
 				if(shape.array[i][j])
 				if(array[i][j])
-					return F;
+					return FALSE;
 				
 			}
 			//else if(tetris->playing_field[shape.row+i][shape.col+j] && shape.array[i][j])
 			else if(tetris->playing_field[shape.row+i][shape.col+j] && array[i][j])
-				return F;
+				return FALSE;
 		}
 	}
-	return T;
+	return TRUE;
 }
 
 void rotate_clodkwise(t_tetrimino shape){
@@ -202,7 +204,7 @@ int main() {
     //destroy_tetrimino(current);
 	current = new_shape;
 	if(!can_move_tetrimino(&tetris, current)){
-		GameOn = F;
+		GameOn = FALSE;
 	}
     put_screen(&tetris, &current);
 	while(GameOn){
@@ -245,7 +247,7 @@ int main() {
 						destroy_tetrimino(current);
 						current = new_shape;
 						if(!can_move_tetrimino(&tetris, current)){
-							GameOn = F;
+							GameOn = FALSE;
 						}
 					}
 					break;
@@ -307,7 +309,7 @@ int main() {
 						destroy_tetrimino(current);
 						current = new_shape;
 						if(!can_move_tetrimino(&tetris, current)){
-							GameOn = F;
+							GameOn = FALSE;
 						}
 					}
 					break;

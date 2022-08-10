@@ -1,59 +1,23 @@
-//#ifndef MAIN_TETRIS
-//# define MAIN_TETRIS
+#ifndef MAIN_TETRIS
+# define MAIN_TETRIS
 
-//# include <stdio.h>
-//# include <stdlib.h>
-//# include <string.h>
-//# include <stdbool.h>
-//# include <time.h>
-//# include <sys/time.h>
-//# include <ncurses.h>
+typedef struct {
+    char **array;
+	//char array[WIDTH_AND_HEIGHT_MAX][WIDTH_AND_HEIGHT_MAX];
+    int width;
+	int row;
+	int col;
+} t_tetrimino;
 
-//////x,yに
-//# define FIELD_ROW	20
-//# define FIELD_COL	15
-//# define TRUE		1
-//# define FALSE		0
-//# define MILLION	1000000
-//# define TOP_ROW	0
-//# define DROP_KEY 	's'
-//# define RIGHT_KEY 	'd'
-//# define LEFT_KEY 	'a'
-//# define ROTATE_KEY 'w'
-
-//# define FALL_VELOCITY_INTERVAL	50000
-////# define FALL_VELOCITY_INTERVAL	400000
-//# define INTERVAL_DECREASE	1000
-//# define NUM_OF_TYPE	7
-
-//typedef enum s_game_status {
-//	GAME_OVER = 0,
-//	GAME_PLAY,
-//} t_game_status;
-
-//typedef struct {
-//    char 	**figure;
-//    int 	width_and_height;
-//	int 	row;
-//	int 	col;
-//} t_tetrimino;
-
-//typedef struct {
-//	struct timeval before_now;
-//	struct timeval now;
-//} t_time;
-
-//typedef struct {
-//	int 		score;
-//	char 		game_status;
-//	t_tetrimino *tetrimino;
-//	t_tetrimino *type;
-//	suseconds_t time_to_update;
-//	int 		decrease;
-//	char		playing_field[FIELD_ROW][FIELD_COL];
-//	int 		input_from_keyboard;
-//	t_time		*time;
-//} t_tetris;
+const t_tetrimino type_tetrimino[7]= {
+	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},
+	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},
+	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
+	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3},
+	{(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
+	{(char *[]){(char []){1,1},(char []){1,1}}, 2},
+	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4}
+};
 
 
 ////main.c
@@ -104,4 +68,4 @@
 
 
 
-//#endif 
+#endif 
