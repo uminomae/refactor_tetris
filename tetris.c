@@ -4,6 +4,8 @@
 #include <sys/time.h>
 #include <ncurses.h>
 #include "main.h"
+#include "tetrimino.h"
+
 
 # include <string.h>
 # include <stdbool.h>
@@ -32,26 +34,18 @@
 
 char GameOn = T;
 suseconds_t timer = FALL_VELOCITY_INTERVAL;
-//suseconds_t timer = 400000
 int decrease = 1000;
 
 typedef char t_figure[WIDTH_AND_HEIGHT_MAX][WIDTH_AND_HEIGHT_MAX];
 
 typedef struct {
     char **array;
-	//t_figure figure;
     int width;
 	int row;
 	int col;
 } t_tetrimino;
 
-//t_tetrimino current;
-
-//typedef char t_field[R][C];
-//t_field playing_field[R][C] = {0};
-//char playing_field[R][C] = {0};
-
-typedef struct {
+typedef struct s_time{
 	struct timeval before_now;
 	struct timeval now;
 } t_time;
@@ -59,19 +53,14 @@ typedef struct {
 typedef struct {
 	int 		score;
 	//char 		game_status;
-	//t_tetrimino *tetrimino;
-	//t_tetrimino *type;
 	//suseconds_t time_to_update;
 	//int 		decrease;
 	char		playing_field[FIELD_Y_ROW][FIELD_X_COL];
 	//int 		input_from_keyboard;
-	//t_time		*time;
+	//struct s_time	*time;
 } t_tetris;
 
 int final = 0;
-
-
-
 
 const t_tetrimino type_tetrimino[7]= {
 	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},
