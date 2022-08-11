@@ -35,21 +35,7 @@ struct timeval before_now, now;
 //	refresh_game_screen(tetris, tetrimino);
 //}
 
-//void move_by_key_case(t_tetris *tetris, \
-//						t_tetrimino *tetrimino, \
-//						t_tetrimino *temp_for_judge, \
-//						bool update, \
-//						int key){
-//	if (key == DROP_KEY){
-//		move_case_key_s(tetris, tetrimino, temp_for_judge, update);
-//	}else if (key == RIGHT_KEY){
-//		move_case_key_d(tetris, tetrimino, temp_for_judge);
-//	}else if (key == LEFT_KEY){
-//		move_case_key_a(tetris, tetrimino, temp_for_judge);
-//	}else if (key == ROTATE_KEY){
-//		move_case_key_w(tetris, tetrimino, temp_for_judge);
-//	}
-//}
+
 
 //--------------------------------------------------------
 // key_command
@@ -121,6 +107,28 @@ void move_case_key_s(t_tetris *tetris, \
 // key_command
 //--------------------------------------------------------
 
+
+void move_by_key_case(t_tetris *tetris, \
+						t_tetrimino *current, \
+						t_tetrimino *temp_for_judge, \
+						const t_tetrimino *type, \
+						int key){
+	if (key == DROP_KEY){
+		move_case_key_s(tetris, current, temp_for_judge, type);
+		//move_case_key_s(tetris, tetrimino, temp_for_judge_for_judge, update);
+	}else if (key == RIGHT_KEY){
+		move_case_key_d(tetris, current, temp_for_judge);
+		//move_case_key_d(tetris, tetrimino, temp_for_judge_for_judge);
+	}else if (key == LEFT_KEY){
+		move_case_key_a(tetris, current, temp_for_judge);
+		//move_case_key_a(tetris, tetrimino, temp_for_judge_for_judge);
+	}else if (key == ROTATE_KEY){
+		move_case_key_w(tetris, current, temp_for_judge);
+		//move_case_key_w(tetris, tetrimino, temp_for_judge);
+	}
+}
+
+
 //void get_char_input_from_keyboad(t_tetris *tetris){
 //	tetris->input_from_keyboard = getch();
 //}
@@ -145,43 +153,18 @@ int main() {
 		if ((c = getch()) != ERR) {
 			t_tetrimino temp = copy_tetrimino(current);
 			switch(c){
+				//move_by_key_case(&tetris, &current, &temp, type, int key);
 				case 's':
 					move_case_key_s(&tetris, &current, &temp, type);
-					//key sがちょっと危ないのでテスト時コメントに前のコードは残す。
-
-					//temp.row++;  //move down
-					//if(can_move_tetrimino(&tetris, temp))
-					//	current.row++;
-					//else {
-					//	fix_tetrimino_on_the_field(&tetris, &current);
-					//	int count = 0;
-					//	count_completed_lines_and_erase(&tetris, &count);
-					//	tetris.score += 100*count;
-
-					//	current = replace_next_tetrimino(&current, type);
-					//	if(!can_move_tetrimino(&tetris, current)){
-					//		tetris.game_status = GAME_OVER;
-					//	}
-					//}
-
 					break;
 				case 'd':
 					move_case_key_d(&tetris, &current, &temp);
-					//temp.col++;
-					//if(can_move_tetrimino(&tetris, temp))
-					//	current.col++;
 					break;
 				case 'a':
 					move_case_key_a(&tetris, &current, &temp);
-					//temp.col--;
-					//if(can_move_tetrimino(&tetris, temp))
-					//	current.col--;
 					break;
 				case 'w':
 					move_case_key_w(&tetris, &current, &temp);
-					//rotate_clodkwise(temp);
-					//if(can_move_tetrimino(&tetris, temp))
-					//	rotate_clodkwise(current);
 					break;
 			}
 			destroy_tetrimino(temp);
@@ -193,37 +176,15 @@ int main() {
 			switch('s'){
 				case 's':
 					move_case_key_s(&tetris, &current, &temp, type);
-					//temp.row++;
-					//if(can_move_tetrimino(&tetris, temp))
-					//	current.row++;
-					//else {
-					//	fix_tetrimino_on_the_field(&tetris, &current);
-					//	int count = 0;
-					//	count_completed_lines_and_erase(&tetris, &count);
-					//	tetris.score += 100*count;
-					//	current = replace_next_tetrimino(&current, type);
-					//	if(!can_move_tetrimino(&tetris, current)){
-					//		tetris.game_status = GAME_OVER;
-					//	}
-					//}
 					break;
 				case 'd':
 					move_case_key_d(&tetris, &current, &temp);
-					//temp.col++;
-					//if(can_move_tetrimino(&tetris, temp))
-					//	current.col++;
 					break;
 				case 'a':
 					move_case_key_a(&tetris, &current, &temp);
-					//temp.col--;
-					//if(can_move_tetrimino(&tetris, temp))
-					//	current.col--;
 					break;
 				case 'w':
 					move_case_key_w(&tetris, &current, &temp);
-					//rotate_clodkwise(temp);
-					//if(can_move_tetrimino(&tetris, temp))
-					//	rotate_clodkwise(current);
 					break;
 			}
 			destroy_tetrimino(temp);
