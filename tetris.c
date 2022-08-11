@@ -31,24 +31,19 @@ suseconds_t get_millisecond(struct timeval timevalue){
 }
 
 bool need_update(t_tetris *tetris, t_time *timer){
-//bool need_update(t_tetris *tetris){
 	const suseconds_t now_ms = get_millisecond(timer->now);
 	const suseconds_t before_now_ms = get_millisecond(timer->before_now);
 	return (now_ms - before_now_ms > tetris->time_to_update);
 }
 
-int hasToUpdate(){
-	return ((suseconds_t)(now.tv_sec*1000000 + now.tv_usec) -((suseconds_t)before_now.tv_sec*1000000 + before_now.tv_usec)) > timer;
-}
+//int hasToUpdate(){
+//	return ((suseconds_t)(now.tv_sec*1000000 + now.tv_usec) -((suseconds_t)before_now.tv_sec*1000000 + before_now.tv_usec)) > timer;
+//}
 
 static void set_timeout_millisecond(int time_ms) {
 	timeout(time_ms);
 }
 
-//void set_timeout(int time) {
-//	time = 1;
-//	timeout(1);
-//}
 
 
 int main() {
@@ -62,11 +57,6 @@ int main() {
 
 	gettimeofday(&timer.before_now, NULL);
 	set_timeout_millisecond(1);
-
-	//gettimeofday(&before_now, NULL);
-	//timeout(1);
-	//set_timeout(1);
-	
 	memcpy(type, type_tetrimino, sizeof(type) * 1);
 	begin_game(&tetris, &current, type);
 
@@ -79,21 +69,14 @@ int main() {
 			destroy_tetrimino(temp);
 			refresh_game_screen(&tetris, &current);
 		}
-
 		gettimeofday(&timer.now, NULL);
 		if (need_update(&tetris, &timer)) {
-		
-		//gettimeofday(&now, NULL);
-		//if (hasToUpdate()) {
-		
 			t_tetrimino temp = copy_tetrimino(current);
 			tetris.input_from_keyboard = 's';
 			move_by_key_case(&tetris, &current, &temp, type);
 			destroy_tetrimino(temp);
 			refresh_game_screen(&tetris, &current);
-
 			gettimeofday(&timer.before_now, NULL);
-			//gettimeofday(&before_now, NULL);
 		}
 	}
 	finish_game(&tetris, &current);
