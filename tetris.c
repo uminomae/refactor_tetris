@@ -152,10 +152,6 @@ int main() {
 						
 						current = replace_next_tetrimino(&current);
 
-						//t_tetrimino new_shape = create_new_tetrimino();
-
-						//destroy_tetrimino(current);
-						//current = new_shape;
 						if(!can_move_tetrimino(&tetris, current)){
 							tetris.game_status = GAME_OVER;
 						}
@@ -216,11 +212,6 @@ int main() {
 
 						current = replace_next_tetrimino(&current);
 
-						//t_tetrimino new_shape = create_new_tetrimino();
-
-
-						//destroy_tetrimino(current);
-						//current = new_shape;
 						if(!can_move_tetrimino(&tetris, current)){
 							tetris.game_status = GAME_OVER;
 						}
