@@ -23,33 +23,48 @@ bool need_update(t_tetris *tetris, t_time *timer){
 }
 
 
-//void move_tetrimino_with_key(t_tetris *tetris, \
-//								t_tetrimino *tetrimino, \
-//								bool update){
-//	int key = tetris->input_from_keyboard;
-//	t_tetrimino temp_for_judge = *copy_tetrimino_type(tetrimino);
+void move_tetrimino_with_key(t_tetris *tetris, \
+								t_tetrimino *current, \
+								const t_tetrimino *type, \
+								bool update){
+	//int key;
 	
-//	move_by_key_case(tetris, tetrimino, &temp_for_judge, update, key);
-//	destroy_tetrimino(&temp_for_judge);
-//	refresh_game_screen(tetris, tetrimino);
-//}
+	if (update == true)
+		//tetris->input_from_keyboard = key;
+		tetris->input_from_keyboard = 's';
+	//else
+	//	key = 's';
+	t_tetrimino temp = copy_tetrimino(*current);
+	move_by_key_case(tetris, current, &temp, type);
+	destroy_tetrimino(temp);
+	refresh_game_screen(tetris, current);
+}
 
-void run_game(t_tetris *tetris, t_tetrimino *current, t_time *timer, const t_tetrimino *type){
+void run_game(t_tetris *tetris, t_tetrimino *current, const t_tetrimino *type, t_time *timer){
 	while(tetris->game_status == IN_GAME){
+		//int key = get_char_input_from_keyboad();
 		get_char_input_from_keyboad(tetris);
 		if (tetris->input_from_keyboard != ERR) {
-			t_tetrimino temp = copy_tetrimino(*current);
-			move_by_key_case(tetris, current, &temp, type);
-			destroy_tetrimino(temp);
-			refresh_game_screen(tetris, current);
+			move_tetrimino_with_key(tetris, current, type,false);
+
+			//move_tetrimino_with_key(tetris, current, type, key ,false);
+			//t_tetrimino temp = copy_tetrimino(*current);
+			//move_by_key_case(tetris, current, &temp, type);
+			//destroy_tetrimino(temp);
+			//refresh_game_screen(tetris, current);
 		}
 		gettimeofday(&timer->now, NULL);
 		if (need_update(tetris, timer)) {
-			tetris->input_from_keyboard = 's';
-			t_tetrimino temp = copy_tetrimino(*current);
-			move_by_key_case(tetris, current, &temp, type);
-			destroy_tetrimino(temp);
-			refresh_game_screen(tetris, current);
+			//tetris->input_from_keyboard = 's';
+			//key = 's';
+			//move_tetrimino_with_key(tetris, current, type, key ,true);
+			move_tetrimino_with_key(tetris, current, type, true);
+			//tetris->input_from_keyboard = 0;
+			//tetris->input_from_keyboard = 's';
+			//t_tetrimino temp = copy_tetrimino(*current);
+			//move_by_key_case(tetris, current, &temp, type);
+			//destroy_tetrimino(temp);
+			//refresh_game_screen(tetris, current);
 			gettimeofday(&timer->before_now, NULL);
 		}
 	}
@@ -65,7 +80,7 @@ int main() {
 	init_game(&tetris, &timer);
 	memcpy(type, type_tetrimino, sizeof(type) * 1);
 	begin_game(&tetris, &current, type);
-	run_game(&tetris, &current, &timer, type);
+	run_game(&tetris, &current, type, &timer);
 	//while(tetris.game_status == IN_GAME){
 	//	get_char_input_from_keyboad(&tetris);
 	//	if (tetris.input_from_keyboard != ERR) {

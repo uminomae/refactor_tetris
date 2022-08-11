@@ -4,6 +4,10 @@ void get_char_input_from_keyboad(t_tetris *tetris){
 	tetris->input_from_keyboard = getch();
 }
 
+//int get_char_input_from_keyboad(){
+//	return (getch());
+//}
+
 void move_by_key_case(t_tetris *tetris, \
 						t_tetrimino *current, \
 						t_tetrimino *temp_for_judge, \
