@@ -199,7 +199,7 @@ void rotate_clodkwise2(){
 	//destroy_tetrimino(temp);
 }
 
-void put_screen(t_tetris *tetris){
+void refresh_game_screen(t_tetris *tetris){
 	char Buffer[R][C] = {0};
 	int i, j;
 	for(i = 0; i < current.width ;i++){
@@ -257,7 +257,7 @@ int main() {
 	if(!can_move_tetrimino_cur(&tetris)){
 		GameOn = F;
 	}
-    put_screen(&tetris);
+    refresh_game_screen(&tetris);
 	while(GameOn){
 		if ((c = getch()) != ERR) {
 			t_tetrimino temp = copy_tetrimino(current);
@@ -320,7 +320,7 @@ int main() {
 					break;
 			}
 			//destroy_tetrimino(temp);
-			put_screen(&tetris);
+			refresh_game_screen(&tetris);
 		}
 		gettimeofday(&now, NULL);
 		if (hasToUpdate()) {
@@ -382,7 +382,7 @@ int main() {
 					break;
 			}
 			//destroy_tetrimino(temp);
-			put_screen(&tetris);
+			refresh_game_screen(&tetris);
 			gettimeofday(&before_now, NULL);
 		}
 	}

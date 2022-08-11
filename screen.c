@@ -53,7 +53,7 @@ static void print_game_screen(t_tetris *tetris, \
 	print_footer(tetris);
 }
 
-void put_screen(t_tetris *tetris, t_tetrimino *current){
+void refresh_game_screen(t_tetris *tetris, t_tetrimino *current){
 //void refresh_game_screen(t_tetris *tetris, t_tetrimino *current){
 	char next_playing_field[FIELD_Y_ROW][FIELD_X_COL] = {0};
 	
@@ -67,7 +67,7 @@ void put_screen(t_tetris *tetris, t_tetrimino *current){
 //--------------------------------------------------------
 
 
-//void put_screen(t_tetris *tetris, t_tetrimino *current){
+//void refresh_game_screen(t_tetris *tetris, t_tetrimino *current){
 //	char Buffer[R][C] = {0};
 //	int i, j;
 //	for(i = 0; i < current->width ;i++){

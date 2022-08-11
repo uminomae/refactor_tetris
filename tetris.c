@@ -7,7 +7,7 @@
 #define C 15
 
 void rotate_clodkwise(t_tetrimino shape);
-void put_screen(t_tetris *tetris, t_tetrimino *current);
+void refresh_game_screen(t_tetris *tetris, t_tetrimino *current);
 int hasToUpdate();
 void set_timeout(int time);
 
@@ -15,7 +15,6 @@ void set_timeout(int time);
 suseconds_t timer = FALL_VELOCITY_INTERVAL;
 int decrease = 1000;
 
-//int tetris.score = 0;
 
 struct timeval before_now, now;
 
@@ -26,6 +25,7 @@ void begin_game(t_tetris *tetris, t_tetrimino *current, t_tetrimino *type){
 	*current = create_new_tetrimino(type);
 	judge_the_end_of_game(tetris, *current);
     //refresh_game_screen(tetris, tetris->tetrimino);
+	refresh_game_screen(tetris, current);
 }
 
 
@@ -46,7 +46,7 @@ int main() {
     int c;
 	//refresh_game_screen変える
 
-    put_screen(&tetris, &current);
+    //refresh_game_screen(&tetris, &current);
 	while(tetris.game_status == IN_GAME){
 		if ((c = getch()) != ERR) {
 			t_tetrimino temp = copy_tetrimino(current);
@@ -106,7 +106,7 @@ int main() {
 					break;
 			}
 			destroy_tetrimino(temp);
-			put_screen(&tetris, &current);
+			refresh_game_screen(&tetris, &current);
 		}
 		gettimeofday(&now, NULL);
 		if (hasToUpdate()) {
@@ -166,7 +166,7 @@ int main() {
 					break;
 			}
 			destroy_tetrimino(temp);
-			put_screen(&tetris, &current);
+			refresh_game_screen(&tetris, &current);
 			gettimeofday(&before_now, NULL);
 		}
 	}
@@ -242,7 +242,7 @@ int main() {
 //	print_footer(tetris);
 //}
 
-//void put_screen(t_tetris *tetris, t_tetrimino *current){
+//void refresh_game_screen(t_tetris *tetris, t_tetrimino *current){
 ////void refresh_game_screen(t_tetris *tetris, t_tetrimino *current){
 //	char next_playing_field[FIELD_Y_ROW][FIELD_X_COL] = {0};
 	
@@ -256,7 +256,7 @@ int main() {
 ////--------------------------------------------------------
 
 
-////void put_screen(t_tetris *tetris, t_tetrimino *current){
+////void refresh_game_screen(t_tetris *tetris, t_tetrimino *current){
 ////	char Buffer[R][C] = {0};
 ////	int i, j;
 ////	for(i = 0; i < current->width ;i++){
