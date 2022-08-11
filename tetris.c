@@ -100,7 +100,8 @@ static void fix_tetrimino_on_the_field(t_tetris *tetris, t_tetrimino *current){
 //updateはいつ使う？
 void move_case_key_s(t_tetris *tetris, \
 						t_tetrimino *current, \
-						t_tetrimino *temp_for_judge){
+						t_tetrimino *temp_for_judge, \
+						const t_tetrimino *type){
 	(*temp_for_judge).row += 1;
 	if(can_move_tetrimino(tetris, *temp_for_judge))
 		(*current).row += 1;
@@ -110,6 +111,8 @@ void move_case_key_s(t_tetris *tetris, \
 		count_completed_lines_and_erase(tetris, &completed_lines);
 		//if (update == false)
 		tetris->score += 100 * completed_lines;
+		*current = replace_next_tetrimino(current, type);
+		judge_the_end_of_game(tetris, *current);
 		//switch_to_next_tetrimino(tetris, tetrimino);
 	}
 }
@@ -143,7 +146,8 @@ int main() {
 			t_tetrimino temp = copy_tetrimino(current);
 			switch(c){
 				case 's':
-					move_case_key_s(&tetris, &current, &temp);
+					move_case_key_s(&tetris, &current, &temp, type);
+					
 					//temp.row++;  //move down
 					//if(can_move_tetrimino(&tetris, temp))
 					//	current.row++;
@@ -152,11 +156,13 @@ int main() {
 					//	int count = 0;
 					//	count_completed_lines_and_erase(&tetris, &count);
 					//	tetris.score += 100*count;
+
 					//	current = replace_next_tetrimino(&current, type);
 					//	if(!can_move_tetrimino(&tetris, current)){
 					//		tetris.game_status = GAME_OVER;
 					//	}
 					//}
+
 					break;
 				case 'd':
 					temp.col++;
@@ -182,19 +188,20 @@ int main() {
 			t_tetrimino temp = copy_tetrimino(current);
 			switch('s'){
 				case 's':
-					temp.row++;
-					if(can_move_tetrimino(&tetris, temp))
-						current.row++;
-					else {
-						fix_tetrimino_on_the_field(&tetris, &current);
-						int count = 0;
-						count_completed_lines_and_erase(&tetris, &count);
-						tetris.score += 100*count;
-						current = replace_next_tetrimino(&current, type);
-						if(!can_move_tetrimino(&tetris, current)){
-							tetris.game_status = GAME_OVER;
-						}
-					}
+					move_case_key_s(&tetris, &current, &temp, type);
+					//temp.row++;
+					//if(can_move_tetrimino(&tetris, temp))
+					//	current.row++;
+					//else {
+					//	fix_tetrimino_on_the_field(&tetris, &current);
+					//	int count = 0;
+					//	count_completed_lines_and_erase(&tetris, &count);
+					//	tetris.score += 100*count;
+					//	current = replace_next_tetrimino(&current, type);
+					//	if(!can_move_tetrimino(&tetris, current)){
+					//		tetris.game_status = GAME_OVER;
+					//	}
+					//}
 					break;
 				case 'd':
 					temp.col++;
@@ -257,6 +264,9 @@ void rotate_clodkwise(t_tetrimino shape){
 }
 
 int hasToUpdate(){
+	//tetris.c:260:90: runtime error: signed integer overflow: 1660208859 * 1000000 cannot be represented in type 'int'
+	//SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior tetris.c:260:90 in 
+
 	return ((suseconds_t)(now.tv_sec*1000000 + now.tv_usec) -((suseconds_t)before_now.tv_sec*1000000 + before_now.tv_usec)) > timer;
 }
 
