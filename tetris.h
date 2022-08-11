@@ -50,8 +50,8 @@ typedef struct {
 	int 		input_from_keyboard;
 } t_tetris;
 
-
-void init_game(t_tetris *tetris, t_time *timer);
+void init_game(t_tetris *tetris, t_tetrimino *type, t_time *timer);
+//void init_game(t_tetris *tetris, t_time *timer);
 void begin_game(t_tetris *tetris, t_tetrimino *current, t_tetrimino *type);
 void run_game(t_tetris *tetris, t_tetrimino *current, const t_tetrimino *type, t_time *timer);
 void finish_game(t_tetris *tetris, t_tetrimino *current);

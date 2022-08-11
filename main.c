@@ -1,15 +1,15 @@
 #include "tetris.h"
-#include "type.h"
+//#include "type.h"
 
 int main() {
-
 	t_tetris tetris;
 	t_tetrimino current;
 	t_tetrimino type[7];
 	t_time timer;
 	
-	init_game(&tetris, &timer);
-	memcpy(type, type_tetrimino, sizeof(type) * 1);
+	//init_game(&tetris, &timer);
+	init_game(&tetris, type, &timer);
+	//memcpy(type, type_tetrimino, sizeof(type) * 1);
 	begin_game(&tetris, &current, type);
 	run_game(&tetris, &current, type, &timer);
 	finish_game(&tetris, &current);
@@ -21,15 +21,15 @@ int main() {
 //  . . . . . . . . . . . . . . .
 //  . . . . . . . . . . . . . . .
 //  . . . . . . . . . . . . . . .
-//  .  t_tetrimino.current  . . .
+//  .  t_tetrimino current  . . .
 //  . . . . . . . . . (type[7]) .
 //  . . . . . . # # . . . . . . .
 //  . . . . . . . # # . . . . . .
 //  . . . . . . . . . . . . . . .
 //  . . . . . . . . . . . . . . .
 //  . . . . . . . . . . . . . . .
-//  . . . . . . . . . . . . . . .
-//  .  t_tetris.playing_field . .
+//  . t_tetrimino . . . . . . . .
+//  .  tetris.playing_field . . .
 //  . . . . . [20][15]. . . . . .
 //  . . . . . . . . . . . . . . .
 //  . . . . . . . . . . . . . . .
