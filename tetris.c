@@ -55,26 +55,26 @@ struct timeval before_now, now;
 // key_command
 //--------------------------------------------------------
 
-//void move_case_key_d(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judge)
-//{
-//	temp_for_judge->col++;
-//	if(can_move_field(tetris, temp_for_judge))
-//		tetrimino->col++;
-//}
+void move_case_key_d(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_for_judge)
+{
+	temp_for_judge->col++;
+	if(can_move_tetrimino(tetris, *temp_for_judge))
+		current->col++;
+}
 
-//void move_case_key_a(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judge)
-//{
-//	temp_for_judge->col--;
-//	if(can_move_field(tetris, temp_for_judge))
-//		tetrimino->col--;
-//}
+void move_case_key_a(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_for_judge)
+{
+	temp_for_judge->col--;
+	if(can_move_tetrimino(tetris, *temp_for_judge))
+		current->col--;
+}
 
-//void move_case_key_w(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judge)
-//{
-//	rotate_tetrimino(temp_for_judge);
-//	if(can_move_field(tetris, temp_for_judge))
-//		rotate_tetrimino(tetrimino);
-//}
+void move_case_key_w(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_for_judge)
+{
+	rotate_clodkwise(*temp_for_judge);
+	if(can_move_tetrimino(tetris, *temp_for_judge))
+		rotate_clodkwise(*current);
+}
 
 //void switch_to_next_tetrimino(t_tetris *tetris, t_tetrimino *tetrimino){
 //	t_tetrimino *new = create_new_tetrimino(tetris->type);
@@ -149,7 +149,6 @@ int main() {
 					move_case_key_s(&tetris, &current, &temp, type);
 					//key sがちょっと危ないのでテスト時コメントに前のコードは残す。
 
-					
 					//temp.row++;  //move down
 					//if(can_move_tetrimino(&tetris, temp))
 					//	current.row++;
@@ -167,19 +166,22 @@ int main() {
 
 					break;
 				case 'd':
-					temp.col++;
-					if(can_move_tetrimino(&tetris, temp))
-						current.col++;
+					move_case_key_d(&tetris, &current, &temp);
+					//temp.col++;
+					//if(can_move_tetrimino(&tetris, temp))
+					//	current.col++;
 					break;
 				case 'a':
-					temp.col--;
-					if(can_move_tetrimino(&tetris, temp))
-						current.col--;
+					move_case_key_a(&tetris, &current, &temp);
+					//temp.col--;
+					//if(can_move_tetrimino(&tetris, temp))
+					//	current.col--;
 					break;
 				case 'w':
-					rotate_clodkwise(temp);
-					if(can_move_tetrimino(&tetris, temp))
-						rotate_clodkwise(current);
+					move_case_key_w(&tetris, &current, &temp);
+					//rotate_clodkwise(temp);
+					//if(can_move_tetrimino(&tetris, temp))
+					//	rotate_clodkwise(current);
 					break;
 			}
 			destroy_tetrimino(temp);
@@ -206,19 +208,22 @@ int main() {
 					//}
 					break;
 				case 'd':
-					temp.col++;
-					if(can_move_tetrimino(&tetris, temp))
-						current.col++;
+					move_case_key_d(&tetris, &current, &temp);
+					//temp.col++;
+					//if(can_move_tetrimino(&tetris, temp))
+					//	current.col++;
 					break;
 				case 'a':
-					temp.col--;
-					if(can_move_tetrimino(&tetris, temp))
-						current.col--;
+					move_case_key_a(&tetris, &current, &temp);
+					//temp.col--;
+					//if(can_move_tetrimino(&tetris, temp))
+					//	current.col--;
 					break;
 				case 'w':
-					rotate_clodkwise(temp);
-					if(can_move_tetrimino(&tetris, temp))
-						rotate_clodkwise(current);
+					move_case_key_w(&tetris, &current, &temp);
+					//rotate_clodkwise(temp);
+					//if(can_move_tetrimino(&tetris, temp))
+					//	rotate_clodkwise(current);
 					break;
 			}
 			destroy_tetrimino(temp);
