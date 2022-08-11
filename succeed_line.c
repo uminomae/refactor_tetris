@@ -29,7 +29,7 @@ static void	clear_line(t_tetris *tetris, int y){
 
 int	count_completed_lines_and_erase(t_tetris *tetris, int *completed_lines){
 	for (int y = 0; y < FIELD_Y_ROW; y++){
-		if(count_blocks_of_line(tetris, y) == FIELD_X_COL){
+		if (count_blocks_of_line(tetris, y) == FIELD_X_COL){
 			*completed_lines += 1;
 			drop_block(tetris, y);
 			clear_line(tetris, TOP_Y_ROW);
