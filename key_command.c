@@ -2,8 +2,8 @@
 
 //TODO
 //++を+=1へ
-//widthをheightを意味するものに]
-//constのチェック
+//widthをheightを意味するものに
+//引数と変数宣言でできるだけconstにする
 void	move_case_key_d(t_tetris *tetris, \
 						t_tetrimino *current, \
 						t_tetrimino *temp_for_judge){
