@@ -238,7 +238,6 @@ int main() {
 	printf("\nGame over!\n");
 	printf("\nScore: %d\n", tetris.score);
 	//
-    
 	return 0;
 }
 
