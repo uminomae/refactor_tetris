@@ -5,6 +5,10 @@
 #define R 20
 #define C 15
 
+int can_move_tetrimino(t_tetris *tetris, t_tetrimino shape);
+void rotate_clodkwise(t_tetrimino shape);
+void put_screen(t_tetris *tetris, t_tetrimino *current);
+
 //char tetris.game_status = TRUE;
 suseconds_t timer = FALL_VELOCITY_INTERVAL;
 int decrease = 1000;
@@ -20,74 +24,6 @@ const t_tetrimino type_tetrimino[7]= {
 	{(char *[]){(char []){1,1},(char []){1,1}}, 2},
 	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4}
 };
-
-
-int can_move_tetrimino(t_tetris *tetris, t_tetrimino shape){
-//int can_move_tetrimino t_tetrimino shape){
-	char **array = shape.array;
-
-	int i, j;
-	for(i = 0; i < shape.width;i++) {
-		for(j = 0; j < shape.width ;j++){
-			if((shape.col+j < 0 || shape.col+j >= C || shape.row+i >= R)){
-				if(shape.array[i][j])
-				if(array[i][j])
-					return FALSE;
-				
-			}
-			//else if(tetris->playing_field[shape.row+i][shape.col+j] && shape.array[i][j])
-			else if(tetris->playing_field[shape.row+i][shape.col+j] && array[i][j])
-				return FALSE;
-		}
-	}
-	return TRUE;
-}
-
-void rotate_clodkwise(t_tetrimino shape){
-	t_tetrimino temp = copy_tetrimino(shape);
-	int i, j, k, width;
-	width = shape.width;
-	for(i = 0; i < width ; i++){
-		for(j = 0, k = width-1; j < width ; j++, k--){
-				shape.array[i][j] = temp.array[k][i];
-		}
-	}
-	destroy_tetrimino(temp);
-}
-
-void rotate_clodkwise2(t_tetrimino *shape){
-	t_tetrimino temp = copy_tetrimino(*shape);
-	int i, j, k, width;
-	width = shape->width;
-	for(i = 0; i < width ; i++){
-		for(j = 0, k = width-1; j < width ; j++, k--){
-				shape->array[i][j] = temp.array[k][i];
-		}
-	}
-	destroy_tetrimino(temp);
-}
-
-void put_screen(t_tetris *tetris, t_tetrimino *current){
-	char Buffer[R][C] = {0};
-	int i, j;
-	for(i = 0; i < current->width ;i++){
-		for(j = 0; j < current->width ; j++){
-			if(current->array[i][j])
-				Buffer[current->row+i][current->col+j] = current->array[i][j];
-		}
-	}
-	clear();
-	for(i=0; i<C-9; i++)
-		printw(" ");
-	printw("42 Tetris\n");
-	for(i = 0; i < R ;i++){
-		for(j = 0; j < C ; j++){
-			printw("%c ", (tetris->playing_field[i][j] + Buffer[i][j])? '#': '.');
-		}
-		printw("\n");
-	}
-	printw("\nScore: %d\n", final);
-}
 
 struct timeval before_now, now;
 int hasToUpdate(){
@@ -110,12 +46,11 @@ void set_timeout(int time) {
 //}
 
 
-//void begin_game(t_tetris *tetris, t_tetrimino *tetrimino){
-//	tetrimino = create_new_tetrimino(tetris->type);
-//	judge_the_end_of_game(tetris);
-//	printf("b2--begin----\n");
-//    refresh_game_screen(tetris, tetris->tetrimino);
-//}
+void begin_game(t_tetris *tetris, t_tetrimino *tetrimino){
+	//tetrimino = create_new_tetrimino(tetris->type);
+	//judge_the_end_of_game(tetris);
+    //refresh_game_screen(tetris, tetris->tetrimino);
+}
 
 int main() {
 
@@ -125,6 +60,8 @@ int main() {
 	init_game(&tetris);
 	gettimeofday(&before_now, NULL);
 	set_timeout(1);
+	
+	begin_game();
 
     int c;
 	t_tetrimino new_shape = copy_tetrimino(type_tetrimino[rand()%7]);
@@ -275,4 +212,62 @@ int main() {
 	printf("\nGame over!\n");
 	printf("\nScore: %d\n", final);
     return 0;
+}
+
+
+
+int can_move_tetrimino(t_tetris *tetris, t_tetrimino shape){
+//int can_move_tetrimino t_tetrimino shape){
+	char **array = shape.array;
+
+	int i, j;
+	for(i = 0; i < shape.width;i++) {
+		for(j = 0; j < shape.width ;j++){
+			if((shape.col+j < 0 || shape.col+j >= C || shape.row+i >= R)){
+				if(shape.array[i][j])
+				if(array[i][j])
+					return FALSE;
+				
+			}
+			//else if(tetris->playing_field[shape.row+i][shape.col+j] && shape.array[i][j])
+			else if(tetris->playing_field[shape.row+i][shape.col+j] && array[i][j])
+				return FALSE;
+		}
+	}
+	return TRUE;
+}
+
+void rotate_clodkwise(t_tetrimino shape){
+	t_tetrimino temp = copy_tetrimino(shape);
+	int i, j, k, width;
+	width = shape.width;
+	for(i = 0; i < width ; i++){
+		for(j = 0, k = width-1; j < width ; j++, k--){
+				shape.array[i][j] = temp.array[k][i];
+		}
+	}
+	destroy_tetrimino(temp);
+}
+
+
+void put_screen(t_tetris *tetris, t_tetrimino *current){
+	char Buffer[R][C] = {0};
+	int i, j;
+	for(i = 0; i < current->width ;i++){
+		for(j = 0; j < current->width ; j++){
+			if(current->array[i][j])
+				Buffer[current->row+i][current->col+j] = current->array[i][j];
+		}
+	}
+	clear();
+	for(i=0; i<C-9; i++)
+		printw(" ");
+	printw("42 Tetris\n");
+	for(i = 0; i < R ;i++){
+		for(j = 0; j < C ; j++){
+			printw("%c ", (tetris->playing_field[i][j] + Buffer[i][j])? '#': '.');
+		}
+		printw("\n");
+	}
+	printw("\nScore: %d\n", final);
 }
