@@ -5,32 +5,11 @@
 #define R 20
 #define C 15
 
-//# define FALL_VELOCITY_INTERVAL	100000
-////# define FALL_VELOCITY_INTERVAL	400000
-
-char GameOn = TRUE;
+//char tetris.game_status = TRUE;
 suseconds_t timer = FALL_VELOCITY_INTERVAL;
 int decrease = 1000;
 
-//typedef struct s_time{
-//	struct timeval before_now;
-//	struct timeval now;
-//} t_time;
-
-//typedef struct {
-//	int 		score;
-//	char 		game_status;
-//	suseconds_t time_to_update;
-//	int 		decrease;
-//	char		playing_field[FIELD_Y_ROW][FIELD_X_COL];
-//	int 		input_from_keyboard;
-//	struct s_time	*time;
-//} t_tetris;
-
 int final = 0;
-
-
-
 
 const t_tetrimino type_tetrimino[7]= {
 	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},
@@ -154,10 +133,10 @@ int main() {
     //destroy_tetrimino(current);
 	current = new_shape;
 	if(!can_move_tetrimino(&tetris, current)){
-		GameOn = FALSE;
+		tetris.game_status = GAME_OVER;
 	}
     put_screen(&tetris, &current);
-	while(GameOn){
+	while(tetris.game_status == IN_GAME){
 		if ((c = getch()) != ERR) {
 			t_tetrimino temp = copy_tetrimino(current);
 			switch(c){
@@ -197,7 +176,7 @@ int main() {
 						destroy_tetrimino(current);
 						current = new_shape;
 						if(!can_move_tetrimino(&tetris, current)){
-							GameOn = FALSE;
+							tetris.game_status = GAME_OVER;
 						}
 					}
 					break;
@@ -259,7 +238,7 @@ int main() {
 						destroy_tetrimino(current);
 						current = new_shape;
 						if(!can_move_tetrimino(&tetris, current)){
-							GameOn = FALSE;
+							tetris.game_status = GAME_OVER;
 						}
 					}
 					break;
