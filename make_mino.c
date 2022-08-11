@@ -31,20 +31,6 @@ t_tetrimino copy_tetrimino(t_tetrimino shape){
     return new_shape;
 }
 
-//// memcpyが動かなかった
-//t_tetrimino copy_tetrimino(t_tetrimino shape){
-//	t_tetrimino new_shape = shape;
-//	int one_side = shape.width;
-	
-//	new_shape.array = get_alloc_figure_array(one_side);
-//    memcpy(new_shape.array, shape.array, sizeof(shape.array) * 1);
-//    return new_shape;
-//}
-
-//--------------------------------------------------------
-// endo of copy_tetrimino
-//--------------------------------------------------------
-
 //--------------------------------------------------------
 // create_new_tetrimino
 //--------------------------------------------------------
@@ -64,13 +50,9 @@ t_tetrimino create_new_tetrimino(const t_tetrimino *type){
     new.row = 0;
 	return (new);
 }
-//--------------------------------------------------------
-// end of create_new_tetrimino
-//--------------------------------------------------------
-
 
 //--------------------------------------------------------
-// replace_next_tetrimino
+// 
 //--------------------------------------------------------
 
 t_tetrimino replace_next_tetrimino(t_tetrimino *current, \
@@ -80,6 +62,3 @@ t_tetrimino replace_next_tetrimino(t_tetrimino *current, \
 	destroy_tetrimino_dubble_pointer(&current);
 	return (new_shape);
 }
-//--------------------------------------------------------
-// end of replace_next_tetrimino
-//--------------------------------------------------------

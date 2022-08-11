@@ -1,18 +1,17 @@
 #include "tetris.h"
 
-int main() {
-	t_tetris tetris;
-	t_tetrimino current;
-	t_tetrimino type[7];
-	t_time timer;
-	
+int	main(void){
+	t_tetris	tetris;
+	t_tetrimino	current;
+	t_tetrimino	type[7];
+	t_time		timer;
+
 	init_game(&tetris, type, &timer);
 	begin_game(&tetris, &current, type);
 	run_game(&tetris, &current, type, &timer);
 	finish_game(&tetris, &current);
-	return 0;
+	return (0);
 }
-
 
 //       42 Tetris (header)
 //  . . . . . . . . . . . . . . .

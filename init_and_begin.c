@@ -1,7 +1,7 @@
 #include "tetris.h"
 #include "type.h"
 
-void begin_game(t_tetris *tetris, t_tetrimino *current, t_tetrimino *type){
+void	begin_game(t_tetris *tetris, t_tetrimino *current, t_tetrimino *type){
 	*current = create_new_tetrimino(type);
 	judge_the_end_of_game(tetris, *current);
 	refresh_game_screen(tetris, current);
@@ -11,11 +11,7 @@ void begin_game(t_tetris *tetris, t_tetrimino *current, t_tetrimino *type){
 //init_game
 //--------------------------------------------------------
 
-static void init_ncurses_window(){
-	initscr();
-}
-
-static void init_struct_tetris(t_tetris *tetris){
+static void	init_struct_tetris(t_tetris *tetris){
 	tetris->score = 0;
 	tetris->game_status = IN_GAME;
 	tetris->time_to_update = FALL_VELOCITY_INTERVAL;
@@ -24,11 +20,15 @@ static void init_struct_tetris(t_tetris *tetris){
 	tetris->input_from_keyboard = 0;
 }
 
-static void set_timeout_millisecond(int time_ms) {
+static void	init_ncurses_window(void){
+	initscr();
+}
+
+static void	set_timeout_millisecond(int time_ms){
 	timeout(time_ms);
 }
 
-void init_game(t_tetris *tetris, t_tetrimino *type, t_time *timer){
+void	init_game(t_tetris *tetris, t_tetrimino *type, t_time *timer){
 	srand(time(0));
 	init_struct_tetris(tetris);
 	init_ncurses_window();
@@ -37,5 +37,5 @@ void init_game(t_tetris *tetris, t_tetrimino *type, t_time *timer){
 	memcpy(type, type_tetrimino, sizeof(t_tetrimino[7]) * 1);
 }
 //--------------------------------------------------------
-//end of init_game
+//
 //--------------------------------------------------------
