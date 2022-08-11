@@ -14,7 +14,7 @@
 # define TRUE		1
 # define FALSE		0
 # define MILLION	1000000
-# define TOP_ROW	0
+# define TOP_Y_ROW	0
 # define DROP_KEY 	's'
 # define RIGHT_KEY 	'd'
 # define LEFT_KEY 	'a'
@@ -27,7 +27,7 @@
 # define INTERVAL_DECREASE	1000
 # define NUM_OF_TYPE	7
 
-# define FALL_VELOCITY_INTERVAL	100000
+# define FALL_VELOCITY_INTERVAL	400000
 //# define FALL_VELOCITY_INTERVAL	400000
 
 typedef struct {
