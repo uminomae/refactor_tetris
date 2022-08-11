@@ -5,33 +5,32 @@
 #define R 20
 #define C 15
 
-# define FALL_VELOCITY_INTERVAL	100000
-//# define FALL_VELOCITY_INTERVAL	400000
+//# define FALL_VELOCITY_INTERVAL	100000
+////# define FALL_VELOCITY_INTERVAL	400000
 
 char GameOn = TRUE;
 suseconds_t timer = FALL_VELOCITY_INTERVAL;
 int decrease = 1000;
 
-typedef struct s_time{
-	struct timeval before_now;
-	struct timeval now;
-} t_time;
+//typedef struct s_time{
+//	struct timeval before_now;
+//	struct timeval now;
+//} t_time;
 
-typedef struct {
-	int 		score;
-	char 		game_status;
-	suseconds_t time_to_update;
-	int 		decrease;
-	char		playing_field[FIELD_Y_ROW][FIELD_X_COL];
-	int 		input_from_keyboard;
-	struct s_time	*time;
-} t_tetris;
+//typedef struct {
+//	int 		score;
+//	char 		game_status;
+//	suseconds_t time_to_update;
+//	int 		decrease;
+//	char		playing_field[FIELD_Y_ROW][FIELD_X_COL];
+//	int 		input_from_keyboard;
+//	struct s_time	*time;
+//} t_tetris;
 
 int final = 0;
 
 
-t_tetrimino copy_tetrimino(t_tetrimino shape);
-void destroy_tetrimino(t_tetrimino shape);
+
 
 const t_tetrimino type_tetrimino[7]= {
 	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},
@@ -112,7 +111,6 @@ void put_screen(t_tetris *tetris, t_tetrimino *current){
 }
 
 struct timeval before_now, now;
-//struct timeval now;
 int hasToUpdate(){
 	return ((suseconds_t)(now.tv_sec*1000000 + now.tv_usec) -((suseconds_t)before_now.tv_sec*1000000 + before_now.tv_usec)) > timer;
 }
@@ -132,43 +130,6 @@ void set_timeout(int time) {
 //	return (now_ms - before_now_ms > tetris->time_to_update);
 //}
 
-//--------------------------------------------------------
-//init_game
-//--------------------------------------------------------
-
-static void init_ncurses_window(){
-	initscr();
-}
-
-static void init_struct_tetris(t_tetris *tetris){
-	tetris->score = 0;
-	tetris->game_status = IN_GAME;
-	tetris->time_to_update = FALL_VELOCITY_INTERVAL;
-	tetris->decrease = INTERVAL_DECREASE;
-	//tetris->type = type_tetrimino;
-	memset(tetris->playing_field, 0, sizeof(char) * FIELD_Y_ROW * FIELD_X_COL);
-	tetris->input_from_keyboard = 0;
-}
-
-static void set_timeout_millisecond(int time) {
-	timeout(time);
-}
-
-void init_game(t_tetris *tetris)
-{
-	
-	srand(time(0));
-	init_struct_tetris(tetris);
-	//gettimeofday(&tetris->time->before_now, NULL);
-	//set_timeout_millisecond(1);
-	init_ncurses_window();
-}
-
-//--------------------------------------------------------
-//end of init_game
-//--------------------------------------------------------
-
-
 
 //void begin_game(t_tetris *tetris, t_tetrimino *tetrimino){
 //	tetrimino = create_new_tetrimino(tetris->type);
@@ -183,15 +144,10 @@ int main() {
 	t_tetrimino current;
 
 	init_game(&tetris);
-	//char playing_field[R][C] = {0};
-	//memcpy(tetris.playing_field, playing_field, sizeof(char) * 20*15);
-
-    //srand(time(0));
-    //final = 0;
-    int c;
-    //initscr();
 	gettimeofday(&before_now, NULL);
 	set_timeout(1);
+
+    int c;
 	t_tetrimino new_shape = copy_tetrimino(type_tetrimino[rand()%7]);
     new_shape.col = rand()%(C-new_shape.width+1);
     new_shape.row = 0;

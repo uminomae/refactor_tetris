@@ -27,6 +27,9 @@
 # define INTERVAL_DECREASE	1000
 # define NUM_OF_TYPE	7
 
+# define FALL_VELOCITY_INTERVAL	100000
+//# define FALL_VELOCITY_INTERVAL	400000
+
 typedef struct {
     char **array;
 	//char array[WIDTH_AND_HEIGHT_MAX][WIDTH_AND_HEIGHT_MAX];
@@ -35,5 +38,22 @@ typedef struct {
 	int col;
 } t_tetrimino;
 
+typedef struct s_time{
+	struct timeval before_now;
+	struct timeval now;
+} t_time;
 
+typedef struct {
+	int 		score;
+	char 		game_status;
+	suseconds_t time_to_update;
+	int 		decrease;
+	char		playing_field[FIELD_Y_ROW][FIELD_X_COL];
+	int 		input_from_keyboard;
+	struct s_time	*time;
+} t_tetris;
+
+t_tetrimino copy_tetrimino(t_tetrimino shape);
+void destroy_tetrimino(t_tetrimino shape);
+void init_game(t_tetris *tetris);
 #endif 
