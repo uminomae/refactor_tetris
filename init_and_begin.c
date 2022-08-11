@@ -2,8 +2,6 @@
 #include "type.h"
 
 void begin_game(t_tetris *tetris, t_tetrimino *current, t_tetrimino *type){
-	
-	//memcpy(type, type_tetrimino, sizeof(t_tetrimino[7]) * 1);
 	*current = create_new_tetrimino(type);
 	judge_the_end_of_game(tetris, *current);
 	refresh_game_screen(tetris, current);
@@ -30,16 +28,13 @@ static void set_timeout_millisecond(int time_ms) {
 	timeout(time_ms);
 }
 
-void init_game(t_tetris *tetris, t_tetrimino *type, t_time *timer)
-//void init_game(t_tetris *tetris, t_time *timer)
-{
+void init_game(t_tetris *tetris, t_tetrimino *type, t_time *timer){
 	srand(time(0));
 	init_struct_tetris(tetris);
 	init_ncurses_window();
 	gettimeofday(&timer->before_now, NULL);
 	set_timeout_millisecond(1);
 	memcpy(type, type_tetrimino, sizeof(t_tetrimino[7]) * 1);
-	//memcpy(type, type_tetrimino, sizeof(type) * 1);
 }
 //--------------------------------------------------------
 //end of init_game
