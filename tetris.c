@@ -129,9 +129,9 @@ void move_by_key_case(t_tetris *tetris, \
 }
 
 
-//void get_char_input_from_keyboad(t_tetris *tetris){
-//	tetris->input_from_keyboard = getch();
-//}
+void get_char_input_from_keyboad(t_tetris *tetris){
+	tetris->input_from_keyboard = getch();
+}
 
 
 int main() {
@@ -149,11 +149,12 @@ int main() {
 //temp++を定数とか引数で設定する
     int c;
 	while(tetris.game_status == IN_GAME){
-		//get_char_input_from_keyboad(tetris);
-		if ((c = getch()) != ERR) {
+		get_char_input_from_keyboad(&tetris);
+		if (tetris.input_from_keyboard != ERR) {
+		//if ((c = getch()) != ERR) {
 			t_tetrimino temp = copy_tetrimino(current);
-			switch(c){
-				//move_by_key_case(&tetris, &current, &temp, type, int key);
+			switch(tetris.input_from_keyboard){
+				//move_by_key_case(&tetris, &current, &temp, type, tetris.input_from_keyboard);
 				case 's':
 					move_case_key_s(&tetris, &current, &temp, type);
 					break;
