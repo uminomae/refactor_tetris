@@ -51,9 +51,9 @@ struct timeval before_now, now;
 //	}
 //}
 
-////--------------------------------------------------------
-//// key_command
-////--------------------------------------------------------
+//--------------------------------------------------------
+// key_command
+//--------------------------------------------------------
 
 //void move_case_key_d(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judge)
 //{
@@ -76,8 +76,6 @@ struct timeval before_now, now;
 //		rotate_tetrimino(tetrimino);
 //}
 
-
-
 //void switch_to_next_tetrimino(t_tetris *tetris, t_tetrimino *tetrimino){
 //	t_tetrimino *new = create_new_tetrimino(tetris->type);
 
@@ -99,21 +97,26 @@ static void fix_tetrimino_on_the_field(t_tetris *tetris, t_tetrimino *current){
 	}
 }
 
+//updateはいつ使う？
+void move_case_key_s(t_tetris *tetris, \
+						t_tetrimino *current, \
+						t_tetrimino *temp_for_judge){
+	(*temp_for_judge).row += 1;
+	if(can_move_tetrimino(tetris, *temp_for_judge))
+		(*current).row += 1;
+	else {
+		fix_tetrimino_on_the_field(tetris, current);
+		int completed_lines = 0;
+		count_completed_lines_and_erase(tetris, &completed_lines);
+		//if (update == false)
+		tetris->score += 100 * completed_lines;
+		//switch_to_next_tetrimino(tetris, tetrimino);
+	}
+}
 
-//void move_case_key_s(t_tetris *tetris, \
-//						t_tetrimino *current, \
-//						t_tetrimino *temp_for_judge, bool update){
-//	temp_for_judge->row +=++;
-//	if(can_move_field(tetris, temp_for_judge))
-//		tetrimino->row++;
-//	else {
-//		fix_tetrimino_on_the_field(tetris, current);
-//		int completed_lines = count_completed_lines_and_erase(tetris);
-//		if (update == false)
-//			tetris->score += 100 * completed_lines;
-//		switch_to_next_tetrimino(tetris, tetrimino);
-//	}
-//}
+//--------------------------------------------------------
+// key_command
+//--------------------------------------------------------
 
 //void get_char_input_from_keyboad(t_tetris *tetris){
 //	tetris->input_from_keyboard = getch();
@@ -140,19 +143,20 @@ int main() {
 			t_tetrimino temp = copy_tetrimino(current);
 			switch(c){
 				case 's':
-					temp.row++;  //move down
-					if(can_move_tetrimino(&tetris, temp))
-						current.row++;
-					else {
-						fix_tetrimino_on_the_field(&tetris, &current);
-						int count = 0;
-						count_completed_lines_and_erase(&tetris, &count);
-						tetris.score += 100*count;
-						current = replace_next_tetrimino(&current, type);
-						if(!can_move_tetrimino(&tetris, current)){
-							tetris.game_status = GAME_OVER;
-						}
-					}
+					move_case_key_s(&tetris, &current, &temp);
+					//temp.row++;  //move down
+					//if(can_move_tetrimino(&tetris, temp))
+					//	current.row++;
+					//else {
+					//	fix_tetrimino_on_the_field(&tetris, &current);
+					//	int count = 0;
+					//	count_completed_lines_and_erase(&tetris, &count);
+					//	tetris.score += 100*count;
+					//	current = replace_next_tetrimino(&current, type);
+					//	if(!can_move_tetrimino(&tetris, current)){
+					//		tetris.game_status = GAME_OVER;
+					//	}
+					//}
 					break;
 				case 'd':
 					temp.col++;
