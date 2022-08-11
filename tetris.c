@@ -6,12 +6,13 @@
 #define R 20
 #define C 15
 
-int can_move_tetrimino(t_tetris *tetris, t_tetrimino shape);
+//int can_move_tetrimino(t_tetris *tetris, t_tetrimino shape);
 void rotate_clodkwise(t_tetrimino shape);
 void put_screen(t_tetris *tetris, t_tetrimino *current);
 int hasToUpdate();
 void set_timeout(int time);
 
+void judge_the_end_of_game(t_tetris *tetris, t_tetrimino current);
 
 suseconds_t timer = FALL_VELOCITY_INTERVAL;
 int decrease = 1000;
@@ -25,6 +26,7 @@ void begin_game(t_tetris *tetris, t_tetrimino *current, t_tetrimino *type){
 	
 	(void)tetris;
 	*current = create_new_tetrimino(type);
+	judge_the_end_of_game(tetris, *current);
 	//judge_the_end_of_game(tetris);
     //refresh_game_screen(tetris, tetris->tetrimino);
 }
@@ -44,9 +46,10 @@ int main() {
 
 
     int c;
-	if(!can_move_tetrimino(&tetris, current)){
-		tetris.game_status = GAME_OVER;
-	}
+	//judge_the_end_of_game(&tetris, current)
+	//if(!can_move_tetrimino(&tetris, current)){
+	//	tetris.game_status = GAME_OVER;
+	//}
     put_screen(&tetris, &current);
 	while(tetris.game_status == IN_GAME){
 		if ((c = getch()) != ERR) {

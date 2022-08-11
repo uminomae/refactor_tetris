@@ -34,7 +34,7 @@ t_tetrimino copy_tetrimino(t_tetrimino shape){
     return new_shape;
 }
 
-////動かなかった
+//// memcpyが動かなかった
 //t_tetrimino copy_tetrimino(t_tetrimino shape){
 //	t_tetrimino new_shape = shape;
 //	int one_side = shape.width;

@@ -60,4 +60,5 @@ void init_game(t_tetris *tetris);
 t_tetrimino create_new_tetrimino();
 t_tetrimino replace_next_tetrimino(t_tetrimino *current, const t_tetrimino *type);
 int can_move_tetrimino(t_tetris *tetris, t_tetrimino shape);
+void judge_the_end_of_game(t_tetris *tetris, t_tetrimino current);
 #endif 

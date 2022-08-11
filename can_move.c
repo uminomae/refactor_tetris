@@ -2,11 +2,11 @@
 # include "main.h"
 
 
-//void judge_the_end_of_game(t_tetris *tetris, t_tetrimino current){
-//	if(!can_move_tetrimino(tetris, &current)){
-//		tetris->game_status = GAME_OVER;
-//	}
-//}
+void judge_the_end_of_game(t_tetris *tetris, t_tetrimino current){
+	if(!can_move_tetrimino(tetris, current)){
+		tetris->game_status = GAME_OVER;
+	}
+}
 
 //--------------------------------------------------------
 //can_move_tetrimino
