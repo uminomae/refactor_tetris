@@ -1,28 +1,6 @@
-//# include <stdio.h>
-//# include <stdlib.h>
-//# include <time.h>
-//# include <sys/time.h>
-//# include <ncurses.h>
+
 # include "main.h"
 # include "tetrimino.h"
-//# include <string.h>
-//# include <stdbool.h>
-
-//# define FIELD_Y_ROW	20
-//# define FIELD_X_COL	15
-//# define TRUE		1
-//# define FALSE		0
-//# define MILLION	1000000
-//# define TOP_ROW	0
-//# define DROP_KEY 	's'
-//# define RIGHT_KEY 	'd'
-//# define LEFT_KEY 	'a'
-//# define ROTATE_KEY 'w'
-//# define WIDTH_AND_HEIGHT_MAX 4
-//# define GAME_OVER 0
-//# define IN_GAME 1
-//# define TRUE 1
-//# define FALSE 0
 
 #define R 20
 #define C 15
@@ -31,12 +9,9 @@
 # define FALL_VELOCITY_INTERVAL	100000
 //# define FALL_VELOCITY_INTERVAL	400000
 
-
-
 char GameOn = TRUE;
 suseconds_t timer = FALL_VELOCITY_INTERVAL;
 int decrease = 1000;
-
 
 typedef struct s_time{
 	struct timeval before_now;
@@ -69,53 +44,6 @@ const t_tetrimino type_tetrimino[7]= {
 };
 
 //i=x,j=y
-
-
-////--------------------------------------------------------
-//// copy_tetrimino
-////--------------------------------------------------------
-
-//static char **get_alloc_figure_array(int one_side){
-//	char **array = (char**)malloc(sizeof(char *) * one_side);
-
-//	for(int x = 0; x < one_side; x++){
-//		array[x] = (char*)malloc(sizeof(char) * one_side);
-//	}
-//	return (array);
-//}
-
-//static void copy_figure_array(char **dst, char **src, int one_side){
-//	const int n = one_side;
-
-//	for(int x = 0; x < n; x++){
-//		for(int y = 0; y < n; y++) 
-//			dst[x][y] = src[x][y];
-//	}
-//}
-
-//t_tetrimino copy_tetrimino(t_tetrimino shape){
-//	t_tetrimino new_shape = shape;
-//	int one_side = shape.width;
-	
-//	new_shape.array = get_alloc_figure_array(one_side);
-//	copy_figure_array(new_shape.array, shape.array, one_side);
-//    return new_shape;
-//}
-
-//////動かなかった
-////t_tetrimino copy_tetrimino(t_tetrimino shape){
-////	t_tetrimino new_shape = shape;
-////	int one_side = shape.width;
-	
-////	new_shape.array = get_alloc_figure_array(one_side);
-////    memcpy(new_shape.array, shape.array, sizeof(shape.array) * 1);
-////    return new_shape;
-////}
-
-////--------------------------------------------------------
-//// endo of copy_tetrimino
-////--------------------------------------------------------
-
 
 void destroy_tetrimino(t_tetrimino shape){
     int i;
