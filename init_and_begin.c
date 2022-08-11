@@ -37,7 +37,6 @@ void init_game(t_tetris *tetris, t_time *timer)
 	gettimeofday(&timer->before_now, NULL);
 	set_timeout_millisecond(1);
 }
-
 //--------------------------------------------------------
 //end of init_game
 //--------------------------------------------------------

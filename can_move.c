@@ -1,6 +1,4 @@
-
 # include "main.h"
-
 
 void judge_the_end_of_game(t_tetris *tetris, t_tetrimino current){
 	if(!can_move_tetrimino(tetris, current)){
@@ -55,30 +53,6 @@ int can_move_tetrimino(t_tetris *tetris, t_tetrimino shape){
 	}
 	return TRUE;
 }
-
-//動いてたコード
-//int can_move_tetrimino(t_tetris *tetris, t_tetrimino shape){
-////int can_move_tetrimino t_tetrimino shape){
-//	char **array = shape.array;
-
-//	int i, j;
-//	for(i = 0; i < shape.width;i++) {
-//		for(j = 0; j < shape.width ;j++){
-//			if((shape.col+j < 0 || shape.col+j >= C || shape.row+i >= R)){
-//				//if(shape.array[i][j])
-//				if(array[i][j])
-//					return FALSE;
-				
-//			}
-//			//else if(tetris->playing_field[shape.row+i][shape.col+j] && shape.array[i][j])
-//			else if(tetris->playing_field[shape.row+i][shape.col+j] && array[i][j])
-//				return FALSE;
-//		}
-//	}
-//	return TRUE;
-//}
-
-
 //--------------------------------------------------------
 //end of can_move_tetrimino
 //--------------------------------------------------------

@@ -72,7 +72,6 @@ void move_case_key_w(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_f
 void move_case_key_a(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_for_judge);
 void move_case_key_d(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_for_judge);
 
-void finish_ncurses();
 void print_resulting_to_standard_output(t_tetris *tetris);
 
 
