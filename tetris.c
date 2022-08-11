@@ -119,6 +119,50 @@ static void fix_tetrimino_on_the_field(t_tetris *tetris, t_tetrimino *current){
 //	tetris->input_from_keyboard = getch();
 //}
 
+
+////--------------------------------------------------------
+//// count_completed_lines_and_erase
+////--------------------------------------------------------
+//static int count_blocks_of_line(t_tetris *tetris, int y){
+//	int blocks = 0;
+
+//	for(int x = 0; x < FIELD_COL; x++) {
+//		blocks += tetris->playing_field[y][x];
+//	}
+//	return (blocks);
+//}
+
+//static void lower_the_upper_block(t_tetris *tetris, int y){
+//	for( ; y >= 1; y--)
+//		for(int x = 0; x < FIELD_COL; x++)
+//			tetris->playing_field[y][x] = tetris->playing_field[y-1][x];
+//}
+
+//static void clear_line(t_tetris *tetris, int y){
+//	for(int x = 0; x < FIELD_COL; x++)
+//		tetris->playing_field[y][x] = 0;
+//}
+
+//static void drop_placed_block_one_rank(t_tetris *tetris, int y){
+//	lower_the_upper_block(tetris, y);
+//	clear_line(tetris, TOP_ROW);
+//}
+
+//int count_completed_lines_and_erase(t_tetris *tetris){
+//	int number_of_completed_lines = 0;
+//	for(int y = 0; y < FIELD_ROW; y++){
+//		if(count_blocks_of_line(tetris, y) == FIELD_COL){
+//			drop_placed_block_one_rank(tetris, y);
+//			tetris->time_to_update -= tetris->decrease--;
+//			number_of_completed_lines++;
+//		}
+//	}
+//	return (number_of_completed_lines);
+//}
+////--------------------------------------------------------
+//// endo of count_completed_lines_and_erase
+////--------------------------------------------------------
+
 int main() {
 
 	t_tetris tetris;
@@ -131,6 +175,7 @@ int main() {
 	memcpy(type, type_tetrimino, sizeof(type) * 1);
 	begin_game(&tetris, &current, type);
 
+//temp++を定数とか引数で設定する
     int c;
 	while(tetris.game_status == IN_GAME){
 		//get_char_input_from_keyboad(tetris);
@@ -143,13 +188,7 @@ int main() {
 						current.row++;
 					else {
 						fix_tetrimino_on_the_field(&tetris, &current);
-						//int i, j;
-						//for(i = 0; i < current.width ;i++){
-						//	for(j = 0; j < current.width ; j++){
-						//		if(current.array[i][j])
-						//			tetris.playing_field[current.row+i][current.col+j] = current.array[i][j];
-						//	}
-						//}
+
 						int n, m, sum, count=0;
 						for(n=0;n<R;n++){
 							sum = 0;
