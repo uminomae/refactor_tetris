@@ -66,5 +66,15 @@ void judge_the_end_of_game(t_tetris *tetris, t_tetrimino current);
 void refresh_game_screen(t_tetris *tetris, t_tetrimino *current);
 int count_completed_lines_and_erase(t_tetris *tetris, int *completed_lines);
 
+void get_char_input_from_keyboad(t_tetris *tetris);
+void move_by_key_case(t_tetris *tetris,	t_tetrimino *current, t_tetrimino *temp_for_judge, const t_tetrimino *type);
+void move_case_key_s(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_for_judge, const t_tetrimino *type);
+//void rotate_clodkwise(t_tetrimino shape);
+void move_case_key_w(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_for_judge);
+void move_case_key_a(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_for_judge);
+void move_case_key_d(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_for_judge);
+
+
+
 
 #endif 
