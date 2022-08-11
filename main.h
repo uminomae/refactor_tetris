@@ -50,16 +50,17 @@ typedef struct {
 	int 		decrease;
 	char		playing_field[FIELD_Y_ROW][FIELD_X_COL];
 	int 		input_from_keyboard;
-	struct s_time	*time;
+	//struct s_time	*time;
 } t_tetris;
 
+void init_game(t_tetris *tetris, t_time *timer);
 void begin_game(t_tetris *tetris, t_tetrimino *current, t_tetrimino *type);
 void finish_game(t_tetris *tetris, t_tetrimino *current);
 
 t_tetrimino copy_tetrimino(t_tetrimino shape);
 void destroy_tetrimino(t_tetrimino shape);
 void destroy_tetrimino_dubble_pointer(t_tetrimino **shape);
-void init_game(t_tetris *tetris);
+//void init_game(t_tetris *tetris, t_time timer);
 
 t_tetrimino create_new_tetrimino();
 t_tetrimino replace_next_tetrimino(t_tetrimino *current, const t_tetrimino *type);

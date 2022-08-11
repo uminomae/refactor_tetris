@@ -17,17 +17,17 @@ static void init_struct_tetris(t_tetris *tetris){
 	tetris->input_from_keyboard = 0;
 }
 
-//static void set_timeout_millisecond(int time) {
-//	timeout(time);
-//}
+static void set_timeout_millisecond(int time_ms) {
+	timeout(time_ms);
+}
 
-void init_game(t_tetris *tetris)
+void init_game(t_tetris *tetris, t_time *timer)
 {
 	srand(time(0));
 	init_struct_tetris(tetris);
-	//gettimeofday(&tetris->time->before_now, NULL);
-	//set_timeout_millisecond(1);
 	init_ncurses_window();
+	gettimeofday(&timer->before_now, NULL);
+	set_timeout_millisecond(1);
 }
 
 //--------------------------------------------------------
