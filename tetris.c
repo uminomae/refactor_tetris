@@ -46,8 +46,38 @@ void set_timeout(int time) {
 //}
 
 
-void begin_game(t_tetris *tetris, t_tetrimino *tetrimino){
+//--------------------------------------------------------
+// create_new_tetrimino
+//--------------------------------------------------------
+//static t_tetrimino select_type_tetrimino(const t_tetrimino ){
+static t_tetrimino select_type_tetrimino(const t_tetrimino *type){
+	const int i = rand() % NUM_OF_TYPE;
+	t_tetrimino	select = type[i];
+	//t_tetrimino select;
 	
+	//select = type[i];
+	return (select);
+}
+
+//t_tetrimino create_new_tetrimino(const t_tetrimino type){
+t_tetrimino create_new_tetrimino(){
+	t_tetrimino temp_type = select_type_tetrimino(type_tetrimino);
+	t_tetrimino new = copy_tetrimino(temp_type);
+
+    new.col = rand() % (FIELD_X_COL - new.width + 1);
+    new.row = 0;
+	return (new);
+}
+//--------------------------------------------------------
+// end of create_new_tetrimino
+//--------------------------------------------------------
+
+
+
+void begin_game(t_tetris *tetris, t_tetrimino *current){
+	
+	(void)tetris;
+	*current = create_new_tetrimino();
 	//tetrimino = create_new_tetrimino(tetris->type);
 	//judge_the_end_of_game(tetris);
     //refresh_game_screen(tetris, tetris->tetrimino);
@@ -60,15 +90,16 @@ int main() {
 
 	init_game(&tetris);
 	gettimeofday(&before_now, NULL);
-	
+	set_timeout(1);
+
 	begin_game(&tetris, &current);
 
     int c;
-	t_tetrimino new_shape = copy_tetrimino(type_tetrimino[rand()%7]);
-    new_shape.col = rand()%(C-new_shape.width+1);
-    new_shape.row = 0;
+	//t_tetrimino new_shape = copy_tetrimino(type_tetrimino[rand()%7]);
+    //new_shape.col = rand()%(C-new_shape.width+1);
+    //new_shape.row = 0;
     //destroy_tetrimino(current);
-	current = new_shape;
+	//current = new_shape;
 	if(!can_move_tetrimino(&tetris, current)){
 		tetris.game_status = GAME_OVER;
 	}

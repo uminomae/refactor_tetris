@@ -17,9 +17,9 @@ static void init_struct_tetris(t_tetris *tetris){
 	tetris->input_from_keyboard = 0;
 }
 
-static void set_timeout_millisecond(int time) {
-	timeout(time);
-}
+//static void set_timeout_millisecond(int time) {
+//	timeout(time);
+//}
 
 void init_game(t_tetris *tetris)
 {
@@ -28,7 +28,7 @@ void init_game(t_tetris *tetris)
 	//ettimeofday(&before_now, NULL);
 	//set_timeout(1);
 	//gettimeofday(&tetris->time->before_now, NULL);
-	set_timeout_millisecond(1);
+	//set_timeout_millisecond(1);
 	init_ncurses_window();
 }
 
