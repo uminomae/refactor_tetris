@@ -49,6 +49,7 @@ void set_timeout(int time) {
 //--------------------------------------------------------
 // create_new_tetrimino
 //--------------------------------------------------------
+
 static t_tetrimino select_type_tetrimino(const t_tetrimino *type){
 	const int i = rand() % NUM_OF_TYPE;
 	t_tetrimino	select = type[i];
@@ -66,28 +67,34 @@ t_tetrimino create_new_tetrimino(){
     new.row = 0;
 	return (new);
 }
-
-void destroy_tetrimino2(t_tetrimino **shape){
-	const int n = (*shape)->width;
-
-    for(int i = 0; i < n; i++){
-		free((*shape)->array[i]);
-    }
-    free((*shape)->array);
-}
-
-t_tetrimino replace_next_tetrimino(t_tetrimino *current){
-	t_tetrimino new_shape = create_new_tetrimino();
-
-	destroy_tetrimino2(&current);
-	return (new_shape);
-}
-
-
 //--------------------------------------------------------
 // end of create_new_tetrimino
 //--------------------------------------------------------
 
+
+
+////--------------------------------------------------------
+//// replace_next_tetrimino
+////--------------------------------------------------------
+
+//static void destroy_tetrimino_dubble_pointer(t_tetrimino **shape){
+//	const int n = (*shape)->width;
+
+//    for(int i = 0; i < n; i++){
+//		free((*shape)->array[i]);
+//    }
+//    free((*shape)->array);
+//}
+
+//t_tetrimino replace_next_tetrimino(t_tetrimino *current){
+//	t_tetrimino new_shape = create_new_tetrimino();
+
+//	destroy_tetrimino_dubble_pointer(&current);
+//	return (new_shape);
+//}
+////--------------------------------------------------------
+//// end of replace_next_tetrimino
+////--------------------------------------------------------
 
 
 void begin_game(t_tetris *tetris, t_tetrimino *current){

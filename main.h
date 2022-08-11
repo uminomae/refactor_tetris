@@ -56,4 +56,8 @@ typedef struct {
 t_tetrimino copy_tetrimino(t_tetrimino shape);
 void destroy_tetrimino(t_tetrimino shape);
 void init_game(t_tetris *tetris);
+
+t_tetrimino create_new_tetrimino();
+t_tetrimino replace_next_tetrimino(t_tetrimino *current);
+
 #endif 
