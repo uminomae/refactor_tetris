@@ -11,22 +11,113 @@ void rotate_clodkwise(t_tetrimino shape);
 int hasToUpdate();
 void set_timeout(int time);
 
-
 suseconds_t timer = FALL_VELOCITY_INTERVAL;
 int decrease = 1000;
-
 
 struct timeval before_now, now;
 
 
-void begin_game(t_tetris *tetris, t_tetrimino *current, t_tetrimino *type){
+
+
+
+//void get_char_input_from_keyboad(t_tetris *tetris){
+//	tetris->input_from_keyboard = getch();
+//}
+
+//void move_tetrimino_with_key(t_tetris *tetris, \
+//								t_tetrimino *tetrimino, \
+//								bool update){
+//	int key = tetris->input_from_keyboard;
+//	t_tetrimino temp_for_judge = *copy_tetrimino_type(tetrimino);
 	
-	(void)tetris;
-	*current = create_new_tetrimino(type);
-	judge_the_end_of_game(tetris, *current);
-	refresh_game_screen(tetris, current);
+//	move_by_key_case(tetris, tetrimino, &temp_for_judge, update, key);
+//	destroy_tetrimino(&temp_for_judge);
+//	refresh_game_screen(tetris, tetrimino);
+//}
+
+//void move_by_key_case(t_tetris *tetris, \
+//						t_tetrimino *tetrimino, \
+//						t_tetrimino *temp_for_judge, \
+//						bool update, \
+//						int key){
+//	if (key == DROP_KEY){
+//		move_case_key_s(tetris, tetrimino, temp_for_judge, update);
+//	}else if (key == RIGHT_KEY){
+//		move_case_key_d(tetris, tetrimino, temp_for_judge);
+//	}else if (key == LEFT_KEY){
+//		move_case_key_a(tetris, tetrimino, temp_for_judge);
+//	}else if (key == ROTATE_KEY){
+//		move_case_key_w(tetris, tetrimino, temp_for_judge);
+//	}
+//}
+
+////--------------------------------------------------------
+//// key_command
+////--------------------------------------------------------
+
+//void move_case_key_d(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judge)
+//{
+//	temp_for_judge->col++;
+//	if(can_move_field(tetris, temp_for_judge))
+//		tetrimino->col++;
+//}
+
+//void move_case_key_a(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judge)
+//{
+//	temp_for_judge->col--;
+//	if(can_move_field(tetris, temp_for_judge))
+//		tetrimino->col--;
+//}
+
+//void move_case_key_w(t_tetris *tetris, t_tetrimino *tetrimino, t_tetrimino *temp_for_judge)
+//{
+//	rotate_tetrimino(temp_for_judge);
+//	if(can_move_field(tetris, temp_for_judge))
+//		rotate_tetrimino(tetrimino);
+//}
+
+
+
+//void switch_to_next_tetrimino(t_tetris *tetris, t_tetrimino *tetrimino){
+//	t_tetrimino *new = create_new_tetrimino(tetris->type);
+
+//	destroy_tetrimino(tetrimino);
+//	tetrimino = new;
+//	judge_the_end_of_game(tetris);
+//}
+
+static void fix_tetrimino_on_the_field(t_tetris *tetris, t_tetrimino *current){
+	const int n = current->width;
+	const int row = current->row;
+	const int col = current->col;
+
+	for(int i = 0; i < n ;i++){
+		for(int j = 0; j < n ; j++){
+			if(current->array[i][j])
+				tetris->playing_field[row+i][col+j] = current->array[i][j];
+		}
+	}
 }
 
+
+//void move_case_key_s(t_tetris *tetris, \
+//						t_tetrimino *current, \
+//						t_tetrimino *temp_for_judge, bool update){
+//	temp_for_judge->row +=++;
+//	if(can_move_field(tetris, temp_for_judge))
+//		tetrimino->row++;
+//	else {
+//		fix_tetrimino_on_the_field(tetris, current);
+//		int completed_lines = count_completed_lines_and_erase(tetris);
+//		if (update == false)
+//			tetris->score += 100 * completed_lines;
+//		switch_to_next_tetrimino(tetris, tetrimino);
+//	}
+//}
+
+//void get_char_input_from_keyboad(t_tetris *tetris){
+//	tetris->input_from_keyboard = getch();
+//}
 
 int main() {
 
@@ -41,8 +132,8 @@ int main() {
 	begin_game(&tetris, &current, type);
 
     int c;
-
 	while(tetris.game_status == IN_GAME){
+		//get_char_input_from_keyboad(tetris);
 		if ((c = getch()) != ERR) {
 			t_tetrimino temp = copy_tetrimino(current);
 			switch(c){
@@ -51,13 +142,14 @@ int main() {
 					if(can_move_tetrimino(&tetris, temp))
 						current.row++;
 					else {
-						int i, j;
-						for(i = 0; i < current.width ;i++){
-							for(j = 0; j < current.width ; j++){
-								if(current.array[i][j])
-									tetris.playing_field[current.row+i][current.col+j] = current.array[i][j];
-							}
-						}
+						fix_tetrimino_on_the_field(&tetris, &current);
+						//int i, j;
+						//for(i = 0; i < current.width ;i++){
+						//	for(j = 0; j < current.width ; j++){
+						//		if(current.array[i][j])
+						//			tetris.playing_field[current.row+i][current.col+j] = current.array[i][j];
+						//	}
+						//}
 						int n, m, sum, count=0;
 						for(n=0;n<R;n++){
 							sum = 0;
@@ -112,13 +204,9 @@ int main() {
 					if(can_move_tetrimino(&tetris, temp))
 						current.row++;
 					else {
-						int i, j;
-						for(i = 0; i < current.width ;i++){
-							for(j = 0; j < current.width ; j++){
-								if(current.array[i][j])
-									tetris.playing_field[current.row+i][current.col+j] = current.array[i][j];
-							}
-						}
+						fix_tetrimino_on_the_field(&tetris, &current);
+
+
 						int n, m, sum, count=0;
 						for(n=0;n<R;n++){
 							sum = 0;
@@ -183,6 +271,13 @@ int main() {
 	return 0;
 }
 
+void begin_game(t_tetris *tetris, t_tetrimino *current, t_tetrimino *type){
+	
+	(void)tetris;
+	*current = create_new_tetrimino(type);
+	judge_the_end_of_game(tetris, *current);
+	refresh_game_screen(tetris, current);
+}
 
 
 void rotate_clodkwise(t_tetrimino shape){

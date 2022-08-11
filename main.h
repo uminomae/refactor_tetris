@@ -53,6 +53,8 @@ typedef struct {
 	struct s_time	*time;
 } t_tetris;
 
+void begin_game(t_tetris *tetris, t_tetrimino *current, t_tetrimino *type);
+
 t_tetrimino copy_tetrimino(t_tetrimino shape);
 void destroy_tetrimino(t_tetrimino shape);
 void init_game(t_tetris *tetris);
