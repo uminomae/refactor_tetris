@@ -111,8 +111,8 @@ void move_case_key_s(t_tetris *tetris, \
 void move_by_key_case(t_tetris *tetris, \
 						t_tetrimino *current, \
 						t_tetrimino *temp_for_judge, \
-						const t_tetrimino *type, \
-						int key){
+						const t_tetrimino *type){
+	int key = tetris->input_from_keyboard;
 	if (key == DROP_KEY){
 		move_case_key_s(tetris, current, temp_for_judge, type);
 		//move_case_key_s(tetris, tetrimino, temp_for_judge_for_judge, update);
@@ -153,21 +153,21 @@ int main() {
 		if (tetris.input_from_keyboard != ERR) {
 		//if ((c = getch()) != ERR) {
 			t_tetrimino temp = copy_tetrimino(current);
-			switch(tetris.input_from_keyboard){
-				//move_by_key_case(&tetris, &current, &temp, type, tetris.input_from_keyboard);
-				case 's':
-					move_case_key_s(&tetris, &current, &temp, type);
-					break;
-				case 'd':
-					move_case_key_d(&tetris, &current, &temp);
-					break;
-				case 'a':
-					move_case_key_a(&tetris, &current, &temp);
-					break;
-				case 'w':
-					move_case_key_w(&tetris, &current, &temp);
-					break;
-			}
+			move_by_key_case(&tetris, &current, &temp, type);
+			//switch(tetris.input_from_keyboard){
+				//case 's':
+				//	move_case_key_s(&tetris, &current, &temp, type);
+				//	break;
+				//case 'd':
+				//	move_case_key_d(&tetris, &current, &temp);
+				//	break;
+				//case 'a':
+				//	move_case_key_a(&tetris, &current, &temp);
+				//	break;
+				//case 'w':
+				//	move_case_key_w(&tetris, &current, &temp);
+				//	break;
+			//}
 			destroy_tetrimino(temp);
 			refresh_game_screen(&tetris, &current);
 		}
