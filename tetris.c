@@ -147,6 +147,8 @@ int main() {
 			switch(c){
 				case 's':
 					move_case_key_s(&tetris, &current, &temp, type);
+					//key sがちょっと危ないのでテスト時コメントに前のコードは残す。
+
 					
 					//temp.row++;  //move down
 					//if(can_move_tetrimino(&tetris, temp))
