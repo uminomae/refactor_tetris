@@ -11,8 +11,8 @@ static void get_current_position(t_tetris *tetris, \
 							char next_playing_field[FIELD_Y_ROW][FIELD_X_COL]){
 	const int n = current->width;
 
-	for(int i = 0; i < n ;i++){
-		for(int j = 0; j < n ; j++){
+	for (int i = 0; i < n ;i++){
+		for (int j = 0; j < n ; j++){
 			if(current->array[i][j])
 				next_playing_field[current->row+i][current->col+j] \
 				 = current->array[i][j];
@@ -25,15 +25,15 @@ static void get_current_position(t_tetris *tetris, \
 //--------------------------------------------------------
 
 static void print_header(){
-	for(int i = 0; i < FIELD_X_COL - 9; i++)
+	for (int i = 0; i < FIELD_X_COL - 9; i++)
 		print_string_to_window(" ");
 	print_string_to_window("42 Tetris\n");
 }
 
 static void print_game_field(t_tetris *tetris, \
 						char next_playing_field[FIELD_Y_ROW][FIELD_X_COL]){
-	for(int i = 0; i < FIELD_Y_ROW ;i++){
-		for(int j = 0; j < FIELD_X_COL ; j++){
+	for (int i = 0; i < FIELD_Y_ROW ;i++){
+		for (int j = 0; j < FIELD_X_COL ; j++){
 			if (tetris->playing_field[i][j] + next_playing_field[i][j])
 				print_string_to_window("%c ", '#');
 			else
