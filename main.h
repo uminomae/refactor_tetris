@@ -54,9 +54,11 @@ typedef struct {
 } t_tetris;
 
 void begin_game(t_tetris *tetris, t_tetrimino *current, t_tetrimino *type);
+void finish_game(t_tetris *tetris, t_tetrimino *current);
 
 t_tetrimino copy_tetrimino(t_tetrimino shape);
 void destroy_tetrimino(t_tetrimino shape);
+void destroy_tetrimino_dubble_pointer(t_tetrimino **shape);
 void init_game(t_tetris *tetris);
 
 t_tetrimino create_new_tetrimino();
@@ -74,7 +76,7 @@ void move_case_key_w(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_f
 void move_case_key_a(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_for_judge);
 void move_case_key_d(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_for_judge);
 
-
+void print_resulting_to_standard_output(t_tetris *tetris);
 
 
 #endif 

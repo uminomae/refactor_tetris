@@ -29,6 +29,49 @@ struct timeval before_now, now;
 //}
 
 
+static void finish_ncurses(){
+	endwin();
+}
+
+//--------------------------------------------------------
+//print_resulting_to_standard_output
+//--------------------------------------------------------
+
+static void print_field_result(t_tetris *tetris){
+	for(int y = 0; y < FIELD_Y_ROW ;y++){
+		for(int x = 0; x < FIELD_X_COL ; x++){
+			if (tetris->playing_field[y][x])
+				printf("%c ", '#');
+			else
+				printf("%c ", '.');
+		}
+		printf("\n");
+	}
+}
+
+static void print_result_footer(t_tetris *tetris){
+	printf("\nGame over!\n");
+	printf("\nScore: %d\n", tetris->score);
+}
+
+void print_resulting_to_standard_output(t_tetris *tetris){
+	print_field_result(tetris);
+	print_result_footer(tetris);
+}
+
+//--------------------------------------------------------
+//end of print_resulting_to_standard_output
+//--------------------------------------------------------
+
+
+
+void finish_game(t_tetris *tetris, t_tetrimino *current)
+{
+	destroy_tetrimino_dubble_pointer(&current);
+	finish_ncurses();
+	print_resulting_to_standard_output(tetris);
+}
+
 int main() {
 
 	t_tetris tetris;
@@ -42,7 +85,6 @@ int main() {
 	begin_game(&tetris, &current, type);
 
 //temp++を定数とか引数で設定する
-    int c;
 	while(tetris.game_status == IN_GAME){
 		get_char_input_from_keyboad(&tetris);
 		if (tetris.input_from_keyboard != ERR) {
@@ -56,39 +98,12 @@ int main() {
 			t_tetrimino temp = copy_tetrimino(current);
 			tetris.input_from_keyboard = 's';
 			move_by_key_case(&tetris, &current, &temp, type);
-			//switch('s'){
-			//	case 's':
-			//		move_case_key_s(&tetris, &current, &temp, type);
-			//		break;
-			//	case 'd':
-			//		move_case_key_d(&tetris, &current, &temp);
-			//		break;
-			//	case 'a':
-			//		move_case_key_a(&tetris, &current, &temp);
-			//		break;
-			//	case 'w':
-			//		move_case_key_w(&tetris, &current, &temp);
-			//		break;
-			//}
 			destroy_tetrimino(temp);
 			refresh_game_screen(&tetris, &current);
 			gettimeofday(&before_now, NULL);
 		}
 	}
-
-	// finish_game()へ
-	destroy_tetrimino(current);
-	endwin();
-	int i, j;
-	for(i = 0; i < R ;i++){
-		for(j = 0; j < C ; j++){
-			printf("%c ", tetris.playing_field[i][j] ? '#': '.');
-		}
-		printf("\n");
-	}
-	printf("\nGame over!\n");
-	printf("\nScore: %d\n", tetris.score);
-	//
+	finish_game(&tetris, &current);
 	return 0;
 }
 
