@@ -12,7 +12,6 @@ void put_screen(t_tetris *tetris, t_tetrimino *current);
 int hasToUpdate();
 void set_timeout(int time);
 
-void judge_the_end_of_game(t_tetris *tetris, t_tetrimino current);
 
 suseconds_t timer = FALL_VELOCITY_INTERVAL;
 int decrease = 1000;
