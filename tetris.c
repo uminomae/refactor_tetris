@@ -9,73 +9,22 @@
 int can_move_tetrimino(t_tetris *tetris, t_tetrimino shape);
 void rotate_clodkwise(t_tetrimino shape);
 void put_screen(t_tetris *tetris, t_tetrimino *current);
+int hasToUpdate();
+void set_timeout(int time);
 
-//char tetris.game_status = TRUE;
+
 suseconds_t timer = FALL_VELOCITY_INTERVAL;
 int decrease = 1000;
 
 int final = 0;
 
-//const t_tetrimino type_tetrimino[7]= {
-//	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},
-//	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},
-//	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
-//	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3},
-//	{(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
-//	{(char *[]){(char []){1,1},(char []){1,1}}, 2},
-//	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4}
-//};
-
 struct timeval before_now, now;
-int hasToUpdate(){
-	return ((suseconds_t)(now.tv_sec*1000000 + now.tv_usec) -((suseconds_t)before_now.tv_sec*1000000 + before_now.tv_usec)) > timer;
-}
-
-void set_timeout(int time) {
-	time = 1;
-	timeout(1);
-}
-
-//suseconds_t get_millisecond(struct timeval timevalue){
-//	return (timevalue.tv_sec * MILLION + timevalue.tv_usec);
-//}
-
-//bool need_update(t_tetris *tetris){
-//	const suseconds_t now_ms = get_millisecond(tetris->time->now);
-//	const suseconds_t before_now_ms = get_millisecond(tetris->time->before_now);
-//	return (now_ms - before_now_ms > tetris->time_to_update);
-//}
-
-
-////--------------------------------------------------------
-//// create_new_tetrimino
-////--------------------------------------------------------
-
-//static t_tetrimino select_type_tetrimino(const t_tetrimino *type){
-//	const int i = rand() % NUM_OF_TYPE;
-//	t_tetrimino	select = type[i];
-
-//	return (select);
-//}
-
-//t_tetrimino create_new_tetrimino(t_tetrimino *type){
-//	t_tetrimino temp_type = select_type_tetrimino(type_tetrimino);
-//	t_tetrimino new = copy_tetrimino(temp_type);
-
-//    new.col = rand() % (FIELD_X_COL - new.width + 1);
-//    new.row = 0;
-//	return (new);
-//}
-////--------------------------------------------------------
-//// end of create_new_tetrimino
-////--------------------------------------------------------
 
 
 void begin_game(t_tetris *tetris, t_tetrimino *current, t_tetrimino *type){
 	
 	(void)tetris;
 	*current = create_new_tetrimino(type);
-	//tetrimino = create_new_tetrimino(tetris->type);
 	//judge_the_end_of_game(tetris);
     //refresh_game_screen(tetris, tetris->tetrimino);
 }
@@ -86,11 +35,9 @@ int main() {
 	t_tetrimino current;
 	t_tetrimino type[7];
 	
-
 	init_game(&tetris);
 	gettimeofday(&before_now, NULL);
 	set_timeout(1);
-
 	memcpy(type, type_tetrimino, sizeof(type) * 1);
 	begin_game(&tetris, &current, type);
 
@@ -291,4 +238,12 @@ void put_screen(t_tetris *tetris, t_tetrimino *current){
 		printw("\n");
 	}
 	printw("\nScore: %d\n", final);
+}
+int hasToUpdate(){
+	return ((suseconds_t)(now.tv_sec*1000000 + now.tv_usec) -((suseconds_t)before_now.tv_sec*1000000 + before_now.tv_usec)) > timer;
+}
+
+void set_timeout(int time) {
+	time = 1;
+	timeout(1);
 }
