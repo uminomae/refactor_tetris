@@ -120,47 +120,47 @@ static void fix_tetrimino_on_the_field(t_tetris *tetris, t_tetrimino *current){
 //}
 
 
-//--------------------------------------------------------
-// count_completed_lines_and_erase
-//--------------------------------------------------------
-static int count_blocks_of_line(t_tetris *tetris, int y){
-	int blocks = 0;
+////--------------------------------------------------------
+//// count_completed_lines_and_erase
+////--------------------------------------------------------
+//static int count_blocks_of_line(t_tetris *tetris, int y){
+//	int blocks = 0;
 
-	for(int x = 0; x < FIELD_X_COL; x++) {
-		blocks += tetris->playing_field[y][x];
-	}
-	return (blocks);
-}
-
-static void drop_block(t_tetris *tetris, int y){
-	for( ; y >= 1; y--)
-		for(int x = 0; x < FIELD_X_COL; x++)
-			tetris->playing_field[y][x] = tetris->playing_field[y-1][x];
-}
-
-static void clear_line(t_tetris *tetris, int y){
-	for(int x = 0; x < FIELD_X_COL; x++)
-		tetris->playing_field[y][x] = 0;
-}
-
-//static void drop_placed_block_one_rank(t_tetris *tetris, int y){
-//	drop_block(tetris, y);
-//	clear_line(tetris, TOP_ROW);
+//	for(int x = 0; x < FIELD_X_COL; x++) {
+//		blocks += tetris->playing_field[y][x];
+//	}
+//	return (blocks);
 //}
 
-int count_completed_lines_and_erase(t_tetris *tetris, int *completed_lines){
-	//int completed_lines = 0;
-	for(int y = 0; y < FIELD_Y_ROW; y++){
-		if(count_blocks_of_line(tetris, y) == FIELD_X_COL){
-			*completed_lines += 1;
-			drop_block(tetris, y);
-			clear_line(tetris, TOP_Y_ROW);
-			//drop_placed_block_one_rank(tetris, y);
-			tetris->time_to_update -= tetris->decrease--;
-		}
-	}
-	return (*completed_lines);
-}
+//static void drop_block(t_tetris *tetris, int y){
+//	for( ; y >= 1; y--)
+//		for(int x = 0; x < FIELD_X_COL; x++)
+//			tetris->playing_field[y][x] = tetris->playing_field[y-1][x];
+//}
+
+//static void clear_line(t_tetris *tetris, int y){
+//	for(int x = 0; x < FIELD_X_COL; x++)
+//		tetris->playing_field[y][x] = 0;
+//}
+
+////static void drop_placed_block_one_rank(t_tetris *tetris, int y){
+////	drop_block(tetris, y);
+////	clear_line(tetris, TOP_ROW);
+////}
+
+//int count_completed_lines_and_erase(t_tetris *tetris, int *completed_lines){
+//	//int completed_lines = 0;
+//	for(int y = 0; y < FIELD_Y_ROW; y++){
+//		if(count_blocks_of_line(tetris, y) == FIELD_X_COL){
+//			*completed_lines += 1;
+//			drop_block(tetris, y);
+//			clear_line(tetris, TOP_Y_ROW);
+//			//drop_placed_block_one_rank(tetris, y);
+//			tetris->time_to_update -= tetris->decrease--;
+//		}
+//	}
+//	return (*completed_lines);
+//}
 
 //returnが戻らない
 //int count_completed_lines_and_erase(t_tetris *tetris){
@@ -206,46 +206,10 @@ int main() {
 						current.row++;
 					else {
 						fix_tetrimino_on_the_field(&tetris, &current);
-
 						int count = 0;
-						
 						count_completed_lines_and_erase(&tetris, &count);
-						
-						//int completed_lines = 0;
-						//for(int y = 0; y < FIELD_Y_ROW; y++){
-						//	if(count_blocks_of_line(&tetris, y) == FIELD_X_COL){
-						//		completed_lines += 1;
-						//		drop_block(&tetris, y);
-						//		clear_line(&tetris, TOP_Y_ROW);
-						//		//drop_placed_block_one_rank(tetris, y);
-						//		tetris.time_to_update -= tetris.decrease--;
-						//	}
-						//}
-						//count = completed_lines;
-
-						//int n, m, sum, count=0;
-						//for(n=0;n<R;n++){
-						//	sum = 0;
-						//	for(m=0;m< C;m++) {
-						//		sum+=tetris.playing_field[n][m];
-						//	}
-						//	if(sum==C){
-						//		count++;
-						//		int l, k;
-						//		for(k = n;k >=1;k--)
-						//			for(l=0;l<C;l++)
-						//				tetris.playing_field[k][l]=tetris.playing_field[k-1][l];
-						//		for(l=0;l<C;l++)
-						//			tetris.playing_field[k][l]=0;
-						//		timer-=decrease--;
-						//	}
-						//}
-
-
 						tetris.score += 100*count;
-						
 						current = replace_next_tetrimino(&current, type);
-
 						if(!can_move_tetrimino(&tetris, current)){
 							tetris.game_status = GAME_OVER;
 						}
