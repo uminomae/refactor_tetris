@@ -66,6 +66,24 @@ t_tetrimino create_new_tetrimino(){
     new.row = 0;
 	return (new);
 }
+
+void destroy_tetrimino2(t_tetrimino **shape){
+	const int n = (*shape)->width;
+
+    for(int i = 0; i < n; i++){
+		free((*shape)->array[i]);
+    }
+    free((*shape)->array);
+}
+
+t_tetrimino replace_next_tetrimino(t_tetrimino *current){
+	t_tetrimino new_shape = create_new_tetrimino();
+
+	destroy_tetrimino2(&current);
+	return (new_shape);
+}
+
+
 //--------------------------------------------------------
 // end of create_new_tetrimino
 //--------------------------------------------------------
@@ -93,11 +111,6 @@ int main() {
 	begin_game(&tetris, &current);
 
     int c;
-	//t_tetrimino new_shape = copy_tetrimino(type_tetrimino[rand()%7]);
-    //new_shape.col = rand()%(C-new_shape.width+1);
-    //new_shape.row = 0;
-    //destroy_tetrimino(current);
-	//current = new_shape;
 	if(!can_move_tetrimino(&tetris, current)){
 		tetris.game_status = GAME_OVER;
 	}
@@ -136,12 +149,13 @@ int main() {
 							}
 						}
 						final += 100*count;
-						t_tetrimino new_shape = create_new_tetrimino();
-						//t_tetrimino new_shape = copy_tetrimino(type_tetrimino[rand()%7]);
-						//new_shape.col = rand()%(C-new_shape.width+1);
-						//new_shape.row = 0;
-						destroy_tetrimino(current);
-						current = new_shape;
+						
+						current = replace_next_tetrimino(&current);
+
+						//t_tetrimino new_shape = create_new_tetrimino();
+
+						//destroy_tetrimino(current);
+						//current = new_shape;
 						if(!can_move_tetrimino(&tetris, current)){
 							tetris.game_status = GAME_OVER;
 						}
@@ -199,12 +213,14 @@ int main() {
 								timer-=decrease--;
 							}
 						}
-						t_tetrimino new_shape = create_new_tetrimino();
-						//t_tetrimino new_shape = copy_tetrimino(type_tetrimino[rand()%7]);
-						//new_shape.col = rand()%(C-new_shape.width+1);
-						//new_shape.row = 0;
-						destroy_tetrimino(current);
-						current = new_shape;
+
+						current = replace_next_tetrimino(&current);
+
+						//t_tetrimino new_shape = create_new_tetrimino();
+
+
+						//destroy_tetrimino(current);
+						//current = new_shape;
 						if(!can_move_tetrimino(&tetris, current)){
 							tetris.game_status = GAME_OVER;
 						}
