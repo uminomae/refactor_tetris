@@ -1,28 +1,24 @@
 # include "main.h"
 
-void get_char_input_from_keyboad(t_tetris *tetris){
-	tetris->input_from_keyboard = getch();
-}
-
-//int get_char_input_from_keyboad(){
-//	return (getch());
+//void get_char_input_from_keyboad(t_tetris *tetris){
+//	tetris->input_from_keyboard = getch();
 //}
 
-void move_by_key_case(t_tetris *tetris, \
-						t_tetrimino *current, \
-						t_tetrimino *temp_for_judge, \
-						const t_tetrimino *type){
-	int key = tetris->input_from_keyboard;
-	if (key == DROP_KEY){
-		move_case_key_s(tetris, current, temp_for_judge, type);
-	}else if (key == RIGHT_KEY){
-		move_case_key_d(tetris, current, temp_for_judge);
-	}else if (key == LEFT_KEY){
-		move_case_key_a(tetris, current, temp_for_judge);
-	}else if (key == ROTATE_KEY){
-		move_case_key_w(tetris, current, temp_for_judge);
-	}
-}
+//void move_by_key_case(t_tetris *tetris, \
+//						t_tetrimino *current, \
+//						t_tetrimino *temp_for_judge, \
+//						const t_tetrimino *type){
+//	int key = tetris->input_from_keyboard;
+//	if (key == DROP_KEY){
+//		move_case_key_s(tetris, current, temp_for_judge, type);
+//	}else if (key == RIGHT_KEY){
+//		move_case_key_d(tetris, current, temp_for_judge);
+//	}else if (key == LEFT_KEY){
+//		move_case_key_a(tetris, current, temp_for_judge);
+//	}else if (key == ROTATE_KEY){
+//		move_case_key_w(tetris, current, temp_for_judge);
+//	}
+//}
 
 //--------------------------------------------------------
 // key_command

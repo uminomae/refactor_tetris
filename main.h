@@ -26,9 +26,7 @@
 # define FALSE 0
 # define INTERVAL_DECREASE	1000
 # define NUM_OF_TYPE	7
-
 # define FALL_VELOCITY_INTERVAL	400000
-//# define FALL_VELOCITY_INTERVAL	400000
 
 typedef struct {
     char **array;
@@ -50,17 +48,17 @@ typedef struct {
 	int 		decrease;
 	char		playing_field[FIELD_Y_ROW][FIELD_X_COL];
 	int 		input_from_keyboard;
-	//struct s_time	*time;
 } t_tetris;
+
 
 void init_game(t_tetris *tetris, t_time *timer);
 void begin_game(t_tetris *tetris, t_tetrimino *current, t_tetrimino *type);
+void run_game(t_tetris *tetris, t_tetrimino *current, const t_tetrimino *type, t_time *timer);
 void finish_game(t_tetris *tetris, t_tetrimino *current);
 
 t_tetrimino copy_tetrimino(t_tetrimino shape);
 void destroy_tetrimino(t_tetrimino shape);
 void destroy_tetrimino_dubble_pointer(t_tetrimino **shape);
-//void init_game(t_tetris *tetris, t_time timer);
 
 t_tetrimino create_new_tetrimino();
 t_tetrimino replace_next_tetrimino(t_tetrimino *current, const t_tetrimino *type);
@@ -69,14 +67,7 @@ void judge_the_end_of_game(t_tetris *tetris, t_tetrimino current);
 void refresh_game_screen(t_tetris *tetris, t_tetrimino *current);
 int count_completed_lines_and_erase(t_tetris *tetris, int *completed_lines);
 
-void get_char_input_from_keyboad(t_tetris *tetris);
-//int get_char_input_from_keyboad();
-
-//void move_by_key_case(t_tetris *tetris,	t_tetrimino *current, t_tetrimino *temp_for_judge, int key, const t_tetrimino *type);
-void move_by_key_case(t_tetris *tetris,	t_tetrimino *current, t_tetrimino *temp_for_judge, const t_tetrimino *type);
-
 void move_case_key_s(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_for_judge, const t_tetrimino *type);
-//void rotate_clodkwise(t_tetrimino shape);
 void move_case_key_w(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_for_judge);
 void move_case_key_a(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_for_judge);
 void move_case_key_d(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_for_judge);

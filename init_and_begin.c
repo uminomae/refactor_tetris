@@ -1,5 +1,13 @@
 # include "main.h"
 
+void begin_game(t_tetris *tetris, t_tetrimino *current, t_tetrimino *type){
+	
+	(void)tetris;
+	*current = create_new_tetrimino(type);
+	judge_the_end_of_game(tetris, *current);
+	refresh_game_screen(tetris, current);
+}
+
 //--------------------------------------------------------
 //init_game
 //--------------------------------------------------------

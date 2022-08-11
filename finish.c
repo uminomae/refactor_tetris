@@ -1,5 +1,12 @@
 # include "main.h"
 
+void finish_game(t_tetris *tetris, t_tetrimino *current)
+{
+	destroy_tetrimino_dubble_pointer(&current);
+	finish_ncurses();
+	print_resulting_to_standard_output(tetris);
+}
+
 void finish_ncurses(){
 	endwin();
 }
