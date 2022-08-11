@@ -1,52 +1,42 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <sys/time.h>
-#include <ncurses.h>
-#include "main.h"
-#include "tetrimino.h"
+//# include <stdio.h>
+//# include <stdlib.h>
+//# include <time.h>
+//# include <sys/time.h>
+//# include <ncurses.h>
+# include "main.h"
+# include "tetrimino.h"
+//# include <string.h>
+//# include <stdbool.h>
 
-
-# include <string.h>
-# include <stdbool.h>
-
-# define FIELD_Y_ROW	20
-# define FIELD_X_COL	15
-# define TRUE		1
-# define FALSE		0
-# define MILLION	1000000
-# define TOP_ROW	0
-# define DROP_KEY 	's'
-# define RIGHT_KEY 	'd'
-# define LEFT_KEY 	'a'
-# define ROTATE_KEY 'w'
-# define WIDTH_AND_HEIGHT_MAX 4
-# define GAME_OVER 0
-# define IN_GAME 1
-
-# define FALL_VELOCITY_INTERVAL	100000
-//# define FALL_VELOCITY_INTERVAL	400000
-# define INTERVAL_DECREASE	1000
-# define NUM_OF_TYPE	7
+//# define FIELD_Y_ROW	20
+//# define FIELD_X_COL	15
+//# define TRUE		1
+//# define FALSE		0
+//# define MILLION	1000000
+//# define TOP_ROW	0
+//# define DROP_KEY 	's'
+//# define RIGHT_KEY 	'd'
+//# define LEFT_KEY 	'a'
+//# define ROTATE_KEY 'w'
+//# define WIDTH_AND_HEIGHT_MAX 4
+//# define GAME_OVER 0
+//# define IN_GAME 1
+//# define TRUE 1
+//# define FALSE 0
 
 #define R 20
 #define C 15
-#define TRUE 1
-#define FALSE 0
+
+
+# define FALL_VELOCITY_INTERVAL	100000
+//# define FALL_VELOCITY_INTERVAL	400000
+
+
 
 char GameOn = TRUE;
 suseconds_t timer = FALL_VELOCITY_INTERVAL;
 int decrease = 1000;
 
-//typedef char t_figure[WIDTH_AND_HEIGHT_MAX][WIDTH_AND_HEIGHT_MAX];
-
-//typedef struct {
-//    char **array;
-//	//char array[WIDTH_AND_HEIGHT_MAX][WIDTH_AND_HEIGHT_MAX];
-//    int width;
-//	int row;
-//	int col;
-//} t_tetrimino;
 
 typedef struct s_time{
 	struct timeval before_now;
@@ -65,34 +55,67 @@ typedef struct {
 
 int final = 0;
 
-//const t_tetrimino type_tetrimino[7]= {
-//	{S_FIGURE},{Z_FIGURE},{T_FIGURE},{L_FIGURE},{J_FIGURE},{O_FIGURE},{I_FIGURE}
-//};
 
-//const t_tetrimino type_tetrimino[7]= {
-//	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},
-//	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},
-//	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
-//	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3},
-//	{(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
-//	{(char *[]){(char []){1,1},(char []){1,1}}, 2},
-//	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4}
-//};
+t_tetrimino copy_tetrimino(t_tetrimino shape);
 
-t_tetrimino copy_tetrimino(t_tetrimino shape){
-	t_tetrimino new_shape = shape;
-	char **copyshape = shape.array;
-	new_shape.array = (char**)malloc(new_shape.width*sizeof(char*));
-    int i, j;
-    for(i = 0; i < new_shape.width; i++){
-		new_shape.array[i] = (char*)malloc(new_shape.width*sizeof(char));
-		for(j=0; j < new_shape.width; j++) {
-			//new_shape.array[i][j] = shape.array[i][j];
-			new_shape.array[i][j] = copyshape[i][j];
-		}
-    }
-    return new_shape;
-}
+const t_tetrimino type_tetrimino[7]= {
+	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},
+	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},
+	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
+	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3},
+	{(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
+	{(char *[]){(char []){1,1},(char []){1,1}}, 2},
+	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4}
+};
+
+//i=x,j=y
+
+
+////--------------------------------------------------------
+//// copy_tetrimino
+////--------------------------------------------------------
+
+//static char **get_alloc_figure_array(int one_side){
+//	char **array = (char**)malloc(sizeof(char *) * one_side);
+
+//	for(int x = 0; x < one_side; x++){
+//		array[x] = (char*)malloc(sizeof(char) * one_side);
+//	}
+//	return (array);
+//}
+
+//static void copy_figure_array(char **dst, char **src, int one_side){
+//	const int n = one_side;
+
+//	for(int x = 0; x < n; x++){
+//		for(int y = 0; y < n; y++) 
+//			dst[x][y] = src[x][y];
+//	}
+//}
+
+//t_tetrimino copy_tetrimino(t_tetrimino shape){
+//	t_tetrimino new_shape = shape;
+//	int one_side = shape.width;
+	
+//	new_shape.array = get_alloc_figure_array(one_side);
+//	copy_figure_array(new_shape.array, shape.array, one_side);
+//    return new_shape;
+//}
+
+//////動かなかった
+////t_tetrimino copy_tetrimino(t_tetrimino shape){
+////	t_tetrimino new_shape = shape;
+////	int one_side = shape.width;
+	
+////	new_shape.array = get_alloc_figure_array(one_side);
+////    memcpy(new_shape.array, shape.array, sizeof(shape.array) * 1);
+////    return new_shape;
+////}
+
+////--------------------------------------------------------
+//// endo of copy_tetrimino
+////--------------------------------------------------------
+
 
 void destroy_tetrimino(t_tetrimino shape){
     int i;
