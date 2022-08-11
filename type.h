@@ -1,5 +1,7 @@
 #include "tetris.h"
 
+// TODO
+//	この初期宣言で良いのか？
 const t_tetrimino type_tetrimino[7]= {
 	//
 	// S
