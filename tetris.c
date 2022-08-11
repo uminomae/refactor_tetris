@@ -40,8 +40,6 @@ int main() {
 	memcpy(type, type_tetrimino, sizeof(type) * 1);
 	begin_game(&tetris, &current, type);
 
-
-
     int c;
 
 	while(tetris.game_status == IN_GAME){
