@@ -49,7 +49,6 @@ void set_timeout(int time) {
 //--------------------------------------------------------
 // create_new_tetrimino
 //--------------------------------------------------------
-//static t_tetrimino select_type_tetrimino(const t_tetrimino ){
 static t_tetrimino select_type_tetrimino(const t_tetrimino *type){
 	const int i = rand() % NUM_OF_TYPE;
 	t_tetrimino	select = type[i];
@@ -59,7 +58,6 @@ static t_tetrimino select_type_tetrimino(const t_tetrimino *type){
 	return (select);
 }
 
-//t_tetrimino create_new_tetrimino(const t_tetrimino type){
 t_tetrimino create_new_tetrimino(){
 	t_tetrimino temp_type = select_type_tetrimino(type_tetrimino);
 	t_tetrimino new = copy_tetrimino(temp_type);
@@ -138,9 +136,10 @@ int main() {
 							}
 						}
 						final += 100*count;
-						t_tetrimino new_shape = copy_tetrimino(type_tetrimino[rand()%7]);
-						new_shape.col = rand()%(C-new_shape.width+1);
-						new_shape.row = 0;
+						t_tetrimino new_shape = create_new_tetrimino();
+						//t_tetrimino new_shape = copy_tetrimino(type_tetrimino[rand()%7]);
+						//new_shape.col = rand()%(C-new_shape.width+1);
+						//new_shape.row = 0;
 						destroy_tetrimino(current);
 						current = new_shape;
 						if(!can_move_tetrimino(&tetris, current)){
@@ -200,9 +199,10 @@ int main() {
 								timer-=decrease--;
 							}
 						}
-						t_tetrimino new_shape = copy_tetrimino(type_tetrimino[rand()%7]);
-						new_shape.col = rand()%(C-new_shape.width+1);
-						new_shape.row = 0;
+						t_tetrimino new_shape = create_new_tetrimino();
+						//t_tetrimino new_shape = copy_tetrimino(type_tetrimino[rand()%7]);
+						//new_shape.col = rand()%(C-new_shape.width+1);
+						//new_shape.row = 0;
 						destroy_tetrimino(current);
 						current = new_shape;
 						if(!can_move_tetrimino(&tetris, current)){
