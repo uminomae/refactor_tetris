@@ -1,8 +1,5 @@
 # include "main.h"
-//# include "type.h"
 
-
-//i=x,j=y
 //--------------------------------------------------------
 // copy_tetrimino
 //--------------------------------------------------------
@@ -75,15 +72,6 @@ t_tetrimino create_new_tetrimino(const t_tetrimino *type){
 //--------------------------------------------------------
 // replace_next_tetrimino
 //--------------------------------------------------------
-
-//void destroy_tetrimino_dubble_pointer(t_tetrimino **shape){
-//	const int n = (*shape)->width;
-
-//    for(int i = 0; i < n; i++){
-//		free((*shape)->array[i]);
-//    }
-//    free((*shape)->array);
-//}
 
 t_tetrimino replace_next_tetrimino(t_tetrimino *current, \
 									const t_tetrimino *type){
