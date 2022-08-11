@@ -1,6 +1,7 @@
 
 # include "main.h"
-# include "tetrimino.h"
+//# include "tetrimino.h"
+# include "type.h"
 
 #define R 20
 #define C 15
@@ -15,15 +16,15 @@ int decrease = 1000;
 
 int final = 0;
 
-const t_tetrimino type_tetrimino[7]= {
-	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
-	{(char *[]){(char []){1,1},(char []){1,1}}, 2},
-	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4}
-};
+//const t_tetrimino type_tetrimino[7]= {
+//	{(char *[]){(char []){0,1,1},(char []){1,1,0}, (char []){0,0,0}}, 3},
+//	{(char *[]){(char []){1,1,0},(char []){0,1,1}, (char []){0,0,0}}, 3},
+//	{(char *[]){(char []){0,1,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
+//	{(char *[]){(char []){0,0,1},(char []){1,1,1}, (char []){0,0,0}}, 3},
+//	{(char *[]){(char []){1,0,0},(char []){1,1,1}, (char []){0,0,0}}, 3},
+//	{(char *[]){(char []){1,1},(char []){1,1}}, 2},
+//	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4}
+//};
 
 struct timeval before_now, now;
 int hasToUpdate(){
@@ -46,61 +47,34 @@ void set_timeout(int time) {
 //}
 
 
-//--------------------------------------------------------
-// create_new_tetrimino
-//--------------------------------------------------------
-
-static t_tetrimino select_type_tetrimino(const t_tetrimino *type){
-	const int i = rand() % NUM_OF_TYPE;
-	t_tetrimino	select = type[i];
-	//t_tetrimino select;
-	
-	//select = type[i];
-	return (select);
-}
-
-t_tetrimino create_new_tetrimino(){
-	t_tetrimino temp_type = select_type_tetrimino(type_tetrimino);
-	t_tetrimino new = copy_tetrimino(temp_type);
-
-    new.col = rand() % (FIELD_X_COL - new.width + 1);
-    new.row = 0;
-	return (new);
-}
-//--------------------------------------------------------
-// end of create_new_tetrimino
-//--------------------------------------------------------
-
-
-
 ////--------------------------------------------------------
-//// replace_next_tetrimino
+//// create_new_tetrimino
 ////--------------------------------------------------------
 
-//static void destroy_tetrimino_dubble_pointer(t_tetrimino **shape){
-//	const int n = (*shape)->width;
+//static t_tetrimino select_type_tetrimino(const t_tetrimino *type){
+//	const int i = rand() % NUM_OF_TYPE;
+//	t_tetrimino	select = type[i];
 
-//    for(int i = 0; i < n; i++){
-//		free((*shape)->array[i]);
-//    }
-//    free((*shape)->array);
+//	return (select);
 //}
 
-//t_tetrimino replace_next_tetrimino(t_tetrimino *current){
-//	t_tetrimino new_shape = create_new_tetrimino();
+//t_tetrimino create_new_tetrimino(t_tetrimino *type){
+//	t_tetrimino temp_type = select_type_tetrimino(type_tetrimino);
+//	t_tetrimino new = copy_tetrimino(temp_type);
 
-//	destroy_tetrimino_dubble_pointer(&current);
-//	return (new_shape);
+//    new.col = rand() % (FIELD_X_COL - new.width + 1);
+//    new.row = 0;
+//	return (new);
 //}
 ////--------------------------------------------------------
-//// end of replace_next_tetrimino
+//// end of create_new_tetrimino
 ////--------------------------------------------------------
 
 
-void begin_game(t_tetris *tetris, t_tetrimino *current){
+void begin_game(t_tetris *tetris, t_tetrimino *current, t_tetrimino *type){
 	
 	(void)tetris;
-	*current = create_new_tetrimino();
+	*current = create_new_tetrimino(type);
 	//tetrimino = create_new_tetrimino(tetris->type);
 	//judge_the_end_of_game(tetris);
     //refresh_game_screen(tetris, tetris->tetrimino);
@@ -110,12 +84,16 @@ int main() {
 
 	t_tetris tetris;
 	t_tetrimino current;
+	t_tetrimino type[7];
+	
 
 	init_game(&tetris);
 	gettimeofday(&before_now, NULL);
 	set_timeout(1);
 
-	begin_game(&tetris, &current);
+	memcpy(type, type_tetrimino, sizeof(type) * 1);
+	begin_game(&tetris, &current, type);
+
 
     int c;
 	if(!can_move_tetrimino(&tetris, current)){
@@ -157,7 +135,7 @@ int main() {
 						}
 						final += 100*count;
 						
-						current = replace_next_tetrimino(&current);
+						current = replace_next_tetrimino(&current, type);
 
 						if(!can_move_tetrimino(&tetris, current)){
 							tetris.game_status = GAME_OVER;
@@ -217,7 +195,7 @@ int main() {
 							}
 						}
 
-						current = replace_next_tetrimino(&current);
+						current = replace_next_tetrimino(&current, type);
 
 						if(!can_move_tetrimino(&tetris, current)){
 							tetris.game_status = GAME_OVER;

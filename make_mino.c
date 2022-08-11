@@ -1,4 +1,6 @@
 # include "main.h"
+//# include "type.h"
+
 
 //i=x,j=y
 //--------------------------------------------------------
@@ -46,8 +48,28 @@ t_tetrimino copy_tetrimino(t_tetrimino shape){
 // endo of copy_tetrimino
 //--------------------------------------------------------
 
+//--------------------------------------------------------
+// create_new_tetrimino
+//--------------------------------------------------------
 
+static t_tetrimino select_type_tetrimino(const t_tetrimino *type){
+	const int i = rand() % NUM_OF_TYPE;
+	t_tetrimino	select = type[i];
 
+	return (select);
+}
+
+t_tetrimino create_new_tetrimino(const t_tetrimino *type){
+	t_tetrimino temp_type = select_type_tetrimino(type);
+	t_tetrimino new = copy_tetrimino(temp_type);
+
+    new.col = rand() % (FIELD_X_COL - new.width + 1);
+    new.row = 0;
+	return (new);
+}
+//--------------------------------------------------------
+// end of create_new_tetrimino
+//--------------------------------------------------------
 
 
 //--------------------------------------------------------
@@ -63,8 +85,9 @@ static void destroy_tetrimino_dubble_pointer(t_tetrimino **shape){
     free((*shape)->array);
 }
 
-t_tetrimino replace_next_tetrimino(t_tetrimino *current){
-	t_tetrimino new_shape = create_new_tetrimino();
+t_tetrimino replace_next_tetrimino(t_tetrimino *current, \
+									const t_tetrimino *type){
+	t_tetrimino new_shape = create_new_tetrimino(type);
 
 	destroy_tetrimino_dubble_pointer(&current);
 	return (new_shape);
