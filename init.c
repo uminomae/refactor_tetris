@@ -25,8 +25,10 @@ void init_game(t_tetris *tetris)
 {
 	srand(time(0));
 	init_struct_tetris(tetris);
+	//ettimeofday(&before_now, NULL);
+	//set_timeout(1);
 	//gettimeofday(&tetris->time->before_now, NULL);
-	//set_timeout_millisecond(1);
+	set_timeout_millisecond(1);
 	init_ncurses_window();
 }
 

@@ -47,6 +47,7 @@ void set_timeout(int time) {
 
 
 void begin_game(t_tetris *tetris, t_tetrimino *tetrimino){
+	
 	//tetrimino = create_new_tetrimino(tetris->type);
 	//judge_the_end_of_game(tetris);
     //refresh_game_screen(tetris, tetris->tetrimino);
@@ -59,9 +60,8 @@ int main() {
 
 	init_game(&tetris);
 	gettimeofday(&before_now, NULL);
-	set_timeout(1);
 	
-	begin_game();
+	begin_game(&tetris, &current);
 
     int c;
 	t_tetrimino new_shape = copy_tetrimino(type_tetrimino[rand()%7]);
@@ -213,8 +213,6 @@ int main() {
 	printf("\nScore: %d\n", final);
     return 0;
 }
-
-
 
 int can_move_tetrimino(t_tetris *tetris, t_tetrimino shape){
 //int can_move_tetrimino t_tetrimino shape){
