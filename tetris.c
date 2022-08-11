@@ -115,16 +115,12 @@ void move_by_key_case(t_tetris *tetris, \
 	int key = tetris->input_from_keyboard;
 	if (key == DROP_KEY){
 		move_case_key_s(tetris, current, temp_for_judge, type);
-		//move_case_key_s(tetris, tetrimino, temp_for_judge_for_judge, update);
 	}else if (key == RIGHT_KEY){
 		move_case_key_d(tetris, current, temp_for_judge);
-		//move_case_key_d(tetris, tetrimino, temp_for_judge_for_judge);
 	}else if (key == LEFT_KEY){
 		move_case_key_a(tetris, current, temp_for_judge);
-		//move_case_key_a(tetris, tetrimino, temp_for_judge_for_judge);
 	}else if (key == ROTATE_KEY){
 		move_case_key_w(tetris, current, temp_for_judge);
-		//move_case_key_w(tetris, tetrimino, temp_for_judge);
 	}
 }
 
@@ -151,43 +147,30 @@ int main() {
 	while(tetris.game_status == IN_GAME){
 		get_char_input_from_keyboad(&tetris);
 		if (tetris.input_from_keyboard != ERR) {
-		//if ((c = getch()) != ERR) {
 			t_tetrimino temp = copy_tetrimino(current);
 			move_by_key_case(&tetris, &current, &temp, type);
-			//switch(tetris.input_from_keyboard){
-				//case 's':
-				//	move_case_key_s(&tetris, &current, &temp, type);
-				//	break;
-				//case 'd':
-				//	move_case_key_d(&tetris, &current, &temp);
-				//	break;
-				//case 'a':
-				//	move_case_key_a(&tetris, &current, &temp);
-				//	break;
-				//case 'w':
-				//	move_case_key_w(&tetris, &current, &temp);
-				//	break;
-			//}
 			destroy_tetrimino(temp);
 			refresh_game_screen(&tetris, &current);
 		}
 		gettimeofday(&now, NULL);
 		if (hasToUpdate()) {
 			t_tetrimino temp = copy_tetrimino(current);
-			switch('s'){
-				case 's':
-					move_case_key_s(&tetris, &current, &temp, type);
-					break;
-				case 'd':
-					move_case_key_d(&tetris, &current, &temp);
-					break;
-				case 'a':
-					move_case_key_a(&tetris, &current, &temp);
-					break;
-				case 'w':
-					move_case_key_w(&tetris, &current, &temp);
-					break;
-			}
+			tetris.input_from_keyboard = 's';
+			move_by_key_case(&tetris, &current, &temp, type);
+			//switch('s'){
+			//	case 's':
+			//		move_case_key_s(&tetris, &current, &temp, type);
+			//		break;
+			//	case 'd':
+			//		move_case_key_d(&tetris, &current, &temp);
+			//		break;
+			//	case 'a':
+			//		move_case_key_a(&tetris, &current, &temp);
+			//		break;
+			//	case 'w':
+			//		move_case_key_w(&tetris, &current, &temp);
+			//		break;
+			//}
 			destroy_tetrimino(temp);
 			refresh_game_screen(&tetris, &current);
 			gettimeofday(&before_now, NULL);
