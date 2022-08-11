@@ -1,4 +1,4 @@
-# include "main.h"
+# include "tetris.h"
 
 //--------------------------------------------------------
 // count_completed_lines_and_erase

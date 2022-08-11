@@ -1,4 +1,4 @@
-# include "main.h"
+# include "tetris.h"
 
 void begin_game(t_tetris *tetris, t_tetrimino *current, t_tetrimino *type){
 	

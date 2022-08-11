@@ -1,4 +1,4 @@
-# include "main.h"
+# include "tetris.h"
 
 const t_tetrimino type_tetrimino[7]= {
 	//

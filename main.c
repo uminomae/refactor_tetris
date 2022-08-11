@@ -1,4 +1,4 @@
-#include "main.h"
+#include "tetris.h"
 #include "type.h"
 
 int main() {
@@ -29,7 +29,7 @@ int main() {
 //  . . . . . . . . . . . . . . .
 //  . . . . . . . . . . . . . . .
 //  . . . . . . . . . . . . . . .
-//  .  t_tetris.pleaying_field  .
+//  .  t_tetris.playing_field . .
 //  . . . . . [20][15]. . . . . .
 //  . . . . . . . . . . . . . . .
 //  . . . . . . . . . . . . . . .

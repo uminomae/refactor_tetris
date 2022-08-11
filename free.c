@@ -1,4 +1,4 @@
-#include "main.h"
+#include "tetris.h"
 
 void destroy_tetrimino(t_tetrimino shape){
 	const int n = shape.width;

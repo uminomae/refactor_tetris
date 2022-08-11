@@ -1,4 +1,4 @@
-#include "main.h"
+#include "tetris.h"
 
 static suseconds_t get_millisecond(struct timeval timevalue){
 	return (timevalue.tv_sec * MILLION + timevalue.tv_usec);

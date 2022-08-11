@@ -1,4 +1,4 @@
-# include "main.h"
+# include "tetris.h"
 
 static void finish_ncurses(){
 	endwin();

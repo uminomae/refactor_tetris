@@ -1,4 +1,4 @@
-# include "main.h"
+# include "tetris.h"
 
 void judge_the_end_of_game(t_tetris *tetris, t_tetrimino current){
 	if(!can_move_tetrimino(tetris, current)){
