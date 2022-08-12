@@ -14,7 +14,7 @@ static void	get_char_input_from_keyboad(t_tetris *tetris){
 	tetris->input_from_keyboard = getch();
 }
 
-static void	move_by_key_command(t_tetris *tetris, \
+static void	move_each_key_command(t_tetris *tetris, \
 						t_tetrimino *current, \
 						t_tetrimino *temp_for_judge, \
 						const t_tetrimino *type){
@@ -38,7 +38,7 @@ static void	move_tetrimino_with_key(t_tetris *tetris, \
 
 	if (update == true)
 		tetris->input_from_keyboard = DROP_KEY;
-	move_by_key_command(tetris, current, &temp, type);
+	move_each_key_command(tetris, current, &temp, type);
 	destroy_tetrimino_fiure(temp);
 	refresh_game_screen(tetris, current);
 }
