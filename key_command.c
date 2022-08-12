@@ -1,23 +1,22 @@
 #include "tetris.h"
 
 //TODO
-//++を+=1へ
 //widthをheightを意味するものに
 //引数と変数宣言でできるだけconstにする
 void	move_case_key_d(t_tetris *tetris, \
 						t_tetrimino *current, \
 						t_tetrimino *temp_for_judge){
-	temp_for_judge->col++;
+	temp_for_judge->col += 1;
 	if (can_move_tetrimino(tetris, *temp_for_judge))
-		current->col++;
+		current->col += 1;
 }
 
 void	move_case_key_a(t_tetris *tetris, \
 						t_tetrimino *current, \
 						t_tetrimino *temp_for_judge){
-	temp_for_judge->col--;
+	temp_for_judge->col -= 1;
 	if (can_move_tetrimino(tetris, *temp_for_judge))
-		current->col--;
+		current->col -= 1;
 }
 
 //--------------------------------------------------------
