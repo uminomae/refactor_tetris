@@ -46,7 +46,6 @@ const t_tetrimino type_tetrimino[7]= {
 	{(char *[]){(char []){0,0,0,0}, (char []){1,1,1,1}, (char []){0,0,0,0}, (char []){0,0,0,0}}, 4}
 };
 
-
 void	begin_game(t_tetris *tetris, t_tetrimino *current, t_tetrimino *type){
 	*current = create_new_tetrimino(type);
 	judge_the_end_of_game(tetris, *current);

@@ -48,6 +48,7 @@ static void	print_game_screen(t_tetris *tetris, \
 	print_game_field(tetris, next_playing_field);
 	print_footer(tetris);
 }
+
 //--------------------------------------------------------
 // 
 //--------------------------------------------------------

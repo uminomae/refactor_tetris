@@ -8,6 +8,7 @@ void	judge_the_end_of_game(t_tetris *tetris, t_tetrimino current){
 //--------------------------------------------------------
 //can_move_tetrimino
 //--------------------------------------------------------
+
 static bool	can_move_left(t_tetrimino figure, int y, int x){
 	return (!(figure.col + x < 0));
 }
@@ -44,6 +45,7 @@ int	can_move_tetrimino(t_tetris *tetris, t_tetrimino shape){
 	}
 	return (TRUE);
 }
+
 //--------------------------------------------------------
 //
 //--------------------------------------------------------

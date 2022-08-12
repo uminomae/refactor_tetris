@@ -1,9 +1,9 @@
 #include "tetris.h"
 
-//returnが戻らない。とりあえずcompleted_linesのアドレス渡して書き換えた
 //--------------------------------------------------------
 // count_completed_lines_and_erase
 //--------------------------------------------------------
+
 static int	count_blocks_of_line(t_tetris *tetris, int y){
 	int	blocks = 0;
 
@@ -38,6 +38,7 @@ int	count_completed_lines_and_erase(t_tetris *tetris, int *completed_lines){
 	}
 	return (*completed_lines);
 }
+
 //--------------------------------------------------------
 // 
 //--------------------------------------------------------
