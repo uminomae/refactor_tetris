@@ -1,11 +1,17 @@
 #include "tetris.h"
 
-void	destroy_tetrimino_fiure(t_tetrimino shape){
-	const int	n = shape.side_length;
+void	free_dubble_ptr(char **figure){
 
-	for (int i = 0; i < n; i++){
-		free(shape.figure[i]);
+	size_t i = 0;
+	while (figure[i] != NULL){
+		free(figure[i]);
 	}
-	free(shape.figure);
+	free(figure);
 }
+
+void	destroy_tetrimino_fiure(t_tetrimino shape){
+	free_dubble_ptr(shape.figure);
+}
+
+
 

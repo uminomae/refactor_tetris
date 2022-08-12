@@ -63,5 +63,7 @@ void move_rotate(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_for_j
 void move_left(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_for_judge);
 void move_right(t_tetris *tetris, t_tetrimino *current, t_tetrimino *temp_for_judge);
 void print_resulting_to_standard_output(t_tetris *tetris);
+void	free_dubble_ptr(char **figure);
+void	destroy_tetrimino_fiure(t_tetrimino shape);
 
 #endif 

@@ -8,11 +8,11 @@ int	main(void){
 
 	init_game(&tetris, type, &timer);
 	begin_game(&tetris, &current, type);
-	if (current.figure == NULL)
-		return (0);
+	//if (current.figure == NULL)
+	//	return (0);
 	run_game(&tetris, &current, type, &timer);
-	if (current.figure == NULL)
-		return (0);
+	//if (current.figure == NULL)
+	//	return (0);
 	finish_game(&tetris, &current);
 	return (0);
 }
