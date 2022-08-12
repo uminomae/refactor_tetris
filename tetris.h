@@ -1,5 +1,5 @@
-#ifndef MAIN_TETRIS
-# define MAIN_TETRIS
+#ifndef TETRIS
+# define TETRIS
 
 # include <stdio.h>
 # include <stdlib.h>
