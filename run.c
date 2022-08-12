@@ -36,9 +36,13 @@ static void	move_tetrimino_with_key(t_tetris *tetris, \
 								bool update){
 	t_tetrimino	temp = copy_tetrimino(*current);
 
+	if (temp.figure == NULL)
+		return ;
 	if (update == true)
 		tetris->input_from_keyboard = DROP_KEY;
 	move_each_key_command(tetris, current, &temp, type);
+	if (current->figure == NULL)
+		return ;
 	destroy_tetrimino_fiure(temp);
 	refresh_game_screen(tetris, current);
 }
@@ -51,9 +55,13 @@ void	run_game(t_tetris *tetris, \
 		get_char_input_from_keyboad(tetris);
 		if (tetris->input_from_keyboard != ERR) 
 			move_tetrimino_with_key(tetris, current, type,false);
+		if (current->figure == NULL)
+			return ;
 		gettimeofday(&timer->now, NULL);
 		if (need_update(tetris, timer)){
 			move_tetrimino_with_key(tetris, current, type, true);
+			if (current->figure == NULL)
+				return ;
 			gettimeofday(&timer->before_now, NULL);
 		}
 	}

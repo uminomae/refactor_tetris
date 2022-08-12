@@ -6,9 +6,12 @@
 
 static char	**get_alloc_figure(int one_side){
 	char	**figure = (char**)malloc(sizeof(char *) * one_side);
-
+	if (figure == NULL)
+		return (NULL);
 	for (int x = 0; x < one_side; x++){
 		figure[x] = (char *)malloc(sizeof(char) * one_side);
+		if (figure[x] == NULL)
+			return (NULL);
 	}
 	return (figure);
 }
@@ -27,6 +30,11 @@ t_tetrimino	copy_tetrimino(t_tetrimino shape){
 	int	one_side = shape.side_length;
 
 	new_shape.figure = get_alloc_figure(one_side);
+	//TODO
+	new_shape.figure =NULL;
+	//
+	if (new_shape.figure == NULL)
+		return (new_shape);
 	copy_figure(new_shape.figure, shape.figure, one_side);
 	return (new_shape);
 }
@@ -59,6 +67,8 @@ t_tetrimino	replace_next_tetrimino(t_tetrimino *current, \
 									const t_tetrimino *type){
 	t_tetrimino	new_shape = create_new_tetrimino(type);
 
+	if (current->figure == NULL)
+		return (new_shape);
 	destroy_tetrimino_fiure(*current);
 	return (new_shape);
 }
