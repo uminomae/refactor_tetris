@@ -22,12 +22,7 @@ void	move_left(t_tetris *tetris, \
 
 static void	rotate_clodkwise(t_tetrimino shape){
 	t_tetrimino	temp = copy_tetrimino(shape);
-	//// TODO
-	//temp.figure = NULL;
-	////
-	//if (temp.figure == NULL){
-	//	exit(1);
-	//}
+
 	int i, j, k, side_length;
 	side_length = shape.side_length;
 	for (i = 0; i < side_length; i++){
@@ -42,8 +37,6 @@ void	move_rotate(t_tetris *tetris, \
 						t_tetrimino *current, \
 						t_tetrimino *temp_for_judge){
 	rotate_clodkwise(*temp_for_judge);
-	//if (temp_for_judge->figure == NULL)
-	//	return ;
 	if (can_move_tetrimino(tetris, *temp_for_judge))
 		rotate_clodkwise(*current);
 }
@@ -78,8 +71,6 @@ void	move_drop(t_tetris *tetris, \
 		count_completed_lines_and_erase(tetris, &completed_lines);
 		tetris->score += 100 * completed_lines;
 		*current = replace_next_tetrimino(current, type);
-		//if (current->figure == NULL)
-		//	return ;
 		judge_the_end_of_game(tetris, *current);
 	}
 }

@@ -48,8 +48,6 @@ const t_tetrimino type_tetrimino[7]= {
 
 void	begin_game(t_tetris *tetris, t_tetrimino *current, t_tetrimino *type){
 	*current = create_new_tetrimino(type);
-	//if (current->figure == NULL)
-	//	return ;
 	judge_the_end_of_game(tetris, *current);
 	refresh_game_screen(tetris, current);
 }
