@@ -27,7 +27,7 @@
 
 typedef struct s_tetrimino{
     char 	**array;
-    int 	width;
+    int 	side_length;
 	int 	row;
 	int 	col;
 } t_tetrimino;

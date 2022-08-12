@@ -1,7 +1,7 @@
 #include "tetris.h"
 
 //TODO
-//widthをheightを意味するものに
+//side_lengthをheightを意味するものに
 //引数と変数宣言でできるだけconstにする
 void	move_case_key_d(t_tetris *tetris, \
 						t_tetrimino *current, \
@@ -25,10 +25,10 @@ void	move_case_key_a(t_tetris *tetris, \
 
 static void	rotate_clodkwise(t_tetrimino shape){
 	t_tetrimino	temp = copy_tetrimino(shape);
-	int i, j, k, width;
-	width = shape.width;
-	for (i = 0; i < width; i++){
-		for (j = 0, k = width - 1; j < width; j++, k--){
+	int i, j, k, side_length;
+	side_length = shape.side_length;
+	for (i = 0; i < side_length; i++){
+		for (j = 0, k = side_length - 1; j < side_length; j++, k--){
 			shape.array[i][j] = temp.array[k][i];
 		}
 	}
@@ -48,7 +48,7 @@ void	move_case_key_w(t_tetris *tetris, \
 //--------------------------------------------------------
 
 static void	fix_tetrimino_on_the_field(t_tetris *tetris, t_tetrimino *current){
-	const int	n = current->width;
+	const int	n = current->side_length;
 	const int	row = current->row;
 	const int	col = current->col;
 

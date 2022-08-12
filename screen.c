@@ -3,7 +3,7 @@
 static void	get_current_position(t_tetris *tetris, \
 							t_tetrimino *current, \
 							char next_playing_field[FIELD_Y_ROW][FIELD_X_COL]){
-	const int	n = current->width;
+	const int	n = current->side_length;
 
 	for (int i = 0; i < n ; i++){
 		for (int j = 0; j < n; j++){

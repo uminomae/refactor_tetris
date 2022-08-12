@@ -26,7 +26,7 @@ static bool	can_move_not_overlapping(t_tetris *tetris, \
 }
 
 int	can_move_tetrimino(t_tetris *tetris, t_tetrimino shape){
-	const int	n = shape.width;
+	const int	n = shape.side_length;
 
 	for (int y = 0; y < n; y++)	{
 		for (int x = 0; x < n; x++){

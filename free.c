@@ -1,7 +1,7 @@
 #include "tetris.h"
 
 void	destroy_tetrimino(t_tetrimino shape){
-	const int	n = shape.width;
+	const int	n = shape.side_length;
 
 	for (int i = 0; i < n; i++){
 		free(shape.array[i]);
@@ -13,7 +13,7 @@ void	destroy_tetrimino(t_tetrimino shape){
 // destroy()の共通化
 //
 void	destroy_tetrimino_dubble_pointer(t_tetrimino **shape){
-	const int	n = (*shape)->width;
+	const int	n = (*shape)->side_length;
 
 	for (int i = 0; i < n; i++){
 		free((*shape)->array[i]);

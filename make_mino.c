@@ -24,7 +24,7 @@ static void	copy_figure_array(char **dst, char **src, int one_side){
 
 t_tetrimino	copy_tetrimino(t_tetrimino shape){
 	t_tetrimino	new_shape = shape;
-	int	one_side = shape.width;
+	int	one_side = shape.side_length;
 
 	new_shape.array = get_alloc_figure_array(one_side);
 	copy_figure_array(new_shape.array, shape.array, one_side);
@@ -46,7 +46,7 @@ t_tetrimino	create_new_tetrimino(const t_tetrimino *type){
 	t_tetrimino	temp_type = select_type_tetrimino(type);
 	t_tetrimino	new = copy_tetrimino(temp_type);
 
-	new.col = rand() % (FIELD_X_COL - new.width + 1);
+	new.col = rand() % (FIELD_X_COL - new.side_length + 1);
 	new.row = 0;
 	return (new);
 }
