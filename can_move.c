@@ -9,35 +9,20 @@ void	judge_the_end_of_game(t_tetris *tetris, t_tetrimino current){
 //can_move_tetrimino
 //--------------------------------------------------------
 static bool	can_move_left(t_tetrimino figure, int y, int x){
-	//if (figure.col + x < 0)
-	//	return (FALSE);
 	return (!(figure.col + x < 0));
-	//if (figure.col + x < 0)
-	//	return (FALSE);
-	//return (TRUE);
-	
 }
 
 static bool	can_move_right(t_tetrimino figure, int y, int x){
 	return (!(figure.col + x >= FIELD_X_COL));
-	//if (figure.col + x >= FIELD_X_COL)
-	//	return (FALSE);
-	//return (TRUE);
 }
 
 static bool	can_move_bottom(t_tetrimino figure, int y, int x){
 	return (!(figure.row + y >= FIELD_Y_ROW));
-	//if (figure.row + y >= FIELD_Y_ROW)
-	//	return (FALSE);
-	//return (TRUE);
 }
 
 static bool	can_move_not_overlapping(t_tetris *tetris, \
 										t_tetrimino figure, int y, int x){
 	return (!(tetris->playing_field[figure.row + y][figure.col + x]));
-	//if (tetris->playing_field[figure.row + y][figure.col + x])
-	//	return (FALSE);
-	//return (TRUE);
 }
 
 int	can_move_tetrimino(t_tetris *tetris, t_tetrimino shape){
