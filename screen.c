@@ -1,9 +1,5 @@
 #include "tetris.h"
 
-//static void	print_string_to_window(char *str,...){
-//	printw(str);
-//}
-
 static void	get_current_position(t_tetris *tetris, \
 							t_tetrimino *current, \
 							char next_playing_field[FIELD_Y_ROW][FIELD_X_COL]){
@@ -23,12 +19,10 @@ static void	get_current_position(t_tetris *tetris, \
 //--------------------------------------------------------
 
 static void	print_header(){
-	for (int i = 0; i < FIELD_X_COL - 9; i++)
+	for (int i = 0; i < FIELD_X_COL - 9; i++){
 		printw(" ");
-		//print_string_to_window(" ");
-		
+	}
 	printw("42 Tetris\n");
-	//print_string_to_window("42 Tetris\n");
 }
 
 static void	print_game_field(t_tetris *tetris, \
@@ -37,19 +31,15 @@ static void	print_game_field(t_tetris *tetris, \
 		for (int j = 0; j < FIELD_X_COL; j++){
 			if (tetris->playing_field[i][j] + next_playing_field[i][j])
 				printw("%c ", '#');
-				//print_string_to_window("%c ", '#');
 			else
 				printw("%c ", '.');
-				//print_string_to_window("%c ", '.');
 		}
 		printw("\n");
-		//print_string_to_window("\n");
 	}
 }
 
 static void	print_footer(t_tetris *tetris){
 	printw("\nScore: %d\n", tetris->score);
-	//print_string_to_window("\nScore: %d\n", tetris->score);
 }
 
 static void	print_game_screen(t_tetris *tetris, \
