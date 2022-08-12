@@ -6,6 +6,8 @@
 
 static char	**get_alloc_figure(int side_length){
 	char	**figure = (char**)malloc(sizeof(char *) * (side_length + 1));
+
+	//figure = NULL;
 	if (figure == NULL)
 		exit(1);
 	figure[side_length] = NULL;
