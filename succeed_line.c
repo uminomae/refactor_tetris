@@ -44,7 +44,7 @@ int	count_completed_lines_and_erase(t_tetris *tetris, int *completed_lines){
 //--------------------------------------------------------
 
 //        42 Tetris
-//  . . . <- clear_line ->. . . .
+//  . . . <- clear_line ->. . . . TOP_Y_ROW
 //  . . . . . . . . . . . . . . .
 //  . . . . . . . . . . . . . . .
 //  . . . . . . . . . . . . . . .
