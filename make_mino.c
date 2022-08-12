@@ -31,7 +31,7 @@ t_tetrimino	copy_tetrimino(t_tetrimino shape){
 
 	new_shape.figure = get_alloc_figure(one_side);
 	//TODO
-	new_shape.figure =NULL;
+	//new_shape.figure =NULL;
 	//
 	if (new_shape.figure == NULL)
 		return (new_shape);
