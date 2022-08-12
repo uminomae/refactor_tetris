@@ -1,6 +1,6 @@
 #include "tetris.h"
 
-void	move_case_key_d(t_tetris *tetris, \
+void	move_right(t_tetris *tetris, \
 						t_tetrimino *current, \
 						t_tetrimino *temp_for_judge){
 	temp_for_judge->col += 1;
@@ -8,7 +8,7 @@ void	move_case_key_d(t_tetris *tetris, \
 		current->col += 1;
 }
 
-void	move_case_key_a(t_tetris *tetris, \
+void	move_left(t_tetris *tetris, \
 						t_tetrimino *current, \
 						t_tetrimino *temp_for_judge){
 	temp_for_judge->col -= 1;
@@ -32,7 +32,7 @@ static void	rotate_clodkwise(t_tetrimino shape){
 	destroy_tetrimino_fiure(temp);
 }
 
-void	move_case_key_w(t_tetris *tetris, \
+void	move_rotate(t_tetris *tetris, \
 						t_tetrimino *current, \
 						t_tetrimino *temp_for_judge){
 	rotate_clodkwise(*temp_for_judge);
@@ -57,7 +57,7 @@ static void	fix_tetrimino_on_the_field(t_tetris *tetris, t_tetrimino *current){
 	}
 }
 
-void	move_case_key_s(t_tetris *tetris, \
+void	move_drop(t_tetris *tetris, \
 						t_tetrimino *current, \
 						t_tetrimino *temp_for_judge, \
 						const t_tetrimino *type){

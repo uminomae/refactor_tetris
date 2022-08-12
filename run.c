@@ -14,19 +14,19 @@ static void	get_char_input_from_keyboad(t_tetris *tetris){
 	tetris->input_from_keyboard = getch();
 }
 
-static void	move_by_key_case(t_tetris *tetris, \
+static void	move_by_key_command(t_tetris *tetris, \
 						t_tetrimino *current, \
 						t_tetrimino *temp_for_judge, \
 						const t_tetrimino *type){
 	int	key = tetris->input_from_keyboard;
 	if (key == DROP_KEY){
-		move_case_key_s(tetris, current, temp_for_judge, type);
+		move_drop(tetris, current, temp_for_judge, type);
 	}else if (key == RIGHT_KEY){
-		move_case_key_d(tetris, current, temp_for_judge);
+		move_right(tetris, current, temp_for_judge);
 	}else if (key == LEFT_KEY){
-		move_case_key_a(tetris, current, temp_for_judge);
+		move_left(tetris, current, temp_for_judge);
 	}else if (key == ROTATE_KEY){
-		move_case_key_w(tetris, current, temp_for_judge);
+		move_rotate(tetris, current, temp_for_judge);
 	}
 }
 
@@ -38,7 +38,7 @@ static void	move_tetrimino_with_key(t_tetris *tetris, \
 
 	if (update == true)
 		tetris->input_from_keyboard = DROP_KEY;
-	move_by_key_case(tetris, current, &temp, type);
+	move_by_key_command(tetris, current, &temp, type);
 	destroy_tetrimino_fiure(temp);
 	refresh_game_screen(tetris, current);
 }
