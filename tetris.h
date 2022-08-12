@@ -19,20 +19,17 @@
 # define RIGHT_KEY 	'd'
 # define LEFT_KEY 	'a'
 # define ROTATE_KEY 'w'
-# define WIDTH_AND_HEIGHT_MAX 4
 # define GAME_OVER 0
 # define IN_GAME 1
-# define TRUE 1
-# define FALSE 0
 # define INTERVAL_DECREASE	1000
 # define NUM_OF_TYPE	7
 # define FALL_VELOCITY_INTERVAL	400000
 
 typedef struct s_tetrimino{
-    char **array;
-    int width;
-	int row;
-	int col;
+    char 	**array;
+    int 	width;
+	int 	row;
+	int 	col;
 } t_tetrimino;
 
 typedef struct s_time{

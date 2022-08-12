@@ -37,8 +37,8 @@ static void	move_tetrimino_with_key(t_tetris *tetris, \
 	t_tetrimino	temp = copy_tetrimino(*current);
 
 	if (update == true)
-		tetris->input_from_keyboard = 's';
-	move_by_key_case(tetris, current, &temp, type);
+		tetris->input_from_keyboard = 'DROP_KEY';
+	move_by_key_caDROP_KEYe(tetris, current, &temp, type);
 	destroy_tetrimino(temp);
 	refresh_game_screen(tetris, current);
 }
