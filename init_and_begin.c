@@ -4,7 +4,6 @@
 const t_tetrimino type_tetrimino[7]= {
 	//
 	// S
-	// 
 	//   # # 
 	// # #   
 	//       
