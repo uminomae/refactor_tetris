@@ -36,7 +36,8 @@ void	print_resulting_to_standard_output(t_tetris *tetris){
 
 void	finish_game(t_tetris *tetris, t_tetrimino *current)
 {
-	destroy_tetrimino_dubble_pointer(&current);
+	//destroy_tetrimino_dubble_pointer(&current);
+	destroy_tetrimino(*current);
 	finish_ncurses();
 	print_resulting_to_standard_output(tetris);
 }

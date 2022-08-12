@@ -52,7 +52,7 @@ void run_game(t_tetris *tetris, t_tetrimino *current, const t_tetrimino *type, t
 void finish_game(t_tetris *tetris, t_tetrimino *current);
 t_tetrimino copy_tetrimino(t_tetrimino shape);
 void destroy_tetrimino(t_tetrimino shape);
-void destroy_tetrimino_dubble_pointer(t_tetrimino **shape);
+//void destroy_tetrimino_dubble_pointer(t_tetrimino **shape);
 t_tetrimino create_new_tetrimino();
 t_tetrimino replace_next_tetrimino(t_tetrimino *current, const t_tetrimino *type);
 int can_move_tetrimino(t_tetris *tetris, t_tetrimino shape);

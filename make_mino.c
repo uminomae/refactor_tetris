@@ -59,6 +59,7 @@ t_tetrimino	replace_next_tetrimino(t_tetrimino *current, \
 									const t_tetrimino *type){
 	t_tetrimino	new_shape = create_new_tetrimino(type);
 
-	destroy_tetrimino_dubble_pointer(&current);
+	destroy_tetrimino(*current);
+	//destroy_tetrimino_dubble_pointer(&current);
 	return (new_shape);
 }
