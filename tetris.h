@@ -26,7 +26,7 @@
 # define FALL_VELOCITY_INTERVAL	400000
 
 typedef struct s_tetrimino{
-    char 	**array;
+    char 	**figure;
     int 	side_length;
 	int 	row;
 	int 	col;

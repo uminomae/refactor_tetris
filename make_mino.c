@@ -5,12 +5,12 @@
 //--------------------------------------------------------
 
 static char	**get_alloc_figure_array(int one_side){
-	char	**array = (char**)malloc(sizeof(char *) * one_side);
+	char	**figure = (char**)malloc(sizeof(char *) * one_side);
 
 	for (int x = 0; x < one_side; x++){
-		array[x] = (char *)malloc(sizeof(char) * one_side);
+		figure[x] = (char *)malloc(sizeof(char) * one_side);
 	}
-	return (array);
+	return (figure);
 }
 
 static void	copy_figure_array(char **dst, char **src, int one_side){
@@ -26,8 +26,8 @@ t_tetrimino	copy_tetrimino(t_tetrimino shape){
 	t_tetrimino	new_shape = shape;
 	int	one_side = shape.side_length;
 
-	new_shape.array = get_alloc_figure_array(one_side);
-	copy_figure_array(new_shape.array, shape.array, one_side);
+	new_shape.figure = get_alloc_figure_array(one_side);
+	copy_figure_array(new_shape.figure, shape.figure, one_side);
 	return (new_shape);
 }
 

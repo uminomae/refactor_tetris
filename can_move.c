@@ -30,7 +30,7 @@ int	can_move_tetrimino(t_tetris *tetris, t_tetrimino shape){
 
 	for (int y = 0; y < n; y++)	{
 		for (int x = 0; x < n; x++){
-			if (!shape.array[y][x])
+			if (!shape.figure[y][x])
 				continue ;
 			if (!can_move_left(shape, y, x))
 				return (FALSE);

@@ -7,9 +7,9 @@ static void	get_current_position(t_tetris *tetris, \
 
 	for (int i = 0; i < n ; i++){
 		for (int j = 0; j < n; j++){
-			if (current->array[i][j])
+			if (current->figure[i][j])
 				next_playing_field[current->row + i][current->col + j] \
-				 = current->array[i][j];
+				 = current->figure[i][j];
 		}
 	}
 }

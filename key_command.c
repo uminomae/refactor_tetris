@@ -26,7 +26,7 @@ static void	rotate_clodkwise(t_tetrimino shape){
 	side_length = shape.side_length;
 	for (i = 0; i < side_length; i++){
 		for (j = 0, k = side_length - 1; j < side_length; j++, k--){
-			shape.array[i][j] = temp.array[k][i];
+			shape.figure[i][j] = temp.figure[k][i];
 		}
 	}
 	destroy_tetrimino_fiure(temp);
@@ -51,8 +51,8 @@ static void	fix_tetrimino_on_the_field(t_tetris *tetris, t_tetrimino *current){
 
 	for (int i = 0; i < n ;i++){
 		for (int j = 0; j < n; j++){
-			if (current->array[i][j])
-				tetris->playing_field[row + i][col + j] = current->array[i][j];
+			if (current->figure[i][j])
+				tetris->playing_field[row + i][col + j] = current->figure[i][j];
 		}
 	}
 }
