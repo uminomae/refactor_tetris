@@ -29,7 +29,7 @@ static void	rotate_clodkwise(t_tetrimino shape){
 			shape.array[i][j] = temp.array[k][i];
 		}
 	}
-	destroy_tetrimino(temp);
+	destroy_tetrimino_fiure(temp);
 }
 
 void	move_case_key_w(t_tetris *tetris, \
